@@ -2,6 +2,7 @@ package frule_module
 
 import (
 	"github.com/jinzhu/gorm"
+	"reflect"
 )
 
 type PartnerPercentRule struct {
@@ -13,7 +14,7 @@ type PartnerPercentRule struct {
 	DateOfPurchaseTo   *string `sql:"date_of_purchase_to"`
 	CarrierCountryId   *int    `sql:"carrier_country_id"`
 	FareType           *string `sql:"fare_type"`
-	Result             int     `sql:"result"`
+	Result             float64 `sql:"result"`
 	db                 *gorm.DB
 }
 
@@ -37,7 +38,14 @@ func (a PartnerPercentRule) GetComparisonOrder() ComparisonOrder {
 }
 
 func (a PartnerPercentRule) GetComparisonOperators() ComparisonOperators {
-	return ComparisonOperators{}
+	return ComparisonOperators{
+		"date_of_purchase_from": func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		},
+		"date_of_purchase_to": func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		},
+	}
 }
 
 func (a PartnerPercentRule) getStrategyKeys() []string {
@@ -46,11 +54,11 @@ func (a PartnerPercentRule) getStrategyKeys() []string {
 }
 
 func (a PartnerPercentRule) getTableName() string {
-	return "rm_frule_airline"
+	return "rm_frule_partner_percent"
 }
 
 func (a PartnerPercentRule) GetDefaultValue() interface{} {
-	return false
+	return 0
 }
 
 func (a PartnerPercentRule) GetDataStorage() (map[int][]FRuler, error) {

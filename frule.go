@@ -2,13 +2,14 @@ package frule_module
 
 import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"reflect"
 	"stash.tutu.ru/golang/log"
 	"strconv"
 )
 
 type ComparisonOrder [][]string
 
-type ComparisonFunction func() bool
+type ComparisonFunction func(a, b reflect.Value) bool
 
 type ComparisonOperators map[string]ComparisonFunction
 
@@ -123,6 +124,16 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
 			if len(foundRuleSet) == 1 {
 				return foundRuleSet[0].GetResultValue()
+			} else {
+			RULESET:
+				for _, foundRule := range foundRuleSet {
+					for fieldName, comparisonFunc := range f.ruleSpecificData.GetComparisonOperators() {
+						if !comparisonFunc(getFieldValueByTag(foundRule, fieldName), getFieldValueByTag(testRule, fieldName)) {
+							continue RULESET
+						}
+					}
+					return foundRule.GetResultValue()
+				}
 			}
 		}
 	}
