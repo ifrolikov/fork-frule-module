@@ -2,7 +2,6 @@ package frule_module
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"strconv"
 )
@@ -25,7 +24,6 @@ type FRuler interface {
 type FRule struct {
 	index            map[int]map[string][]FRuler
 	registry         map[string]map[int]int
-	db               *gorm.DB
 	primaryKeys      []string
 	ruleSpecificData FRuler
 }

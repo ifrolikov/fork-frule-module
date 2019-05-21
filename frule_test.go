@@ -4,6 +4,67 @@ import (
 	"testing"
 )
 
+type DummyFRule struct {
+	CarrierId       *int    `sql:"carrier_id"`
+	Partner         *string `sql:"partner"`
+	ConnectionGroup *string `sql:"connection_group"`
+	Result          bool    `sql:"result"`
+}
+
+func (a DummyFRule) GetResultValue() interface{} {
+	return a.Result
+}
+
+func (a DummyFRule) GetDataStorage() map[int][]FRuler {
+	result := make(map[int][]FRuler)
+	carrierId := 10
+	connectionGroup := "test"
+	connectionGroup2 := "test2"
+	partner := "fake"
+	partner2 := "fake2"
+	result[0] = []FRuler{
+		DummyFRule{CarrierId: &carrierId, ConnectionGroup: &connectionGroup, Partner: &partner, Result: true},
+		DummyFRule{CarrierId: &carrierId, ConnectionGroup: &connectionGroup2, Partner: &partner, Result: true},
+	}
+	result[1] = []FRuler{
+		DummyFRule{ConnectionGroup: &connectionGroup, Partner: &partner, Result: false},
+		DummyFRule{ConnectionGroup: &connectionGroup2, Partner: &partner, Result: false},
+	}
+	result[3] = []FRuler{
+		DummyFRule{Partner: &partner2, Result: true},
+	}
+	return result
+}
+
+func (a DummyFRule) GetComparisonOrder() ComparisonOrder {
+	return ComparisonOrder{
+		[]string{"carrier_id", "partner", "connection_group"},
+		[]string{"partner", "connection_group"},
+		[]string{"carrier_id", "partner"},
+		[]string{"partner"},
+	}
+}
+
+func (a DummyFRule) GetComparisonOperators() ComparisonOperators {
+	return ComparisonOperators{}
+}
+
+func (a DummyFRule) getStrategyKeys() []string {
+	return []string{"carrier_id", "partner", "connection_group"}
+}
+
+func (a DummyFRule) GetIndexedKeys() []string {
+	return []string{"carrier_id", "partner", "connection_group"}
+}
+
+func (a DummyFRule) getTableName() string {
+	return ""
+}
+
+func (a DummyFRule) GetDefaultValue() interface{} {
+	return false
+}
+
 func TestIntersect(t *testing.T) {
 	left := []string{"one", "two", "tree"}
 	right := []string{"one", "four"}
@@ -39,59 +100,15 @@ func TestIntersect(t *testing.T) {
 	}
 }
 
-type TestFRule struct {
-	CarrierId       *int    `sql:"carrier_id"`
-	Partner         *string `sql:"partner"`
-	ConnectionGroup *string `sql:"connection_group"`
-	Result          bool    `sql:"result"`
-}
-
-func (a TestFRule) GetResultValue() interface{} {
-	return 0
-}
-
-func (a TestFRule) GetContainer() FRuler {
-	return TestFRule{}
-}
-
-func (a TestFRule) GetComparisonOrder() ComparisonOrder {
-	return ComparisonOrder{
-		[]string{"carrier_id", "partner", "connection_group"},
-		[]string{"partner", "connection_group"},
-		[]string{"carrier_id", "partner"},
-		[]string{"partner"},
-	}
-}
-
-func (a TestFRule) GetComparisonOperators() ComparisonOperators {
-	return ComparisonOperators{}
-}
-
-func (a TestFRule) GetStrategyKeys() []string {
-	return []string{"carrier_id", "partner", "connection_group"}
-}
-
-func (a TestFRule) GetIndexedKeys() []string {
-	return []string{"carrier_id", "partner", "connection_group"}
-}
-
-func (a TestFRule) GetTableName() string {
-	return "rm_frule_airline"
-}
-
-func (a TestFRule) GetDefaultValue() interface{} {
-	return false
-}
-
 func TestCreateHash(t *testing.T) {
 	definition := &FRule{
-		ruleSpecificData: TestFRule{},
+		ruleSpecificData: DummyFRule{},
 	}
 
 	carrier := 15
 	cgroup := "fake_group"
 	partner := "fake_partner"
-	testFRule := TestFRule{
+	testFRule := DummyFRule{
 		CarrierId:       &carrier,
 		ConnectionGroup: &cgroup,
 		Partner:         &partner,
@@ -127,6 +144,35 @@ func TestCreateHash(t *testing.T) {
 		hash := definition.createRuleHash(hashFields, testFRule)
 		if hash != correct[i] {
 			t.Errorf("Failed to calculate hash, got %s, expected %s", hash, correct[i])
+		}
+	}
+}
+
+func TestFRule(t *testing.T) {
+	frule := NewFRule(DummyFRule{})
+	carrierId := 10
+	carrierId2 := 5
+	connectionGroup := "test"
+	connectionGroup2 := "test2"
+	partner := "fake"
+	partner2 := "fake2"
+	partner3 := "fake3"
+
+	results := []struct {
+		testRule DummyFRule
+		result   bool
+	}{
+		{testRule: DummyFRule{CarrierId: &carrierId, ConnectionGroup: &connectionGroup, Partner: &partner}, result: true},
+		{testRule: DummyFRule{CarrierId: &carrierId, ConnectionGroup: &connectionGroup2, Partner: &partner}, result: true},
+		{testRule: DummyFRule{CarrierId: &carrierId2, ConnectionGroup: &connectionGroup2, Partner: &partner}, result: false},
+		{testRule: DummyFRule{CarrierId: &carrierId2, ConnectionGroup: &connectionGroup2, Partner: &partner2}, result: true},
+		{testRule: DummyFRule{CarrierId: &carrierId, ConnectionGroup: &connectionGroup2, Partner: &partner2}, result: true},
+		{testRule: DummyFRule{CarrierId: &carrierId, ConnectionGroup: &connectionGroup2, Partner: &partner3}, result: false},
+	}
+
+	for idx, testDef := range results {
+		if testDef.result != frule.GetResult(testDef.testRule).(bool) {
+			t.Errorf("Failed to get frule for iteration %d", idx)
 		}
 	}
 }
