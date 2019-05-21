@@ -8,14 +8,15 @@ import (
 
 type ComparisonOrder [][]string
 
-type ComparisonOperators map[string]string
+type ComparisonFunction func() bool
+
+type ComparisonOperators map[string]ComparisonFunction
 
 type FRuler interface {
 	GetResultValue() interface{}
 	GetComparisonOrder() ComparisonOrder
 	GetComparisonOperators() ComparisonOperators
 	getStrategyKeys() []string
-	GetIndexedKeys() []string
 	getTableName() string
 	GetDefaultValue() interface{}
 	GetDataStorage() (map[int][]FRuler, error)
@@ -25,6 +26,7 @@ type FRule struct {
 	index            map[int]map[string][]FRuler
 	registry         map[string]map[int]int
 	primaryKeys      []string
+	indexedKeys      []string
 	ruleSpecificData FRuler
 }
 
@@ -35,7 +37,15 @@ func NewFRule(ruleSpecificData FRuler) *FRule {
 		ruleSpecificData: ruleSpecificData,
 	}
 
-	var primaryKeys = definition.ruleSpecificData.GetIndexedKeys()
+	var indexedKeys []string
+	for _, field := range definition.ruleSpecificData.getStrategyKeys() {
+		if _, ok := definition.ruleSpecificData.GetComparisonOperators()[field]; !ok {
+			indexedKeys = append(indexedKeys, field)
+		}
+	}
+	definition.indexedKeys = indexedKeys
+
+	var primaryKeys = indexedKeys
 
 	for _, fields := range definition.ruleSpecificData.GetComparisonOrder() {
 		primaryKeys = intersectSlices(primaryKeys, fields)
@@ -75,7 +85,7 @@ func (f *FRule) buildIndex() error {
 	}
 	for rank, rulesData := range rulesSets {
 		for _, rowData := range rulesData {
-			hashFields := intersectSlices(f.ruleSpecificData.GetIndexedKeys(), f.ruleSpecificData.GetComparisonOrder()[rank])
+			hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 			hash := f.createRuleHash(hashFields, rowData)
 			if hash != "" {
 				if f.index[rank] == nil {
@@ -109,7 +119,7 @@ func (f *FRule) findRanks(testRule interface{}) []int {
 
 func (f *FRule) GetResult(testRule interface{}) interface{} {
 	for _, rank := range f.findRanks(testRule) {
-		hashFields := intersectSlices(f.ruleSpecificData.GetIndexedKeys(), f.ruleSpecificData.GetComparisonOrder()[rank])
+		hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
 			if len(foundRuleSet) == 1 {
 				return foundRuleSet[0].GetResultValue()

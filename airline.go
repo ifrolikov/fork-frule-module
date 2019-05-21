@@ -40,10 +40,6 @@ func (a AirlineRule) getStrategyKeys() []string {
 	return []string{"carrier_id", "partner", "connection_group"}
 }
 
-func (a AirlineRule) GetIndexedKeys() []string {
-	return []string{"carrier_id", "partner", "connection_group"}
-}
-
 func (a AirlineRule) getTableName() string {
 	return "rm_frule_airline"
 }

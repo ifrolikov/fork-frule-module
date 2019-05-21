@@ -53,10 +53,6 @@ func (a DummyFRule) getStrategyKeys() []string {
 	return []string{"carrier_id", "partner", "connection_group"}
 }
 
-func (a DummyFRule) GetIndexedKeys() []string {
-	return []string{"carrier_id", "partner", "connection_group"}
-}
-
 func (a DummyFRule) getTableName() string {
 	return ""
 }
@@ -103,6 +99,7 @@ func TestIntersect(t *testing.T) {
 func TestCreateHash(t *testing.T) {
 	definition := &FRule{
 		ruleSpecificData: DummyFRule{},
+		indexedKeys:      []string{"carrier_id", "partner", "connection_group"},
 	}
 
 	carrier := 15
@@ -123,7 +120,7 @@ func TestCreateHash(t *testing.T) {
 	}
 
 	for i := 0; i < len(definition.ruleSpecificData.GetComparisonOrder()); i++ {
-		hashFields := intersectSlices(definition.ruleSpecificData.GetIndexedKeys(), definition.ruleSpecificData.GetComparisonOrder()[i])
+		hashFields := intersectSlices(definition.indexedKeys, definition.ruleSpecificData.GetComparisonOrder()[i])
 		hash := definition.createRuleHash(hashFields, testFRule)
 		if hash != correct[i] {
 			t.Errorf("Failed to calculate hash, got %s, expected %s", hash, correct[i])
@@ -140,7 +137,7 @@ func TestCreateHash(t *testing.T) {
 	}
 
 	for i := 0; i < len(definition.ruleSpecificData.GetComparisonOrder()); i++ {
-		hashFields := intersectSlices(definition.ruleSpecificData.GetIndexedKeys(), definition.ruleSpecificData.GetComparisonOrder()[i])
+		hashFields := intersectSlices(definition.indexedKeys, definition.ruleSpecificData.GetComparisonOrder()[i])
 		hash := definition.createRuleHash(hashFields, testFRule)
 		if hash != correct[i] {
 			t.Errorf("Failed to calculate hash, got %s, expected %s", hash, correct[i])
