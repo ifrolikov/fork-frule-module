@@ -1,7 +1,6 @@
 package frule_module
 
 import (
-	"fmt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -53,7 +52,7 @@ func (a AirlineRule) GetDefaultValue() interface{} {
 	return false
 }
 
-func (a AirlineRule) GetDataStorage() map[int][]FRuler {
+func (a AirlineRule) GetDataStorage() (map[int][]FRuler, error) {
 	result := make(map[int][]FRuler)
 	for rank, fieldList := range a.GetComparisonOrder() {
 		query := a.db.Table(a.getTableName())
@@ -66,22 +65,22 @@ func (a AirlineRule) GetDataStorage() map[int][]FRuler {
 		}
 		rows, err := query.Rows()
 		if err != nil {
-			fmt.Println(err)
+			return result, err
 		}
 
 		for rows.Next() {
 			var rowData AirlineRule
 
 			if err := a.db.ScanRows(rows, &rowData); err != nil {
-				fmt.Println(err)
+				return result, err
 			}
 			result[rank] = append(result[rank], rowData)
 
 		}
 		err = rows.Close()
 		if err != nil {
-			fmt.Println(err)
+			return result, err
 		}
 	}
-	return result
+	return result, nil
 }

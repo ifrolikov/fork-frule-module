@@ -1,8 +1,8 @@
 package frule_module
 
 import (
-	"fmt"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"stash.tutu.ru/golang/log"
 	"strconv"
 )
 
@@ -18,7 +18,7 @@ type FRuler interface {
 	GetIndexedKeys() []string
 	getTableName() string
 	GetDefaultValue() interface{}
-	GetDataStorage() map[int][]FRuler
+	GetDataStorage() (map[int][]FRuler, error)
 }
 
 type FRule struct {
@@ -43,7 +43,7 @@ func NewFRule(ruleSpecificData FRuler) *FRule {
 	definition.primaryKeys = primaryKeys
 
 	if err := definition.buildIndex(); err != nil {
-		fmt.Println(err)
+		log.Logger.Error().Err(err).Msg("Building index")
 	}
 	return &definition
 }
@@ -69,7 +69,11 @@ func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 }
 
 func (f *FRule) buildIndex() error {
-	for rank, rulesData := range f.ruleSpecificData.GetDataStorage() {
+	rulesSets, err := f.ruleSpecificData.GetDataStorage()
+	if err != nil {
+		return err
+	}
+	for rank, rulesData := range rulesSets {
 		for _, rowData := range rulesData {
 			hashFields := intersectSlices(f.ruleSpecificData.GetIndexedKeys(), f.ruleSpecificData.GetComparisonOrder()[rank])
 			hash := f.createRuleHash(hashFields, rowData)

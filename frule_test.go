@@ -15,7 +15,7 @@ func (a DummyFRule) GetResultValue() interface{} {
 	return a.Result
 }
 
-func (a DummyFRule) GetDataStorage() map[int][]FRuler {
+func (a DummyFRule) GetDataStorage() (map[int][]FRuler, error) {
 	result := make(map[int][]FRuler)
 	carrierId := 10
 	connectionGroup := "test"
@@ -33,7 +33,7 @@ func (a DummyFRule) GetDataStorage() map[int][]FRuler {
 	result[3] = []FRuler{
 		DummyFRule{Partner: &partner2, Result: true},
 	}
-	return result
+	return result, nil
 }
 
 func (a DummyFRule) GetComparisonOrder() ComparisonOrder {
