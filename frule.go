@@ -13,13 +13,13 @@ type ComparisonOperators map[string]string
 
 type FRuler interface {
 	GetResultValue() interface{}
-	GetContainer() FRuler
 	GetComparisonOrder() ComparisonOrder
 	GetComparisonOperators() ComparisonOperators
-	GetStrategyKeys() []string
+	getStrategyKeys() []string
 	GetIndexedKeys() []string
-	GetTableName() string
+	getTableName() string
 	GetDefaultValue() interface{}
+	GetDataStorage() map[int][]FRuler
 }
 
 type FRule struct {
@@ -30,9 +30,8 @@ type FRule struct {
 	ruleSpecificData FRuler
 }
 
-func NewFRule(db *gorm.DB, ruleSpecificData FRuler) *FRule {
+func NewFRule(ruleSpecificData FRuler) *FRule {
 	definition := FRule{
-		db:               db,
 		index:            make(map[int]map[string][]FRuler),
 		registry:         make(map[string]map[int]int),
 		ruleSpecificData: ruleSpecificData,
@@ -72,27 +71,8 @@ func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 }
 
 func (f *FRule) buildIndex() error {
-	for rank, fieldList := range f.ruleSpecificData.GetComparisonOrder() {
-		query := f.db.Table(f.ruleSpecificData.GetTableName())
-		for _, field := range f.ruleSpecificData.GetStrategyKeys() {
-			if inSlice(field, fieldList) {
-				query = query.Where(field + " IS NOT NULL")
-			} else {
-				query = query.Where(field + " IS NULL")
-			}
-		}
-		rows, err := query.Rows()
-		if err != nil {
-			return err
-		}
-
-		for rows.Next() {
-			var rowData = f.ruleSpecificData.GetContainer()
-
-			if err := f.db.ScanRows(rows, &rowData); err != nil {
-				fmt.Println(err)
-				return err
-			}
+	for rank, rulesData := range f.ruleSpecificData.GetDataStorage() {
+		for _, rowData := range rulesData {
 			hashFields := intersectSlices(f.ruleSpecificData.GetIndexedKeys(), f.ruleSpecificData.GetComparisonOrder()[rank])
 			hash := f.createRuleHash(hashFields, rowData)
 			if hash != "" {
@@ -109,11 +89,6 @@ func (f *FRule) buildIndex() error {
 				f.registry[registryHash][rank] = rank
 			}
 
-		}
-		err = rows.Close()
-		if err != nil {
-			fmt.Println(err)
-			return err
 		}
 	}
 	return nil

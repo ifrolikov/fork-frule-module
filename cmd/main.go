@@ -11,8 +11,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	ruleSpecificData := frule_module.AirlineRule{}
-	airline := frule_module.NewFRule(db, ruleSpecificData)
+	airline := frule_module.NewFRule(frule_module.NewAirlineFRule(db))
 	partner := "iata"
 	carrierId := 213
 	connectionGroup := "galileo"
