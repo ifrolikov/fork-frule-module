@@ -51,29 +51,10 @@ func NewFRule(db *gorm.DB, ruleSpecificData FRuler) *FRule {
 	return &definition
 }
 
-func (f *FRule) createRuleHash(rank int, rule interface{}) string {
+func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 	var result string
-	hashFields := intersectSlices(f.ruleSpecificData.GetIndexedKeys(), f.ruleSpecificData.GetComparisonOrder()[rank])
-	for _, hashField := range hashFields {
-		fieldValue := getFieldValueByTag(rule, hashField)
-		if fieldValue.IsNil() {
-			continue
-		}
-		var hashPart string
-		switch fieldValue.Interface().(type) {
-		case *int:
-			hashPart = strconv.Itoa(int(fieldValue.Elem().Int()))
-		case *string:
-			hashPart = fieldValue.Elem().String()
-		}
-		result += hashField + "=>" + hashPart + "|"
-	}
-	return result
-}
 
-func (f *FRule) createIndexHash(rule interface{}) string {
-	var result string
-	for _, hashField := range f.primaryKeys {
+	for _, hashField := range hashFields {
 		fieldValue := getFieldValueByTag(rule, hashField)
 		if fieldValue.IsNil() {
 			continue
@@ -112,14 +93,15 @@ func (f *FRule) buildIndex() error {
 				fmt.Println(err)
 				return err
 			}
-			hash := f.createRuleHash(rank, rowData)
+			hashFields := intersectSlices(f.ruleSpecificData.GetIndexedKeys(), f.ruleSpecificData.GetComparisonOrder()[rank])
+			hash := f.createRuleHash(hashFields, rowData)
 			if hash != "" {
 				if f.index[rank] == nil {
 					f.index[rank] = make(map[string][]FRuler)
 				}
 				f.index[rank][hash] = append(f.index[rank][hash], rowData)
 			}
-			registryHash := f.createIndexHash(rowData)
+			registryHash := f.createRuleHash(f.primaryKeys, rowData)
 			if registryHash != "" {
 				if f.registry[registryHash] == nil {
 					f.registry[registryHash] = make(map[int]int)
@@ -139,7 +121,7 @@ func (f *FRule) buildIndex() error {
 
 func (f *FRule) findRanks(testRule interface{}) []int {
 	var result []int
-	registryHash := f.createIndexHash(testRule)
+	registryHash := f.createRuleHash(f.primaryKeys, testRule)
 	if indexes, ok := f.registry[registryHash]; ok {
 		for _, rank := range indexes {
 			result = append(result, rank)
@@ -150,7 +132,8 @@ func (f *FRule) findRanks(testRule interface{}) []int {
 
 func (f *FRule) GetResult(testRule interface{}) interface{} {
 	for _, rank := range f.findRanks(testRule) {
-		if foundRuleSet, ok := f.index[rank][f.createRuleHash(rank, testRule)]; ok {
+		hashFields := intersectSlices(f.ruleSpecificData.GetIndexedKeys(), f.ruleSpecificData.GetComparisonOrder()[rank])
+		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
 			if len(foundRuleSet) == 1 {
 				return foundRuleSet[0].GetResultValue()
 			}

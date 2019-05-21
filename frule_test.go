@@ -106,7 +106,8 @@ func TestCreateHash(t *testing.T) {
 	}
 
 	for i := 0; i < len(definition.ruleSpecificData.GetComparisonOrder()); i++ {
-		hash := definition.createRuleHash(i, testFRule)
+		hashFields := intersectSlices(definition.ruleSpecificData.GetIndexedKeys(), definition.ruleSpecificData.GetComparisonOrder()[i])
+		hash := definition.createRuleHash(hashFields, testFRule)
 		if hash != correct[i] {
 			t.Errorf("Failed to calculate hash, got %s, expected %s", hash, correct[i])
 		}
@@ -122,7 +123,8 @@ func TestCreateHash(t *testing.T) {
 	}
 
 	for i := 0; i < len(definition.ruleSpecificData.GetComparisonOrder()); i++ {
-		hash := definition.createRuleHash(i, testFRule)
+		hashFields := intersectSlices(definition.ruleSpecificData.GetIndexedKeys(), definition.ruleSpecificData.GetComparisonOrder()[i])
+		hash := definition.createRuleHash(hashFields, testFRule)
 		if hash != correct[i] {
 			t.Errorf("Failed to calculate hash, got %s, expected %s", hash, correct[i])
 		}
