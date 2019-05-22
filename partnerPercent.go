@@ -34,6 +34,10 @@ func (a PartnerPercentRule) GetComparisonOrder() ComparisonOrder {
 		[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_id", "fare_type"},
 		[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_id", "connection_group"},
 		[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_id"},
+		[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_country_id", "connection_group"},
+		[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_country_id"},
+		[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "connection_group"},
+		[]string{"partner", "date_of_purchase_from", "date_of_purchase_to"},
 	}
 }
 
