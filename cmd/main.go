@@ -28,7 +28,7 @@ func main() {
 	to := "2019-05-03"
 	fareType := "subsidy"
 
-	fmt.Println(partnerPercent.GetResult(frule_module.PartnerPercentRule{
+	result := partnerPercent.GetResult(frule_module.PartnerPercentRule{
 		Partner:            &partner,
 		ConnectionGroup:    &connectionGroup,
 		CarrierId:          &carrierId,
@@ -36,5 +36,6 @@ func main() {
 		DateOfPurchaseFrom: &from,
 		DateOfPurchaseTo:   &to,
 		FareType:           &fareType,
-	}))
+	})
+	fmt.Println(result.(float64))
 }

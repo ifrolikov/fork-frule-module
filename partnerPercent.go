@@ -25,7 +25,7 @@ func NewPartnerPercentFRule(db *db.Database) PartnerPercentRule {
 }
 
 func (a PartnerPercentRule) GetResultValue() interface{} {
-	return a.Result
+	return float64(a.Result)
 }
 
 func (a PartnerPercentRule) GetComparisonOrder() ComparisonOrder {
@@ -58,7 +58,7 @@ func (a PartnerPercentRule) getTableName() string {
 }
 
 func (a PartnerPercentRule) GetDefaultValue() interface{} {
-	return 0
+	return 0.0
 }
 
 func (a PartnerPercentRule) GetDataStorage() (map[int][]FRuler, error) {
