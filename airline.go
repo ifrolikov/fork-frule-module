@@ -2,6 +2,7 @@ package frule_module
 
 import (
 	"stash.tutu.ru/golang/resources/db"
+	"time"
 )
 
 type AirlineRule struct {
@@ -46,6 +47,10 @@ func (a AirlineRule) getTableName() string {
 
 func (a AirlineRule) GetDefaultValue() interface{} {
 	return false
+}
+
+func (a AirlineRule) GetLastUpdateTime() time.Time {
+	return getLastUpdateTime("airline", a.db)
 }
 
 func (a AirlineRule) GetDataStorage() (map[int][]FRuler, error) {

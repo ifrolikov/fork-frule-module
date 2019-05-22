@@ -1,7 +1,9 @@
 package frule_module
 
 import (
+	"context"
 	"testing"
+	"time"
 )
 
 type DummyFRule struct {
@@ -59,6 +61,10 @@ func (a DummyFRule) getTableName() string {
 
 func (a DummyFRule) GetDefaultValue() interface{} {
 	return false
+}
+
+func (a DummyFRule) GetLastUpdateTime() time.Time {
+	return time.Now()
 }
 
 func TestIntersect(t *testing.T) {
@@ -146,7 +152,8 @@ func TestCreateHash(t *testing.T) {
 }
 
 func TestFRule(t *testing.T) {
-	frule := NewFRule(DummyFRule{})
+	ctx := context.Background()
+	frule := NewFRule(ctx, DummyFRule{})
 	carrierId := 10
 	carrierId2 := 5
 	connectionGroup := "test"

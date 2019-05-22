@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	frule_module "stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/golang/resources/db/mysql"
@@ -19,7 +20,9 @@ func main() {
 	connectionGroup := "galileo"
 	// fmt.Println(airline.GetResult(frule_module.AirlineRule{Partner: &partner, CarrierId: &carrierId, ConnectionGroup: &connectionGroup}))
 
-	partnerPercent := frule_module.NewFRule(frule_module.NewPartnerPercentFRule(db))
+	ctx := context.Background()
+
+	partnerPercent := frule_module.NewFRule(ctx, frule_module.NewPartnerPercentFRule(db))
 
 	partner = "new_tt"
 	connectionGroup = "sig23_direct"
@@ -38,4 +41,6 @@ func main() {
 		FareType:           &fareType,
 	})
 	fmt.Println(result.(float64))
+	a := make(chan struct{})
+	<-a
 }

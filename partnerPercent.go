@@ -3,6 +3,7 @@ package frule_module
 import (
 	"reflect"
 	"stash.tutu.ru/golang/resources/db"
+	"time"
 )
 
 type PartnerPercentRule struct {
@@ -63,6 +64,10 @@ func (a PartnerPercentRule) getTableName() string {
 
 func (a PartnerPercentRule) GetDefaultValue() interface{} {
 	return 0.0
+}
+
+func (a PartnerPercentRule) GetLastUpdateTime() time.Time {
+	return getLastUpdateTime("partner_percent", a.db)
 }
 
 func (a PartnerPercentRule) GetDataStorage() (map[int][]FRuler, error) {

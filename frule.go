@@ -1,10 +1,13 @@
 package frule_module
 
 import (
+	"context"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"reflect"
 	"stash.tutu.ru/golang/log"
 	"strconv"
+	"sync"
+	"time"
 )
 
 type ComparisonOrder [][]string
@@ -21,6 +24,7 @@ type FRuler interface {
 	getTableName() string
 	GetDefaultValue() interface{}
 	GetDataStorage() (map[int][]FRuler, error)
+	GetLastUpdateTime() time.Time
 }
 
 type FRule struct {
@@ -29,9 +33,11 @@ type FRule struct {
 	primaryKeys      []string
 	indexedKeys      []string
 	ruleSpecificData FRuler
+	mutex            sync.Mutex
+	lastUpdateTime   time.Time
 }
 
-func NewFRule(ruleSpecificData FRuler) *FRule {
+func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 	definition := FRule{
 		index:            make(map[int]map[string][]FRuler),
 		registry:         make(map[string]map[int]int),
@@ -56,7 +62,31 @@ func NewFRule(ruleSpecificData FRuler) *FRule {
 	if err := definition.buildIndex(); err != nil {
 		log.Logger.Error().Err(err).Msg("Building index")
 	}
+	definition.lastUpdateTime = time.Now()
+
+	go func(ctx context.Context, definition FRule) {
+		for {
+			select {
+			case <-time.After(1 * time.Minute):
+				if err := definition.buildIndexIfNeed(); err != nil {
+					log.Logger.Error().Err(err).Msg("Updating index")
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}(ctx, definition)
+
 	return &definition
+}
+
+func (f *FRule) buildIndexIfNeed() error {
+	if f.ruleSpecificData.GetLastUpdateTime().After(f.lastUpdateTime) {
+		log.Logger.Info().Msg("Updating index")
+		f.lastUpdateTime = time.Now()
+		return f.buildIndex()
+	}
+	return nil
 }
 
 func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
@@ -84,26 +114,32 @@ func (f *FRule) buildIndex() error {
 	if err != nil {
 		return err
 	}
+	index := make(map[int]map[string][]FRuler)
+	registry := make(map[string]map[int]int)
+
 	for rank, rulesData := range rulesSets {
 		for _, rowData := range rulesData {
 			hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 			hash := f.createRuleHash(hashFields, rowData)
 			if hash != "" {
-				if f.index[rank] == nil {
-					f.index[rank] = make(map[string][]FRuler)
+				if index[rank] == nil {
+					index[rank] = make(map[string][]FRuler)
 				}
-				f.index[rank][hash] = append(f.index[rank][hash], rowData)
+				index[rank][hash] = append(index[rank][hash], rowData)
 			}
 			registryHash := f.createRuleHash(f.primaryKeys, rowData)
 			if registryHash != "" {
-				if f.registry[registryHash] == nil {
-					f.registry[registryHash] = make(map[int]int)
+				if registry[registryHash] == nil {
+					registry[registryHash] = make(map[int]int)
 				}
-				f.registry[registryHash][rank] = rank
+				registry[registryHash][rank] = rank
 			}
-
 		}
 	}
+	f.mutex.Lock()
+	defer f.mutex.Unlock()
+	f.index = index
+	f.registry = registry
 	return nil
 }
 
