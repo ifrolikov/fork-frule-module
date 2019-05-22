@@ -1,8 +1,8 @@
 package frule_module
 
 import (
-	"github.com/jinzhu/gorm"
 	"reflect"
+	"stash.tutu.ru/golang/resources/db"
 )
 
 type PartnerPercentRule struct {
@@ -15,10 +15,10 @@ type PartnerPercentRule struct {
 	CarrierCountryId   *int    `sql:"carrier_country_id"`
 	FareType           *string `sql:"fare_type"`
 	Result             float64 `sql:"result"`
-	db                 *gorm.DB
+	db                 *db.Database
 }
 
-func NewPartnerPercentFRule(db *gorm.DB) PartnerPercentRule {
+func NewPartnerPercentFRule(db *db.Database) PartnerPercentRule {
 	return PartnerPercentRule{
 		db: db,
 	}

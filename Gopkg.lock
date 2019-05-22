@@ -89,6 +89,18 @@
   pruneopts = "UT"
   revision = "65ac73db85e1a1cc1050ce25273e15b71368d098"
 
+[[projects]]
+  branch = "master"
+  digest = "1:83844fa2c134166550c64614bead604d8e31b51ec773974a87062277972ec2b1"
+  name = "stash.tutu.ru/golang/resources"
+  packages = [
+    "db",
+    "db/mysql",
+    "helper",
+  ]
+  pruneopts = "UT"
+  revision = "242044048c9bc43a3d9cdf5a4dfdb3502555c564"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
@@ -96,6 +108,8 @@
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/mysql",
     "stash.tutu.ru/golang/log",
+    "stash.tutu.ru/golang/resources/db",
+    "stash.tutu.ru/golang/resources/db/mysql",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

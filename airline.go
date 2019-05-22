@@ -1,7 +1,7 @@
 package frule_module
 
 import (
-	"github.com/jinzhu/gorm"
+	"stash.tutu.ru/golang/resources/db"
 )
 
 type AirlineRule struct {
@@ -10,10 +10,10 @@ type AirlineRule struct {
 	Partner         *string `sql:"partner"`
 	ConnectionGroup *string `sql:"connection_group"`
 	Result          bool    `sql:"result"`
-	db              *gorm.DB
+	db              *db.Database
 }
 
-func NewAirlineFRule(db *gorm.DB) AirlineRule {
+func NewAirlineFRule(db *db.Database) AirlineRule {
 	return AirlineRule{
 		db: db,
 	}
