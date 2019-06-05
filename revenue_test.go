@@ -23,7 +23,7 @@ func TestRevenue(t *testing.T) {
 
 	partner := "fake"
 	connectionGroup := "fake"
-	carrierId := 1109
+	carrierId := int64(1109)
 	testRule := RevenueRule{
 		Partner:                &partner,
 		ConnectionGroup:        &connectionGroup,
