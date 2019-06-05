@@ -17,8 +17,8 @@ type RevenueRule struct {
 	Partner                *string `gorm:"column:partner"`
 	ConnectionGroup        *string `gorm:"column:connection_group"`
 	TicketingConnection    *string `gorm:"column:ticketing_connection"`
-	DaysToDepartureMin     *string `gorm:"column:days_to_departure_min"`
-	DaysToDepartureMax     *string `gorm:"column:days_to_departure_max"`
+	DaysToDepartureMin     *int64  `gorm:"column:days_to_departure_min"`
+	DaysToDepartureMax     *int64  `gorm:"column:days_to_departure_max"`
 	FareType               *string `gorm:"column:tariff"`
 	ABVariant              *string `gorm:"column:ab_variant"`
 	DepartureCountryId     *int64  `gorm:"column:departure_country_id"`
