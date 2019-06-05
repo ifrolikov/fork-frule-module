@@ -13,7 +13,7 @@ import (
 
 type RevenueRule struct {
 	Id                     int     `gorm:"column:id"`
-	CarrierId              *int    `gorm:"column:carrier_id"`
+	CarrierId              *int64  `gorm:"column:carrier_id"`
 	Partner                *string `gorm:"column:partner"`
 	ConnectionGroup        *string `gorm:"column:connection_group"`
 	TicketingConnection    *string `gorm:"column:ticketing_connection"`
@@ -21,10 +21,10 @@ type RevenueRule struct {
 	DaysToDepartureMax     *string `gorm:"column:days_to_departure_max"`
 	FareType               *string `gorm:"column:tariff"`
 	ABVariant              *string `gorm:"column:ab_variant"`
-	DepartureCountryId     *int    `gorm:"column:departure_country_id"`
-	ArrivalCountryId       *int    `gorm:"column:arrival_country_id"`
-	DepartureCityId        *int    `gorm:"column:departure_city_id"`
-	ArrivalCityId          *int    `gorm:"column:arrival_city_id"`
+	DepartureCountryId     *int64  `gorm:"column:departure_country_id"`
+	ArrivalCountryId       *int64  `gorm:"column:arrival_country_id"`
+	DepartureCityId        *int64  `gorm:"column:departure_city_id"`
+	ArrivalCityId          *int64  `gorm:"column:arrival_city_id"`
 	Revenue                *string `gorm:"column:result_revenue"`
 	Margin                 *string `gorm:"column:result_margin"`
 	TestOfferPrice         base.Money
