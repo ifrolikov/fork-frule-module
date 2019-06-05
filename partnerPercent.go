@@ -7,15 +7,15 @@ import (
 )
 
 type PartnerPercentRule struct {
-	Id                 int     `sql:"id"`
-	CarrierId          *int    `sql:"carrier_id"`
-	Partner            *string `sql:"partner"`
-	ConnectionGroup    *string `sql:"connection_group"`
-	DateOfPurchaseFrom *string `sql:"date_of_purchase_from"`
-	DateOfPurchaseTo   *string `sql:"date_of_purchase_to"`
-	CarrierCountryId   *int    `sql:"carrier_country_id"`
-	FareType           *string `sql:"fare_type"`
-	Result             float64 `sql:"result"`
+	Id                 int     `gorm:"column:id"`
+	CarrierId          *int    `gorm:"column:carrier_id"`
+	Partner            *string `gorm:"column:partner"`
+	ConnectionGroup    *string `gorm:"column:connection_group"`
+	DateOfPurchaseFrom *string `gorm:"column:date_of_purchase_from"`
+	DateOfPurchaseTo   *string `gorm:"column:date_of_purchase_to"`
+	CarrierCountryId   *int    `gorm:"column:carrier_country_id"`
+	FareType           *string `gorm:"column:fare_type"`
+	Result             float64 `gorm:"column:result"`
 	db                 *db.Database
 }
 
@@ -25,7 +25,7 @@ func NewPartnerPercentFRule(db *db.Database) PartnerPercentRule {
 	}
 }
 
-func (a PartnerPercentRule) GetResultValue() interface{} {
+func (a PartnerPercentRule) GetResultValue(testRule interface{}) interface{} {
 	return float64(a.Result)
 }
 

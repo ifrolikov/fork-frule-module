@@ -6,11 +6,11 @@ import (
 )
 
 type AirlineRule struct {
-	Id              int     `sql:"id"`
-	CarrierId       *int    `sql:"carrier_id"`
-	Partner         *string `sql:"partner"`
-	ConnectionGroup *string `sql:"connection_group"`
-	Result          bool    `sql:"result"`
+	Id              int     `gorm:"column:id"`
+	CarrierId       *int    `gorm:"column:carrier_id"`
+	Partner         *string `gorm:"column:partner"`
+	ConnectionGroup *string `gorm:"column:connection_group"`
+	Result          bool    `gorm:"column:result"`
 	db              *db.Database
 }
 
@@ -20,7 +20,7 @@ func NewAirlineFRule(db *db.Database) AirlineRule {
 	}
 }
 
-func (a AirlineRule) GetResultValue() interface{} {
+func (a AirlineRule) GetResultValue(testRule interface{}) interface{} {
 	return a.Result
 }
 

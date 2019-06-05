@@ -4,6 +4,7 @@ import (
 	"context"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"reflect"
+	"sort"
 	"stash.tutu.ru/golang/log"
 	"strconv"
 	"sync"
@@ -17,7 +18,7 @@ type ComparisonFunction func(a, b reflect.Value) bool
 type ComparisonOperators map[string]ComparisonFunction
 
 type FRuler interface {
-	GetResultValue() interface{}
+	GetResultValue(interface{}) interface{}
 	GetComparisonOrder() ComparisonOrder
 	GetComparisonOperators() ComparisonOperators
 	getStrategyKeys() []string
@@ -151,6 +152,7 @@ func (f *FRule) findRanks(testRule interface{}) []int {
 			result = append(result, rank)
 		}
 	}
+	sort.Ints(result)
 	return result
 }
 
@@ -159,7 +161,7 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 		hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
 			if len(foundRuleSet) == 1 {
-				return foundRuleSet[0].GetResultValue()
+				return foundRuleSet[0].GetResultValue(testRule)
 			} else {
 			RULESET:
 				for _, foundRule := range foundRuleSet {
@@ -168,7 +170,7 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 							continue RULESET
 						}
 					}
-					return foundRule.GetResultValue()
+					return foundRule.GetResultValue(testRule)
 				}
 			}
 		}

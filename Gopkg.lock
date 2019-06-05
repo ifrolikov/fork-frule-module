@@ -10,6 +10,14 @@
   version = "v1.4.1"
 
 [[projects]]
+  digest = "1:318f1c959a8a740366fce4b1e1eb2fd914036b4af58fbd0a003349b305f118ad"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  pruneopts = "UT"
+  revision = "b5d812f8a3706043e23a9cd5babf2e5423744d30"
+  version = "v1.3.1"
+
+[[projects]]
   digest = "1:1eac9e6cba6065ad43c20d37ef8679b2d85998aeae23efab53d2db6515a1ec81"
   name = "github.com/jinzhu/gorm"
   packages = [
@@ -53,6 +61,14 @@
   version = "v2.0"
 
 [[projects]]
+  digest = "1:ed615c5430ecabbb0fb7629a182da65ecee6523900ac1ac932520860878ffcad"
+  name = "github.com/robfig/cron"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "b41be1df696709bb6395fe435af20370037c0b4c"
+  version = "v1.1"
+
+[[projects]]
   digest = "1:fb63fb6cb9cf7310c6bd83998cc430ee5af1ec52612572ecb42c7aad74bd3598"
   name = "github.com/rs/zerolog"
   packages = [
@@ -72,6 +88,14 @@
   pruneopts = "UT"
   revision = "4c25cacc810c02874000e4f7071286a8e96b2515"
   version = "v1.6.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f3730f679b60997b9f3020368d7a81a7801db6f1ca12e96f4d3cc930fcf661b9"
+  name = "stash.tutu.ru/avia-search-common/contracts"
+  packages = ["base"]
+  pruneopts = "UT"
+  revision = "e523acb43ca12e54099afe39ceb3a20ef7c6c5d2"
 
 [[projects]]
   branch = "master"
@@ -105,8 +129,9 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/mysql",
+    "github.com/robfig/cron",
+    "stash.tutu.ru/avia-search-common/contracts/base",
     "stash.tutu.ru/golang/log",
     "stash.tutu.ru/golang/resources/db",
     "stash.tutu.ru/golang/resources/db/mysql",

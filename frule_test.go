@@ -7,13 +7,13 @@ import (
 )
 
 type DummyFRule struct {
-	CarrierId       *int    `sql:"carrier_id"`
-	Partner         *string `sql:"partner"`
-	ConnectionGroup *string `sql:"connection_group"`
-	Result          bool    `sql:"result"`
+	CarrierId       *int    `gorm:"column:carrier_id"`
+	Partner         *string `gorm:"column:partner"`
+	ConnectionGroup *string `gorm:"column:connection_group"`
+	Result          bool    `gorm:"column:result"`
 }
 
-func (a DummyFRule) GetResultValue() interface{} {
+func (a DummyFRule) GetResultValue(testRule interface{}) interface{} {
 	return a.Result
 }
 
