@@ -1220,6 +1220,9 @@ func (a RevenueRule) GetComparisonOrder() ComparisonOrder {
 func (a RevenueRule) GetComparisonOperators() ComparisonOperators {
 	return ComparisonOperators{
 		"ab_variant": func(a, b reflect.Value) bool {
+			if b.Elem().IsNil() {
+				return false
+			}
 			offerABCampaigns, ok := b.Elem().Interface().([]string)
 			if !ok {
 				return false
