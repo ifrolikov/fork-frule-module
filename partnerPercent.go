@@ -45,9 +45,15 @@ func (a PartnerPercentRule) GetComparisonOrder() ComparisonOrder {
 func (a PartnerPercentRule) GetComparisonOperators() ComparisonOperators {
 	return ComparisonOperators{
 		"date_of_purchase_from": func(a, b reflect.Value) bool {
+			if a.IsNil() {
+				return true
+			}
 			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
 		},
 		"date_of_purchase_to": func(a, b reflect.Value) bool {
+			if a.IsNil() {
+				return true
+			}
 			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
 		},
 	}

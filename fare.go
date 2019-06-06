@@ -57,6 +57,9 @@ func (f FareRule) GetComparisonOrder() ComparisonOrder {
 func (f FareRule) GetComparisonOperators() ComparisonOperators {
 	return ComparisonOperators{
 		"fare_spec": func(a, b reflect.Value) bool {
+			if a.IsNil() {
+				return true
+			}
 			fareTest := regexp.MustCompile(a.Elem().Interface().(string))
 			return fareTest.Match(b.Elem().Interface().([]byte))
 		},
