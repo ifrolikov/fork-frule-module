@@ -7,7 +7,7 @@ import (
 
 type AirlineRule struct {
 	Id              int     `gorm:"column:id"`
-	CarrierId       *int    `gorm:"column:carrier_id"`
+	CarrierId       *int64  `gorm:"column:carrier_id"`
 	Partner         *string `gorm:"column:partner"`
 	ConnectionGroup *string `gorm:"column:connection_group"`
 	Result          bool    `gorm:"column:result"`
