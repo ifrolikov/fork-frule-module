@@ -8,6 +8,7 @@ import (
 )
 
 type FareRule struct {
+	Id                 int     `gorm:"column:id"`
 	Partner            *string `gorm:"column:partner"`
 	ConnectionGroup    *string `gorm:"column:connection_group"`
 	CarrierId          *int64  `gorm:"column:carrier_id"`
