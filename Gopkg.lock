@@ -95,7 +95,7 @@
   name = "stash.tutu.ru/avia-search-common/contracts"
   packages = ["base"]
   pruneopts = "UT"
-  revision = "63ab0f80f78130ff4792d8bf062c965648b9a1a5"
+  revision = "33a220eb5c340c126858e14f78a82ddf1f28f11e"
 
 [[projects]]
   branch = "master"
