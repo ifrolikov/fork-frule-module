@@ -18,23 +18,23 @@
   version = "v1.3.1"
 
 [[projects]]
-  digest = "1:1eac9e6cba6065ad43c20d37ef8679b2d85998aeae23efab53d2db6515a1ec81"
+  digest = "1:cef043bd5b80782d55de321d4ffc86af97b8382794c31d0119c139b258e37ea7"
   name = "github.com/jinzhu/gorm"
   packages = [
     ".",
     "dialects/mysql",
   ]
   pruneopts = "UT"
-  revision = "b7156195f7f3415f97c20abbd6aff894b847fee8"
-  version = "v1.9.8"
+  revision = "01b66011427614f01e84a473b0303c917179f2a0"
+  version = "v1.9.9"
 
 [[projects]]
-  branch = "master"
-  digest = "1:fd97437fbb6b7dce04132cf06775bd258cce305c44add58eb55ca86c6c325160"
+  digest = "1:01ed62f8f4f574d8aff1d88caee113700a2b44c42351943fa73cc1808f736a50"
   name = "github.com/jinzhu/inflection"
   packages = ["."]
   pruneopts = "UT"
-  revision = "04140366298a54a039076d798123ffa108fff46c"
+  revision = "f5c5f50e6090ae76a29240b61ae2a90dd810112e"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:ecd9aa82687cf31d1585d4ac61d0ba180e42e8a6182b85bd785fcca8dfeefc1b"
@@ -45,12 +45,12 @@
   version = "v1.3.0"
 
 [[projects]]
-  digest = "1:edbef42561faa44c19129b68d1e109fbc1647f63239250391eadc8d0e7c9f669"
+  digest = "1:fd9bea48bbc5bba66d9891c72af7255fbebecdff845c37c679406174ece5ca1b"
   name = "github.com/kelseyhightower/envconfig"
   packages = ["."]
   pruneopts = "UT"
-  revision = "f611eb38b3875cc3bd991ca91c51d06446afa14c"
-  version = "v1.3.0"
+  revision = "0b417c4ec4a8a82eecc22a1459a504aa55163d61"
+  version = "v1.4.0"
 
 [[projects]]
   digest = "1:ba852707958e39694e7f64328008287892adf9b1aed0174480e2f50e0c23e521"
@@ -86,24 +86,24 @@
   name = "google.golang.org/appengine"
   packages = ["cloudsql"]
   pruneopts = "UT"
-  revision = "4c25cacc810c02874000e4f7071286a8e96b2515"
-  version = "v1.6.0"
+  revision = "b2f4a3cf3c67576a2ee09e1fe62656a5086ce880"
+  version = "v1.6.1"
 
 [[projects]]
   branch = "master"
-  digest = "1:f3730f679b60997b9f3020368d7a81a7801db6f1ca12e96f4d3cc930fcf661b9"
+  digest = "1:e92ea14610a542e7b14b312d513965d247c107bb9a4c0a2d9480eecb0fb534e6"
   name = "stash.tutu.ru/avia-search-common/contracts"
   packages = ["base"]
   pruneopts = "UT"
-  revision = "e523acb43ca12e54099afe39ceb3a20ef7c6c5d2"
+  revision = "63ab0f80f78130ff4792d8bf062c965648b9a1a5"
 
 [[projects]]
   branch = "master"
-  digest = "1:367ceff8bc3e1a19c3c79d84f33fed50164505dc4890a74cbdc97ba045582509"
+  digest = "1:7348033a7dcb8ba740ba459fa017c44c06fac8298f48c2ebb4c68e9416c93877"
   name = "stash.tutu.ru/golang/envs"
   packages = ["."]
   pruneopts = "UT"
-  revision = "6d62778eff121dd07a20705d7727972fecf3d917"
+  revision = "01950075f9f5cc693120b11dc5cb330f85709b4d"
 
 [[projects]]
   branch = "master"
@@ -123,7 +123,7 @@
     "helper",
   ]
   pruneopts = "UT"
-  revision = "242044048c9bc43a3d9cdf5a4dfdb3502555c564"
+  revision = "d94e407ebc2d10b13af09378b6ffe2479761bad1"
 
 [solve-meta]
   analyzer-name = "dep"
