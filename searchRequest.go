@@ -1,7 +1,7 @@
 package frule_module
 
 import (
-	"encoding/json"
+	"github.com/elliotchance/phpserialize"
 	"stash.tutu.ru/golang/resources/db"
 	"strconv"
 	"time"
@@ -26,14 +26,16 @@ func NewSearchRequest(database *db.Database) SearchRequest {
 }
 
 func (sr SearchRequest) GetResultValue(interface{}) interface{} {
-	var result map[string]string
-	err := json.Unmarshal([]byte(sr.Result), &result)
+	var result map[interface{}]interface{}
+	err := phpserialize.Unmarshal([]byte(sr.Result), &result)
 	if err != nil {
 		return false
 	}
 	for key, value := range result {
-		if cronSpec(&key, time.Now()) {
-			val, err := strconv.ParseBool(value)
+		keyS := key.(string)
+		valueS := value.(string)
+		if cronSpec(&keyS, time.Now()) {
+			val, err := strconv.ParseBool(valueS)
 			if err != nil {
 				return false
 			}
