@@ -7,7 +7,6 @@ import (
 
 type SearchRequest struct {
 	Id                 int     `gorm:"column:id"`
-	Partner            *string `gorm:"column:partner"`
 	ConnectionGroup    *string `gorm:"column:connection_group"`
 	DepartureCityId    *uint64 `gorm:"column:departure_city_id"`
 	ArrivalCityId      *uint64 `gorm:"column:arrival_city_id"`
@@ -30,24 +29,24 @@ func (sr SearchRequest) GetResultValue(interface{}) interface{} {
 
 func (sr SearchRequest) GetComparisonOrder() ComparisonOrder {
 	return ComparisonOrder{
-		[]string{"partner", "connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "service_class"},
-		[]string{"partner", "connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
-		[]string{"partner", "connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "service_class"},
-		[]string{"partner", "connection_group", "departure_country_id", "departure_city_id", "arrival_country_id"},
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id", "service_class"},
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id"},
-		[]string{"partner", "connection_group", "departure_country_id", "departure_city_id", "service_class"},
-		[]string{"partner", "connection_group", "departure_country_id", "departure_city_id"},
-		[]string{"partner", "connection_group", "arrival_country_id", "arrival_city_id", "service_class"},
-		[]string{"partner", "connection_group", "arrival_country_id", "arrival_city_id"},
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "service_class"},
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id"},
-		[]string{"partner", "connection_group", "departure_country_id", "service_class"},
-		[]string{"partner", "connection_group", "departure_country_id"},
-		[]string{"partner", "connection_group", "arrival_country_id", "service_class"},
-		[]string{"partner", "connection_group", "arrival_country_id"},
-		[]string{"partner", "connection_group", "service_class"},
-		[]string{"partner", "connection_group"},
+		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "service_class"},
+		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
+		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "service_class"},
+		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id"},
+		[]string{"connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id", "service_class"},
+		[]string{"connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id"},
+		[]string{"connection_group", "departure_country_id", "departure_city_id", "service_class"},
+		[]string{"connection_group", "departure_country_id", "departure_city_id"},
+		[]string{"connection_group", "arrival_country_id", "arrival_city_id", "service_class"},
+		[]string{"connection_group", "arrival_country_id", "arrival_city_id"},
+		[]string{"connection_group", "departure_country_id", "arrival_country_id", "service_class"},
+		[]string{"connection_group", "departure_country_id", "arrival_country_id"},
+		[]string{"connection_group", "departure_country_id", "service_class"},
+		[]string{"connection_group", "departure_country_id"},
+		[]string{"connection_group", "arrival_country_id", "service_class"},
+		[]string{"connection_group", "arrival_country_id"},
+		[]string{"connection_group", "service_class"},
+		[]string{"connection_group"},
 	}
 }
 
@@ -57,7 +56,6 @@ func (sr SearchRequest) GetComparisonOperators() ComparisonOperators {
 
 func (sr SearchRequest) getStrategyKeys() []string {
 	return []string{
-		"partner",
 		"connection_group",
 		"arrival_country_id",
 		"departure_country_id",
