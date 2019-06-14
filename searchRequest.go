@@ -1,7 +1,9 @@
 package frule_module
 
 import (
+	"encoding/json"
 	"stash.tutu.ru/golang/resources/db"
+	"strconv"
 	"time"
 )
 
@@ -24,7 +26,21 @@ func NewSearchRequest(database *db.Database) SearchRequest {
 }
 
 func (sr SearchRequest) GetResultValue(interface{}) interface{} {
-	return sr.Result
+	var result map[string]string
+	err := json.Unmarshal([]byte(sr.Result), &result)
+	if err != nil {
+		return false
+	}
+	for key, value := range result {
+		if cronSpec(&key, time.Now()) {
+			val, err := strconv.ParseBool(value)
+			if err != nil {
+				return false
+			}
+			return val
+		}
+	}
+	return false
 }
 
 func (sr SearchRequest) GetComparisonOrder() ComparisonOrder {
