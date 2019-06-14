@@ -9,10 +9,10 @@ type SearchRequest struct {
 	Id                 int     `gorm:"column:id"`
 	Partner            *string `gorm:"column:partner"`
 	ConnectionGroup    *string `gorm:"column:connection_group"`
-	DepartureCityId    *int64  `gorm:"column:departure_city_id"`
-	ArrivalCityId      *int64  `gorm:"column:arrival_city_id"`
-	DepartureCountryId *int64  `gorm:"column:departure_country_id"`
-	ArrivalCountryId   *int64  `gorm:"column:arrival_country_id"`
+	DepartureCityId    *uint64 `gorm:"column:departure_city_id"`
+	ArrivalCityId      *uint64 `gorm:"column:arrival_city_id"`
+	DepartureCountryId *uint64 `gorm:"column:departure_country_id"`
+	ArrivalCountryId   *uint64 `gorm:"column:arrival_country_id"`
 	ServiceClass       *string `gorm:"column:service_class"`
 	Result             string  `gorm:"column:result"`
 	db                 *db.Database
