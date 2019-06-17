@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:b35280647ec097d21832bcf349d2dde32ecb139fdeb0e8933aa1145341aaa2b4"
+  name = "github.com/elliotchance/phpserialize"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "dfe9e13b0d98e7a0e18c50711d5a5ffb681252cf"
+  version = "v1.1.7"
+
+[[projects]]
   digest = "1:ec6f9bf5e274c833c911923c9193867f3f18788c461f76f05f62bb1510e0ae65"
   name = "github.com/go-sql-driver/mysql"
   packages = ["."]
@@ -66,7 +74,7 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "b41be1df696709bb6395fe435af20370037c0b4c"
-  version = "v1.1"
+  version = "v1.2.0"
 
 [[projects]]
   digest = "1:fb63fb6cb9cf7310c6bd83998cc430ee5af1ec52612572ecb42c7aad74bd3598"
@@ -95,7 +103,7 @@
   name = "stash.tutu.ru/avia-search-common/contracts"
   packages = ["base"]
   pruneopts = "UT"
-  revision = "33a220eb5c340c126858e14f78a82ddf1f28f11e"
+  revision = "00b2e6f5aa24298aef2118124c71afd187fde3b3"
 
 [[projects]]
   branch = "master"
@@ -107,11 +115,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:104e8a9fe69086504ec4adec43b1a3065d3de57b21855154c03d71a889c7f557"
+  digest = "1:d5c3d68c784b9631eb22d535e5c84e82131714186c44f0f7154adf096a75efa2"
   name = "stash.tutu.ru/golang/log"
   packages = ["."]
   pruneopts = "UT"
-  revision = "65ac73db85e1a1cc1050ce25273e15b71368d098"
+  revision = "0d4c2bde7896a060f65a0797fe3d9d19f244ac8b"
 
 [[projects]]
   branch = "master"
@@ -123,12 +131,13 @@
     "helper",
   ]
   pruneopts = "UT"
-  revision = "d94e407ebc2d10b13af09378b6ffe2479761bad1"
+  revision = "5f589d22660dc05632adfc8496d4899fb0d713f1"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/elliotchance/phpserialize",
     "github.com/jinzhu/gorm/dialects/mysql",
     "github.com/robfig/cron",
     "stash.tutu.ru/avia-search-common/contracts/base",
