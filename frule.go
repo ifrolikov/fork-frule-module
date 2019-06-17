@@ -65,7 +65,7 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 	}
 	definition.lastUpdateTime = time.Now()
 
-	go func(ctx context.Context, definition FRule) {
+	go func(ctx context.Context, definition *FRule) {
 		for {
 			select {
 			case <-time.After(1 * time.Minute):
@@ -76,7 +76,7 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 				return
 			}
 		}
-	}(ctx, definition)
+	}(ctx, &definition)
 
 	return &definition
 }
