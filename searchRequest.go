@@ -3,7 +3,6 @@ package frule_module
 import (
 	"github.com/elliotchance/phpserialize"
 	"stash.tutu.ru/golang/resources/db"
-	"strconv"
 	"time"
 )
 
@@ -16,6 +15,7 @@ type SearchRequest struct {
 	ArrivalCountryId   *uint64 `gorm:"column:arrival_country_id"`
 	ServiceClass       *string `gorm:"column:service_class"`
 	Result             string  `gorm:"column:result"`
+	ResultParsed       map[string]bool
 	db                 *db.Database
 }
 
@@ -26,20 +26,9 @@ func NewSearchRequest(database *db.Database) SearchRequest {
 }
 
 func (sr SearchRequest) GetResultValue(interface{}) interface{} {
-	var result map[interface{}]interface{}
-	err := phpserialize.Unmarshal([]byte(sr.Result), &result)
-	if err != nil {
-		return false
-	}
-	for key, value := range result {
-		keyS := key.(string)
-		valueS := value.(string)
-		if cronSpec(&keyS, time.Now()) {
-			val, err := strconv.ParseBool(valueS)
-			if err != nil {
-				return false
-			}
-			return val
+	for key, value := range sr.ResultParsed {
+		if cronSpec(&key, time.Now()) {
+			return value
 		}
 	}
 	return false
@@ -113,6 +102,31 @@ func (sr SearchRequest) GetDataStorage() (map[int][]FRuler, error) {
 			if err := sr.db.ScanRows(rows, &rowData); err != nil {
 				return result, err
 			}
+			var unserialized map[interface{}]interface{}
+			err := phpserialize.Unmarshal([]byte(rowData.Result), &unserialized)
+			if err != nil {
+				return nil, err
+			}
+			resultParsed := make(map[string]bool)
+			for key, value := range unserialized {
+				var val bool
+				switch value.(type) {
+				case string:
+					if value.(string) == "1" {
+						val = true
+					} else {
+						val = false
+					}
+				case int64:
+					if value.(int64) == int64(1) {
+						val = true
+					} else {
+						val = false
+					}
+				}
+				resultParsed[key.(string)] = val
+			}
+			rowData.ResultParsed = resultParsed
 			result[rank] = append(result[rank], rowData)
 
 		}
