@@ -43,7 +43,7 @@ func TestSearchConnectionSpecs(t *testing.T) {
 	database := mysql.NewDb()
 	rule := NewSearchConnectionFRule(database)
 
-	specs := []searchConnectionCronSpec{
+	specs := []cronStrucString{
 		{"50-59 23 * * *", "+3w"},
 		{"0-15 20 * * *", "+100d"},
 		{"16-30 20 * * *", "+1y"},

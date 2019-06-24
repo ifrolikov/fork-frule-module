@@ -15,7 +15,7 @@ type SearchRequest struct {
 	ArrivalCountryId   *uint64 `gorm:"column:arrival_country_id"`
 	ServiceClass       *string `gorm:"column:service_class"`
 	Result             string  `gorm:"column:result"`
-	ResultParsed       map[string]bool
+	ResultParsed       []cronStrucBool
 	db                 *db.Database
 }
 
@@ -26,9 +26,9 @@ func NewSearchRequest(database *db.Database) SearchRequest {
 }
 
 func (sr SearchRequest) GetResultValue(interface{}) interface{} {
-	for key, value := range sr.ResultParsed {
-		if cronSpec(&key, time.Now()) {
-			return value
+	for i := range sr.ResultParsed {
+		if cronSpec(&sr.ResultParsed[i].spec, time.Now()) {
+			return sr.ResultParsed[i].value
 		}
 	}
 	return false
@@ -102,12 +102,16 @@ func (sr SearchRequest) GetDataStorage() (map[int][]FRuler, error) {
 			if err := sr.db.ScanRows(rows, &rowData); err != nil {
 				return result, err
 			}
+
 			var unserialized map[interface{}]interface{}
+
 			err := phpserialize.Unmarshal([]byte(rowData.Result), &unserialized)
 			if err != nil {
 				return nil, err
 			}
-			resultParsed := make(map[string]bool)
+
+			var resultParsed []cronStrucBool
+
 			for key, value := range unserialized {
 				var val bool
 				switch value.(type) {
@@ -124,7 +128,8 @@ func (sr SearchRequest) GetDataStorage() (map[int][]FRuler, error) {
 						val = false
 					}
 				}
-				resultParsed[key.(string)] = val
+
+				resultParsed = append(resultParsed, cronStrucBool{key.(string), val})
 			}
 			rowData.ResultParsed = resultParsed
 			result[rank] = append(result[rank], rowData)

@@ -14,16 +14,11 @@ type SearchConnectionRule struct {
 	ConnectionGroup        *string `gorm:"column:connection_group"`
 	DepartureDate          time.Time
 	MinDepartureDate       *string `gorm:"column:min_departure_date"`
-	MinDepartureDateParsed []searchConnectionCronSpec
+	MinDepartureDateParsed []cronStrucString
 	MaxDepartureDate       *string `gorm:"column:max_departure_date"`
-	MaxDepartureDateParsed []searchConnectionCronSpec
+	MaxDepartureDateParsed []cronStrucString
 	db                     *db.Database
 	specIntervalRegexp     *regexp.Regexp
-}
-
-type searchConnectionCronSpec struct {
-	spec  string
-	value string
 }
 
 func NewSearchConnectionFRule(db *db.Database) SearchConnectionRule {
@@ -129,7 +124,7 @@ func (sc SearchConnectionRule) GetDataStorage() (map[int][]FRuler, error) {
 	return result, nil
 }
 
-func (sc SearchConnectionRule) parseCronSpecField(value string) ([]searchConnectionCronSpec, error) {
+func (sc SearchConnectionRule) parseCronSpecField(value string) ([]cronStrucString, error) {
 	var unserialized map[interface{}]interface{}
 
 	err := phpserialize.Unmarshal([]byte(value), &unserialized)
@@ -137,7 +132,7 @@ func (sc SearchConnectionRule) parseCronSpecField(value string) ([]searchConnect
 		return nil, err
 	}
 
-	var resultParsed []searchConnectionCronSpec
+	var resultParsed []cronStrucString
 
 	for key, value := range unserialized {
 		var val string
@@ -151,13 +146,13 @@ func (sc SearchConnectionRule) parseCronSpecField(value string) ([]searchConnect
 			val = ""
 		}
 
-		resultParsed = append(resultParsed, searchConnectionCronSpec{key.(string), val})
+		resultParsed = append(resultParsed, cronStrucString{key.(string), val})
 	}
 
 	return resultParsed, nil
 }
 
-func (sc SearchConnectionRule) getSpecInterval(specs []searchConnectionCronSpec, t time.Time) string {
+func (sc SearchConnectionRule) getSpecInterval(specs []cronStrucString, t time.Time) string {
 	for i := range specs {
 		if cronSpec(&specs[i].spec, t) {
 			return specs[i].value

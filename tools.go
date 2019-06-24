@@ -112,3 +112,13 @@ func cronSpec(cronSpec *string, testTime time.Time) bool {
 	}
 	return result
 }
+
+type cronStrucString struct {
+	spec  string
+	value string
+}
+
+type cronStrucBool struct {
+	spec  string
+	value bool
+}
