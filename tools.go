@@ -20,6 +20,15 @@ func inSlice(item string, list []string) bool {
 	return false
 }
 
+func inSliceInt64(item int64, list []int64) bool {
+	for _, check := range list {
+		if check == item {
+			return true
+		}
+	}
+	return false
+}
+
 func intersectSlices(left, right []string) []string {
 	var result []string
 	hash := make(map[string]struct{})
