@@ -34,7 +34,7 @@ func TestSearchConnectionDb(t *testing.T) {
 	ctx := context.Background()
 	rule := NewFRule(ctx, NewSearchConnectionFRule(database))
 
-	result := rule.GetResult(testRule).(bool)
+	result := rule.GetResult(testRule)
 	fmt.Println(result)
 	//assert.True(t, result)
 }

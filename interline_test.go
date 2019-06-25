@@ -32,7 +32,7 @@ func TestInterlineDb(t *testing.T) {
 	ctx := context.Background()
 	rule := NewFRule(ctx, NewInterlineFRule(database))
 
-	result := rule.GetResult(testRule).(bool)
+	result := rule.GetResult(testRule)
 	fmt.Println(result)
 	//assert.True(t, result)
 }

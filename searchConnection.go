@@ -18,13 +18,13 @@ type SearchConnectionRule struct {
 	MaxDepartureDate       *string `gorm:"column:max_departure_date"`
 	MaxDepartureDateParsed []cronStrucString
 	db                     *db.Database
-	specIntervalRegexp     *regexp.Regexp
 }
+
+var specSearchConnectionRegexp = regexp.MustCompile(`\+(\d+)([dwmy])`)
 
 func NewSearchConnectionFRule(db *db.Database) SearchConnectionRule {
 	return SearchConnectionRule{
-		db:                 db,
-		specIntervalRegexp: regexp.MustCompile(`\+(\d+)([dwmy])`),
+		db: db,
 	}
 }
 
@@ -162,7 +162,7 @@ func (sc SearchConnectionRule) getSpecInterval(specs []cronStrucString, t time.T
 }
 
 func (sc SearchConnectionRule) getDateToCompare(intervalString string, t time.Time) *time.Time {
-	intervalParsed := sc.specIntervalRegexp.FindStringSubmatch(intervalString)
+	intervalParsed := specSearchConnectionRegexp.FindStringSubmatch(intervalString)
 
 	if len(intervalParsed) >= 3 {
 		intervalInt, err := strconv.Atoi(intervalParsed[1])

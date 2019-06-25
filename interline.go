@@ -33,10 +33,10 @@ func (ir InterlineRule) GetResultValue(testRule interface{}) interface{} {
 
 	if len(params.Carriers) > 0 {
 		if len(ir.CarriersNeedParsed) > 0 {
-			s := true
+			s := false
 			for _, carrierId := range ir.CarriersNeedParsed {
-				if !inSliceInt64(carrierId, params.Carriers) {
-					s = false
+				if inSliceInt64(carrierId, params.Carriers) {
+					s = true
 				}
 			}
 			if !s {
