@@ -12,10 +12,10 @@ type FareRule struct {
 	Partner            *string `gorm:"column:partner"`
 	ConnectionGroup    *string `gorm:"column:connection_group"`
 	CarrierId          *int64  `gorm:"column:carrier_id"`
-	DepartureCityId    *int64  `gorm:"column:departure_city_id"`
-	ArrivalCityId      *int64  `gorm:"column:arrival_city_id"`
-	DepartureCountryId *int64  `gorm:"column:departure_country_id"`
-	ArrivalCountryId   *int64  `gorm:"column:arrival_country_id"`
+	DepartureCityId    *uint64 `gorm:"column:departure_city_id"`
+	ArrivalCityId      *uint64 `gorm:"column:arrival_city_id"`
+	DepartureCountryId *uint64 `gorm:"column:departure_country_id"`
+	ArrivalCountryId   *uint64 `gorm:"column:arrival_country_id"`
 	FareSpec           *string `gorm:"column:fare_spec"`
 	Result             string  `gorm:"column:result"`
 	db                 *db.Database
