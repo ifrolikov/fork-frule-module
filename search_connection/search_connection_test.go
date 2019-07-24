@@ -22,6 +22,8 @@ func TestSearchConnection(t *testing.T) {
 	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, testConfig)
 	assert.Nil(t, err)
 
+	assert.Implements(t, (*frule_module.FRuler)(nil), searchConnectionFRule)
+
 	dataStorage := searchConnectionFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 

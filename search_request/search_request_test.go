@@ -20,6 +20,8 @@ func TestSearchRequest(t *testing.T) {
 	searchRequestFRule, err := NewSearchRequestFRule(ctx, testConfig)
 	assert.Nil(t, err)
 
+	assert.Implements(t, (*frule_module.FRuler)(nil), searchRequestFRule)
+
 	dataStorage := searchRequestFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 

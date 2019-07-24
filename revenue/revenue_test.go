@@ -23,6 +23,8 @@ func TestRevenue(t *testing.T) {
 	revenueFRule, err := NewRevenueFRule(ctx, testConfig)
 	assert.Nil(t, err)
 
+	assert.Implements(t, (*frule_module.FRuler)(nil), revenueFRule)
+
 	dataStorage := revenueFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 

@@ -33,11 +33,11 @@ func NewFareFRule(ctx context.Context, config *repository.Config) (*FareRule, er
 	return &FareRule{repo: repo}, nil
 }
 
-func (rule FareRule) GetResultValue(interface{}) interface{} {
+func (rule *FareRule) GetResultValue(interface{}) interface{} {
 	return rule.Result
 }
 
-func (rule FareRule) GetComparisonOrder() frule_module.ComparisonOrder {
+func (rule *FareRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	return frule_module.ComparisonOrder{
 		[]string{"departure_city_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
 		[]string{"departure_city_id", "arrival_city_id", "partner", "carrier_id", "fare_spec"},
@@ -60,7 +60,7 @@ func (rule FareRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	}
 }
 
-func (rule FareRule) GetComparisonOperators() frule_module.ComparisonOperators {
+func (rule *FareRule) GetComparisonOperators() frule_module.ComparisonOperators {
 	return frule_module.ComparisonOperators{
 		"fare_spec": func(a, b reflect.Value) bool {
 			if a.IsNil() {
@@ -72,7 +72,7 @@ func (rule FareRule) GetComparisonOperators() frule_module.ComparisonOperators {
 	}
 }
 
-func (rule FareRule) GetStrategyKeys() []string {
+func (rule *FareRule) GetStrategyKeys() []string {
 	return []string{
 		"partner",
 		"connection_group",
@@ -85,15 +85,15 @@ func (rule FareRule) GetStrategyKeys() []string {
 	}
 }
 
-func (rule FareRule) GetDefaultValue() interface{} {
+func (rule *FareRule) GetDefaultValue() interface{} {
 	return ""
 }
 
-func (rule FareRule) GetDataStorage() *frule_module.RankedFRuleStorage {
+func (rule *FareRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule FareRule) GetNotificationChannel() chan error {
+func (rule *FareRule) GetNotificationChannel() chan error {
 	return rule.repo.NotificationChannel
 }
 

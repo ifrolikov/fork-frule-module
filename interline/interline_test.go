@@ -20,6 +20,8 @@ func TestInterline(t *testing.T) {
 	interlineFRule, err := NewInterlineFRule(ctx, testConfig)
 	assert.Nil(t, err)
 
+	assert.Implements(t, (*frule_module.FRuler)(nil), interlineFRule)
+
 	dataStorage := interlineFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 

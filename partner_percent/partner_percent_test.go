@@ -22,6 +22,8 @@ func TestPartnerPercent(t *testing.T) {
 	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, testConfig)
 	assert.Nil(t, err)
 
+	assert.Implements(t, (*frule_module.FRuler)(nil), partnerPercentFRule)
+
 	dataStorage := partnerPercentFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 

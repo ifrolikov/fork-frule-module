@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
+	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
@@ -18,6 +19,8 @@ func TestNewCodeshareFRule(t *testing.T) {
 
 	frule, err := NewCodeshareFRule(ctx, testConfig)
 	assert.Nil(t, err)
+
+	assert.Implements(t, (*frule_module.FRuler)(nil), frule)
 
 	dataStorage := frule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
