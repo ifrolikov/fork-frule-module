@@ -1,0 +1,567 @@
+[
+  [
+    {
+      "id": 53,
+      "carrier_id": 1062,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "date_of_purchase_from": "2018-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": "subsidy",
+      "result": 0
+    }
+  ],
+  [
+    {
+      "id": 3,
+      "carrier_id": 1062,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": "subsidy",
+      "result": 0
+    }
+  ],
+  [
+    {
+      "id": 8,
+      "carrier_id": 1062,
+      "partner": "new_tt",
+      "connection_group": "galileo_lv",
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.6
+    },
+    {
+      "id": 31,
+      "carrier_id": 1111,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "date_of_purchase_from": "2017-05-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.4
+    },
+    {
+      "id": 32,
+      "carrier_id": 1111,
+      "partner": "new_tt",
+      "connection_group": "sig23",
+      "date_of_purchase_from": "2017-05-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    },
+    {
+      "id": 33,
+      "carrier_id": 1116,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "date_of_purchase_from": "2017-05-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.3
+    },
+    {
+      "id": 34,
+      "carrier_id": 1116,
+      "partner": "new_tt",
+      "connection_group": "sig23",
+      "date_of_purchase_from": "2017-05-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    },
+    {
+      "id": 40,
+      "carrier_id": 1116,
+      "partner": "new_tt",
+      "connection_group": "sig23_direct",
+      "date_of_purchase_from": "2017-05-01",
+      "date_of_purchase_to": "2019-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    },
+    {
+      "id": 41,
+      "carrier_id": 1116,
+      "partner": "new_tt",
+      "connection_group": "sig23_direct",
+      "date_of_purchase_from": "2019-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    },
+    {
+      "id": 48,
+      "carrier_id": 1111,
+      "partner": "new_tt",
+      "connection_group": "sirena_direct_u6",
+      "date_of_purchase_from": "2017-11-16",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    },
+    {
+      "id": 54,
+      "carrier_id": 1062,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "date_of_purchase_from": "2018-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.6
+    },
+    {
+      "id": 55,
+      "carrier_id": 1116,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "date_of_purchase_from": "2018-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.3
+    },
+    {
+      "id": 56,
+      "carrier_id": 1111,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "date_of_purchase_from": "2018-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.4
+    },
+    {
+      "id": 59,
+      "carrier_id": 80,
+      "partner": "new_tt",
+      "connection_group": "galileo_lv",
+      "date_of_purchase_from": "2018-11-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 1
+    }
+  ],
+  [
+    {
+      "id": 2,
+      "carrier_id": 1062,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2017-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.8
+    },
+    {
+      "id": 4,
+      "carrier_id": 1111,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2017-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 13,
+      "carrier_id": 23,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 14,
+      "carrier_id": 47,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 15,
+      "carrier_id": 64,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 16,
+      "carrier_id": 62,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 17,
+      "carrier_id": 17,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 18,
+      "carrier_id": 15,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 19,
+      "carrier_id": 54,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 20,
+      "carrier_id": 25,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 22,
+      "carrier_id": 89,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 23,
+      "carrier_id": 75,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 24,
+      "carrier_id": 41,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 25,
+      "carrier_id": 1192,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 26,
+      "carrier_id": 19,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 27,
+      "carrier_id": 30,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 28,
+      "carrier_id": 8,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 29,
+      "carrier_id": 36,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 30,
+      "carrier_id": 33,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "2017-04-01",
+      "date_of_purchase_to": "2017-07-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    }
+  ],
+  [
+    {
+      "id": 10,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": 7,
+      "fare_type": null,
+      "result": 0.6
+    },
+    {
+      "id": 57,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "date_of_purchase_from": "2018-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": 7,
+      "fare_type": null,
+      "result": 0.6
+    }
+  ],
+  [],
+  [
+    {
+      "id": 5,
+      "carrier_id": null,
+      "partner": "fake",
+      "connection_group": "fake",
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 1
+    },
+    {
+      "id": 6,
+      "carrier_id": null,
+      "partner": "fake",
+      "connection_group": "fake_api",
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 1
+    },
+    {
+      "id": 7,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    },
+    {
+      "id": 9,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sig23",
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.6
+    },
+    {
+      "id": 11,
+      "carrier_id": null,
+      "partner": "nba",
+      "connection_group": "berlogic",
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 12,
+      "carrier_id": null,
+      "partner": "s7",
+      "connection_group": "sig23_s7",
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 21,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sig23_direct",
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.6
+    },
+    {
+      "id": 36,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "tkp_sig23",
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 47,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sirena_direct_yc",
+      "date_of_purchase_from": "2017-10-10",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.6
+    },
+    {
+      "id": 49,
+      "carrier_id": null,
+      "partner": "iata",
+      "connection_group": "galileo",
+      "date_of_purchase_from": "2017-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 50,
+      "carrier_id": null,
+      "partner": "biletix",
+      "connection_group": "biletix",
+      "date_of_purchase_from": "2017-11-16",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 51,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sirena",
+      "date_of_purchase_from": "2017-11-01",
+      "date_of_purchase_to": "2100-02-16",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0
+    },
+    {
+      "id": 52,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sirena_direct_ut",
+      "date_of_purchase_from": "2018-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    },
+    {
+      "id": 58,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "date_of_purchase_from": "2018-01-01",
+      "date_of_purchase_to": "2100-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 0.5
+    }
+  ],
+  [
+    {
+      "id": 1,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": null,
+      "date_of_purchase_from": "1900-01-01",
+      "date_of_purchase_to": "2017-01-01",
+      "carrier_country_id": null,
+      "fare_type": null,
+      "result": 1
+    }
+  ]
+]

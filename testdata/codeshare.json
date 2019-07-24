@@ -1,0 +1,39 @@
+[
+  [
+    {
+      "id": 35,
+      "partner": "tt",
+      "connection_group": "galileo",
+      "carrier_operating": 1106,
+      "carrier_marketing": 38,
+      "service_class": "Y",
+      "result": true
+    },
+    {
+      "id": 63,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "carrier_operating": 1106,
+      "carrier_marketing": 38,
+      "service_class": "Y",
+      "result": true
+    }
+  ],
+  [
+    {
+      "id": 25,
+      "partner": "tt",
+      "connection_group": "galileo",
+      "carrier_operating": 1118,
+      "carrier_marketing": 1106,
+      "service_class": null,
+      "result": false
+    }
+  ],
+  [],
+  [],
+  [],
+  [],
+  [],
+  []
+]

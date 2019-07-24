@@ -3,22 +3,43 @@ package frule_module
 import (
 	"context"
 	"testing"
-	"time"
 )
 
 type DummyFRule struct {
-	CarrierId       *int    `gorm:"column:carrier_id"`
-	Partner         *string `gorm:"column:partner"`
-	ConnectionGroup *string `gorm:"column:connection_group"`
-	Result          bool    `gorm:"column:result"`
+	CarrierId       *int    `json:"carrier_id"`
+	Partner         *string `json:"partner"`
+	ConnectionGroup *string `json:"connection_group"`
+	Result          bool    `json:"result"`
+	repo            *Repository
 }
 
 func (a DummyFRule) GetResultValue(testRule interface{}) interface{} {
 	return a.Result
 }
 
-func (a DummyFRule) GetDataStorage() (map[int][]FRuler, error) {
-	result := make(map[int][]FRuler)
+func (a DummyFRule) GetComparisonOrder() ComparisonOrder {
+	return ComparisonOrder{
+		[]string{"carrier_id", "partner", "connection_group"},
+		[]string{"partner", "connection_group"},
+		[]string{"carrier_id", "partner"},
+		[]string{"partner"},
+	}
+}
+
+func (a DummyFRule) GetComparisonOperators() ComparisonOperators {
+	return ComparisonOperators{}
+}
+
+func (a DummyFRule) GetStrategyKeys() []string {
+	return []string{"carrier_id", "partner", "connection_group"}
+}
+
+func (a DummyFRule) GetDefaultValue() interface{} {
+	return false
+}
+
+func (a DummyFRule) GetDataStorage() *RankedFRuleStorage {
+	result := make(RankedFRuleStorage)
 	carrierId := 10
 	connectionGroup := "test"
 	connectionGroup2 := "test2"
@@ -35,36 +56,11 @@ func (a DummyFRule) GetDataStorage() (map[int][]FRuler, error) {
 	result[3] = []FRuler{
 		DummyFRule{Partner: &partner2, Result: true},
 	}
-	return result, nil
+	return &result
 }
 
-func (a DummyFRule) GetComparisonOrder() ComparisonOrder {
-	return ComparisonOrder{
-		[]string{"carrier_id", "partner", "connection_group"},
-		[]string{"partner", "connection_group"},
-		[]string{"carrier_id", "partner"},
-		[]string{"partner"},
-	}
-}
-
-func (a DummyFRule) GetComparisonOperators() ComparisonOperators {
-	return ComparisonOperators{}
-}
-
-func (a DummyFRule) getStrategyKeys() []string {
-	return []string{"carrier_id", "partner", "connection_group"}
-}
-
-func (a DummyFRule) getTableName() string {
-	return ""
-}
-
-func (a DummyFRule) GetDefaultValue() interface{} {
-	return false
-}
-
-func (a DummyFRule) GetLastUpdateTime() time.Time {
-	return time.Now()
+func (a DummyFRule) GetNotificationChannel() chan error {
+	return a.repo.NotificationChannel
 }
 
 func TestIntersect(t *testing.T) {

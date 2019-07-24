@@ -4,14 +4,12 @@ import (
 	"github.com/robfig/cron"
 	"reflect"
 	"stash.tutu.ru/avia-search-common/contracts/base"
-	"stash.tutu.ru/golang/log"
-	"stash.tutu.ru/golang/resources/db"
 	"strconv"
 	"strings"
 	"time"
 )
 
-func inSlice(item string, list []string) bool {
+func InSlice(item string, list []string) bool {
 	for _, check := range list {
 		if check == item {
 			return true
@@ -20,7 +18,7 @@ func inSlice(item string, list []string) bool {
 	return false
 }
 
-func inSliceInt64(item int64, list []int64) bool {
+func InSliceInt64(item int64, list []int64) bool {
 	for _, check := range list {
 		if check == item {
 			return true
@@ -45,28 +43,23 @@ func intersectSlices(left, right []string) []string {
 }
 
 func getFieldValueByTag(input interface{}, tagValue string) reflect.Value {
-	for i := 0; i < reflect.TypeOf(input).NumField(); i++ {
-		field := reflect.TypeOf(input).Field(i)
-		if field.Tag == reflect.StructTag("gorm:\"column:"+tagValue+"\"") {
-			return reflect.ValueOf(input).FieldByName(field.Name)
+	var workingValue reflect.Type
+	if reflect.TypeOf(input).Kind() == reflect.Ptr {
+		workingValue = reflect.TypeOf(input).Elem()
+	} else {
+		workingValue = reflect.TypeOf(input)
+	}
+	for i := 0; i < workingValue.NumField(); i++ {
+		field := workingValue.Field(i)
+		if field.Tag == reflect.StructTag("json:\""+tagValue+"\"") {
+			if reflect.TypeOf(input).Kind() == reflect.Ptr {
+				return reflect.ValueOf(input).Elem().FieldByName(field.Name)
+			} else {
+				return reflect.ValueOf(input).FieldByName(field.Name)
+			}
 		}
 	}
 	return reflect.Zero(reflect.TypeOf(input))
-}
-
-func getLastUpdateTime(fRuleName string, db *db.Database) time.Time {
-	result := struct{ Cdate string }{}
-	db.Table("rm_frule_history").
-		Select("cdate").
-		Order("cdate DESC").
-		Where("rule_type = '" + fRuleName + "'").
-		Limit(1).
-		First(&result)
-	cdate, err := time.ParseInLocation("2006-01-02 15:04:05", result.Cdate, time.Local)
-	if err != nil {
-		log.Logger.Error().Err(err).Msg("Time parsing")
-	}
-	return cdate
 }
 
 func timeMatchCronSpec(spec string, testTime time.Time) (bool, error) {
@@ -87,7 +80,7 @@ func timeMatchCronSpec(spec string, testTime time.Time) (bool, error) {
 	return result, nil
 }
 
-func priceRange(rangeSpec *string, testPrice base.Money) bool {
+func PriceRange(rangeSpec *string, testPrice base.Money) bool {
 	if rangeSpec == nil {
 		return false
 	}
@@ -111,7 +104,7 @@ func priceRange(rangeSpec *string, testPrice base.Money) bool {
 	}
 
 }
-func cronSpec(cronSpec *string, testTime time.Time) bool {
+func CronSpec(cronSpec *string, testTime time.Time) bool {
 	if cronSpec == nil {
 		return false
 	}
@@ -122,12 +115,12 @@ func cronSpec(cronSpec *string, testTime time.Time) bool {
 	return result
 }
 
-type cronStrucString struct {
-	spec  string
-	value string
+type CronStructString struct {
+	Spec  string
+	Value string
 }
 
-type cronStrucBool struct {
-	spec  string
-	value bool
+type CronStructBool struct {
+	Spec  string
+	Value bool
 }

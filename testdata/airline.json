@@ -1,0 +1,36 @@
+[
+  [
+    {
+      "id": 814,
+      "carrier_id": 6,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "result": true
+    },
+    {
+      "id": 815,
+      "carrier_id": 7,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "result": true
+    },
+    {
+      "id": 816,
+      "carrier_id": 8,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "result": true
+    }
+  ],
+  [],
+  [],
+  [
+    {
+      "id": 817,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": null,
+      "result": false
+    }
+  ]
+]

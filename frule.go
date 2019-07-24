@@ -2,7 +2,6 @@ package frule_module
 
 import (
 	"context"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"reflect"
 	"sort"
 	"stash.tutu.ru/golang/log"
@@ -21,11 +20,10 @@ type FRuler interface {
 	GetResultValue(interface{}) interface{}
 	GetComparisonOrder() ComparisonOrder
 	GetComparisonOperators() ComparisonOperators
-	getStrategyKeys() []string
-	getTableName() string
+	GetStrategyKeys() []string
 	GetDefaultValue() interface{}
-	GetDataStorage() (map[int][]FRuler, error)
-	GetLastUpdateTime() time.Time
+	GetDataStorage() *RankedFRuleStorage
+	GetNotificationChannel() chan error
 }
 
 type FRule struct {
@@ -46,7 +44,7 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 	}
 
 	var indexedKeys []string
-	for _, field := range definition.ruleSpecificData.getStrategyKeys() {
+	for _, field := range definition.ruleSpecificData.GetStrategyKeys() {
 		if _, ok := definition.ruleSpecificData.GetComparisonOperators()[field]; !ok {
 			indexedKeys = append(indexedKeys, field)
 		}
@@ -68,9 +66,17 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 	go func(ctx context.Context, definition *FRule) {
 		for {
 			select {
-			case <-time.After(1 * time.Minute):
-				if err := definition.buildIndexIfNeed(); err != nil {
-					log.Logger.Error().Err(err).Msg("Updating index")
+			case err := <- definition.ruleSpecificData.GetNotificationChannel():
+				log.Logger.Info().Msgf("repository update message received: %v", err)
+				if err != nil {
+					log.Logger.Error().Err(err).Msgf("repository update error: %v", err)
+				} else {
+					log.Logger.Info().Msg("start index update")
+					if indexUpdateErr := definition.buildIndex(); indexUpdateErr != nil {
+						log.Logger.Error().Err(err).Msgf("index update err: %v", err)
+					} else {
+						log.Logger.Info().Msg("index updated")
+					}
 				}
 			case <-ctx.Done():
 				return
@@ -79,15 +85,6 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 	}(ctx, &definition)
 
 	return &definition
-}
-
-func (f *FRule) buildIndexIfNeed() error {
-	if f.ruleSpecificData.GetLastUpdateTime().After(f.lastUpdateTime) {
-		log.Logger.Info().Msg("Updating index")
-		f.lastUpdateTime = time.Now()
-		return f.buildIndex()
-	}
-	return nil
 }
 
 func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
@@ -111,14 +108,11 @@ func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 }
 
 func (f *FRule) buildIndex() error {
-	rulesSets, err := f.ruleSpecificData.GetDataStorage()
-	if err != nil {
-		return err
-	}
+	rulesSets := f.ruleSpecificData.GetDataStorage()
 	index := make(map[int]map[string][]FRuler)
 	registry := make(map[string]map[int]int)
 
-	for rank, rulesData := range rulesSets {
+	for rank, rulesData := range *rulesSets {
 		for _, rowData := range rulesData {
 			hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 			hash := f.createRuleHash(hashFields, rowData)

@@ -1,0 +1,45 @@
+[
+  [
+    {
+      "id": 58,
+      "partner": "tt",
+      "connection_group": "galileo",
+      "carrier_id": 1106,
+      "departure_country_id": 7,
+      "departure_city_id": 491,
+      "arrival_country_id": 7,
+      "arrival_city_id": 10105,
+      "result": false
+    },
+    {
+      "id": 74,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "carrier_id": 1106,
+      "departure_country_id": 7,
+      "departure_city_id": 491,
+      "arrival_country_id": 7,
+      "arrival_city_id": 10105,
+      "result": true
+    }
+  ],
+  [
+    {
+      "id": 124,
+      "partner": "new_tt",
+      "connection_group": "sirena",
+      "carrier_id": null,
+      "departure_country_id": 7,
+      "departure_city_id": 411,
+      "arrival_country_id": 7,
+      "arrival_city_id": 82822,
+      "result": false
+    }
+  ],
+  [],
+  [],
+  [],
+  [],
+  [],
+  []
+]

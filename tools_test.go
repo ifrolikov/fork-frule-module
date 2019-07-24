@@ -55,7 +55,7 @@ func TestPriceRange(t *testing.T) {
 		{Range: "500-", BaseAmount: base.Money{Amount: 50000}, Result: true},
 	}
 	for _, testCase := range testCases {
-		if res := priceRange(&testCase.Range, testCase.BaseAmount); res != testCase.Result {
+		if res := PriceRange(&testCase.Range, testCase.BaseAmount); res != testCase.Result {
 			t.Errorf("Failed check price range %s on amount %d, want %t, got %t", testCase.Range, testCase.BaseAmount.Amount, testCase.Result, res)
 		}
 	}
