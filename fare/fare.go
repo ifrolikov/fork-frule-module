@@ -67,7 +67,8 @@ func (rule *FareRule) GetComparisonOperators() frule_module.ComparisonOperators 
 				return true
 			}
 			fareTest := regexp.MustCompile(a.Elem().Interface().(string))
-			return fareTest.Match(b.Elem().Interface().([]byte))
+			bValue := b.Elem().Interface().(string)
+			return fareTest.Match([]byte(bValue))
 		},
 	}
 }
