@@ -41,5 +41,17 @@
   [],
   [],
   [],
-  []
+  [
+    {
+      "id": 100,
+      "partner": "new_tt",
+      "connection_group": null,
+      "carrier_id": null,
+      "departure_country_id": null,
+      "departure_city_id": null,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "result": true
+    }
+  ]
 ]
