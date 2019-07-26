@@ -116,8 +116,8 @@ func CronSpec(cronSpec *string, testTime time.Time) bool {
 }
 
 type CronStructString struct {
-	Spec  string
-	Value string
+	Spec  string `json:"key"`
+	Value string `json:"value"`
 }
 
 type CronStructBool struct {

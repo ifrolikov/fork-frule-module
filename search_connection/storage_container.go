@@ -2,6 +2,7 @@ package search_connection
 
 import (
 	"stash.tutu.ru/avia-search-common/frule-module"
+	"stash.tutu.ru/golang/log"
 )
 
 type fruleStorageContainer struct {
@@ -13,6 +14,16 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 	for rank, ruleSet := range data.(searchConnectionRuleRankedList) {
 		frulerList := make([]frule_module.FRuler, 0, len(ruleSet))
 		for _, frule := range ruleSet {
+			var err error
+			frule.MinDepartureDateParsed, err = frule.parseCronSpecField(*frule.MinDepartureDate)
+			if err != nil {
+				log.For("search_connection").Error().Err(err).Msg("parsing minDepartureDate")
+			}
+			frule.MaxDepartureDateParsed, err = frule.parseCronSpecField(*frule.MaxDepartureDate)
+			if err != nil {
+				log.For("search_connection").Error().Err(err).Msg("parsing maxDepartureDate")
+			}
+
 			frulerList = append(frulerList, frule)
 		}
 		rankedFRuleStorage.Set(rank, frulerList)

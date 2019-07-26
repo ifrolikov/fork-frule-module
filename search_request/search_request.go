@@ -2,8 +2,11 @@ package search_request
 
 import (
 	"context"
+	"encoding/json"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/golang/log"
+	"strconv"
 	"time"
 )
 
@@ -85,6 +88,7 @@ func (rule *SearchRequestRule) GetDefaultValue() interface{} {
 func (rule *SearchRequestRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
+
 /*
 func (rule SearchRequestRule) GetDataStorage() (map[int][]frule_module.FRuler, error) {
 	result := make(map[int][]frule_module.FRuler)
@@ -125,6 +129,23 @@ func (rule SearchRequestRule) GetDataStorage() (map[int][]frule_module.FRuler, e
 	}
 	return result, nil
 }*/
+
+func (rule *SearchRequestRule) parseCronSpecField(value string) []frule_module.CronStructBool {
+	var resultParsed []frule_module.CronStructString
+
+	err := json.Unmarshal([]byte(value), &resultParsed)
+
+	if err != nil {
+		log.Logger.Error().Err(err).Msg("Unmarshal")
+	}
+
+	result := make([]frule_module.CronStructBool, 0, len(resultParsed))
+	for _, item := range resultParsed {
+		val, _ := strconv.ParseBool(item.Value)
+		result = append(result, frule_module.CronStructBool{Spec: item.Spec, Value: val})
+	}
+	return result
+}
 
 func (rule *SearchRequestRule) GetNotificationChannel() chan error {
 	return rule.repo.NotificationChannel

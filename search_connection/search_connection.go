@@ -2,10 +2,11 @@ package search_connection
 
 import (
 	"context"
-	"github.com/elliotchance/phpserialize"
+	"encoding/json"
 	"regexp"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/golang/log"
 	"strconv"
 	"time"
 )
@@ -107,28 +108,11 @@ func (rule *SearchConnectionRule) GetNotificationChannel() chan error {
 }
 
 func (rule *SearchConnectionRule) parseCronSpecField(value string) ([]frule_module.CronStructString, error) {
-	var unserialized map[interface{}]interface{}
-
-	err := phpserialize.Unmarshal([]byte(value), &unserialized)
-	if err != nil {
-		return nil, err
-	}
-
 	var resultParsed []frule_module.CronStructString
+	err := json.Unmarshal([]byte(value), &resultParsed)
 
-	for key, value := range unserialized {
-		var val string
-		switch value.(type) {
-		case string:
-			val = value.(string)
-			if val == "0" {
-				val = ""
-			}
-		case int64:
-			val = ""
-		}
-
-		resultParsed = append(resultParsed, frule_module.CronStructString{key.(string), val})
+	if err != nil {
+		log.Logger.Error().Err(err).Msg("Unmarshal")
 	}
 
 	return resultParsed, nil

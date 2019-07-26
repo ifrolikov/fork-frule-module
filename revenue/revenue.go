@@ -27,8 +27,8 @@ type RevenueRule struct {
 	ArrivalCountryId       *int64  `json:"arrival_country_id"`
 	DepartureCityId        *int64  `json:"departure_city_id"`
 	ArrivalCityId          *int64  `json:"arrival_city_id"`
-	Revenue                *string `json:"revenue"`
-	Margin                 *string `json:"margin"`
+	Revenue                *string `json:"result_revenue"`
+	Margin                 *string `json:"result_margin"`
 	TestOfferPrice         base.Money
 	TestOfferPurchaseDate  time.Time
 	TestOfferDepartureDate time.Time

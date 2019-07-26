@@ -13,6 +13,7 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 	for rank, ruleSet := range data.(searchRequestRuleRankedList) {
 		frulerList := make([]frule_module.FRuler, 0, len(ruleSet))
 		for _, frule := range ruleSet {
+			frule.ResultParsed = frule.parseCronSpecField(frule.Result)
 			frulerList = append(frulerList, frule)
 		}
 		rankedFRuleStorage.Set(rank, frulerList)
