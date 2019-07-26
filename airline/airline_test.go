@@ -31,7 +31,7 @@ func TestAirlineStorage(t *testing.T) {
 			maxKey = key
 		}
 	}
-	assert.Equal(t, maxKey, 3)
+	assert.Equal(t, 3, maxKey)
 }
 
 func TestAirlineResult(t *testing.T) {
@@ -40,10 +40,10 @@ func TestAirlineResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	interlineFRule, err := NewAirlineFRule(ctx, testConfig)
+	airlineFRule, err := NewAirlineFRule(ctx, testConfig)
 	assert.Nil(t, err)
 
-	frule := frule_module.NewFRule(ctx, interlineFRule)
+	frule := frule_module.NewFRule(ctx, airlineFRule)
 	assert.NotNil(t, frule)
 
 	partner := "new_tt"
@@ -64,5 +64,5 @@ func TestAirlineResult(t *testing.T) {
 	assert.True(t, frule.GetResult(AirlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
 
 	partner = "unknown"
-	assert.Equal(t, interlineFRule.GetDefaultValue(), frule.GetResult(AirlineRule{Partner: &partner}).(bool))
+	assert.Equal(t, airlineFRule.GetDefaultValue(), frule.GetResult(AirlineRule{Partner: &partner}).(bool))
 }

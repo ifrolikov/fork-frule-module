@@ -138,9 +138,9 @@
       "connection_group": "galileo",
       "carrier_plating": 1347,
       "pure_interline": null,
-      "carriers_forbid": "",
-      "carrier_need": "",
-      "result": false
+      "carriers_forbid": "1212",
+      "carrier_need": "1062",
+      "result": true
     },
     {
       "id": 507,

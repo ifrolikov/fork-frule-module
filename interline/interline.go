@@ -4,8 +4,6 @@ import (
 	"context"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
-	"strconv"
-	"strings"
 )
 
 type InterlineRule struct {
@@ -87,28 +85,6 @@ func (rule *InterlineRule) GetDefaultValue() interface{} {
 	return false
 }
 
-/*
-func (rule *InterlineRule) GetDataStorage() (map[int][]frule_module.FRuler, error) {
-	result := make(map[int][]frule_module.FRuler)
-	repo := createRepository(rule.config)
-	for rank, ruleList := range repo.GetStorage() {
-		for _, ruleItem := range ruleList {
-			var err error
-			ruleItem.CarriersForbidParsed, err = rule.splitCarriersString(ruleItem.CarriersForbid)
-			if err != nil {
-				return result, err
-			}
-
-			ruleItem.CarriersNeedParsed, err = rule.splitCarriersString(ruleItem.CarriersNeed)
-			if err != nil {
-				return result, err
-			}
-			result[rank] = append(result[rank], ruleItem)
-		}
-	}
-	return result, nil
-}*/
-
 func (rule *InterlineRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
@@ -117,18 +93,3 @@ func (rule *InterlineRule) GetNotificationChannel() chan error {
 	return rule.repo.NotificationChannel
 }
 
-func (rule *InterlineRule) splitCarriersString(carriersString string) ([]int64, error) {
-	var carriersStringParsed []int64
-
-	if carriersString != "" {
-		for _, s := range strings.Split(carriersString, "|") {
-			d, err := strconv.ParseInt(s, 10, 64)
-			if err != nil {
-				return nil, err
-			}
-			carriersStringParsed = append(carriersStringParsed, d)
-		}
-	}
-
-	return carriersStringParsed, nil
-}
