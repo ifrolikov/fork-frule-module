@@ -35,5 +35,15 @@
   [],
   [],
   [],
-  []
+  [
+    {
+      "id": 100,
+      "partner": "tt",
+      "connection_group": null,
+      "carrier_operating": null,
+      "carrier_marketing": null,
+      "service_class": null,
+      "result": true
+    }
+  ]
 ]
