@@ -99,6 +99,10 @@ func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 		switch fieldValue.Interface().(type) {
 		case *int:
 			hashPart = strconv.Itoa(int(fieldValue.Elem().Int()))
+		case *int64, *int32:
+			hashPart = strconv.FormatInt(fieldValue.Elem().Int(), 10)
+		case *uint64, *uint32:
+			hashPart = strconv.FormatUint(fieldValue.Elem().Uint(), 10)
 		case *string:
 			hashPart = fieldValue.Elem().String()
 		}

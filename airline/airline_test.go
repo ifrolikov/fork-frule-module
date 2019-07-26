@@ -9,11 +9,9 @@ import (
 	"testing"
 )
 
-func TestNewAirlineFRule(t *testing.T) {
-	pwd, _ := filepath.Abs("./")
-	testConfig := &repository.Config{
-		DataURI: "file://" + pwd + "/../testdata/airline.json",
-	}
+func TestAirlineStorage(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/airline.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
@@ -34,4 +32,37 @@ func TestNewAirlineFRule(t *testing.T) {
 		}
 	}
 	assert.Equal(t, maxKey, 3)
+}
+
+func TestAirlineResult(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/airline.json")}
+	ctx := context.Background()
+	defer ctx.Done()
+
+	interlineFRule, err := NewAirlineFRule(ctx, testConfig)
+	assert.Nil(t, err)
+
+	frule := frule_module.NewFRule(ctx, interlineFRule)
+	assert.NotNil(t, frule)
+
+	partner := "new_tt"
+	assert.False(t, frule.GetResult(AirlineRule{Partner: &partner}).(bool))
+
+	connectionGroup := "galileo"
+	carrierId := int64(8)
+	assert.True(t, frule.GetResult(AirlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+
+	partner = "new_tt"
+	connectionGroup = "galileo"
+	carrierId = int64(7)
+	assert.False(t, frule.GetResult(AirlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+
+	partner = "new_tt"
+	connectionGroup = "sabre"
+	carrierId = int64(1111)
+	assert.True(t, frule.GetResult(AirlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+
+	partner = "unknown"
+	assert.Equal(t, interlineFRule.GetDefaultValue(), frule.GetResult(AirlineRule{Partner: &partner}).(bool))
 }

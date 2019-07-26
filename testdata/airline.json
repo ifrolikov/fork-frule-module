@@ -12,7 +12,7 @@
       "carrier_id": 7,
       "partner": "new_tt",
       "connection_group": "galileo",
-      "result": true
+      "result": false
     },
     {
       "id": 816,
@@ -22,11 +22,19 @@
       "result": true
     }
   ],
-  [],
-  [],
   [
     {
       "id": 817,
+      "carrier_id": null,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "result": true
+    }
+  ],
+  [],
+  [
+    {
+      "id": 818,
       "carrier_id": null,
       "partner": "new_tt",
       "connection_group": null,
