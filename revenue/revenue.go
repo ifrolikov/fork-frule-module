@@ -21,7 +21,7 @@ type RevenueRule struct {
 	TicketingConnection    *string `json:"ticketing_connection"`
 	DaysToDepartureMin     *int64  `json:"days_to_departure_min"`
 	DaysToDepartureMax     *int64  `json:"days_to_departure_max"`
-	FareType               *string `json:"fare_type"`
+	FareType               *string `json:"tariff"`
 	ABVariant              *string `json:"ab_variant"`
 	DepartureCountryId     *int64  `json:"departure_country_id"`
 	ArrivalCountryId       *int64  `json:"arrival_country_id"`

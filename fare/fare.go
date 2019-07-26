@@ -9,16 +9,16 @@ import (
 )
 
 type FareRule struct {
-	Id                 int     `json:":id"`
-	Partner            *string `json:":partner"`
-	ConnectionGroup    *string `json:":connection_group"`
-	CarrierId          *int64  `json:":carrier_id"`
-	DepartureCityId    *uint64 `json:":departure_city_id"`
-	ArrivalCityId      *uint64 `json:":arrival_city_id"`
-	DepartureCountryId *uint64 `json:":departure_country_id"`
-	ArrivalCountryId   *uint64 `json:":arrival_country_id"`
-	FareSpec           *string `json:":fare_spec"`
-	Result             string  `json:":result"`
+	Id                 int     `json:"id"`
+	Partner            *string `json:"partner"`
+	ConnectionGroup    *string `json:"connection_group"`
+	CarrierId          *int64  `json:"carrier_id"`
+	DepartureCityId    *uint64 `json:"departure_city_id"`
+	ArrivalCityId      *uint64 `json:"arrival_city_id"`
+	DepartureCountryId *uint64 `json:"departure_country_id"`
+	ArrivalCountryId   *uint64 `json:"arrival_country_id"`
+	FareSpec           *string `json:"fare_spec"`
+	Result             string  `json:"result"`
 	repo               *frule_module.Repository
 }
 
@@ -96,4 +96,3 @@ func (rule *FareRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 func (rule *FareRule) GetNotificationChannel() chan error {
 	return rule.repo.NotificationChannel
 }
-
