@@ -1,0 +1,61 @@
+package search_scheme
+
+import (
+	"context"
+	"github.com/stretchr/testify/assert"
+	"path/filepath"
+	frule_module "stash.tutu.ru/avia-search-common/frule-module"
+	"stash.tutu.ru/avia-search-common/repository"
+	"testing"
+)
+
+func TestSearchScheme(t *testing.T) {
+	pwd, _ := filepath.Abs("./")
+	testConfig := &repository.Config{
+		DataURI: "file://" + pwd + "/../testdata/search_scheme.json",
+	}
+	ctx := context.Background()
+	defer ctx.Done()
+
+	searchRequestFRule, err := NewSearchSchemeFRule(ctx, testConfig)
+	assert.Nil(t, err)
+
+	assert.Implements(t, (*frule_module.FRuler)(nil), searchRequestFRule)
+
+	dataStorage := searchRequestFRule.GetDataStorage()
+	assert.NotNil(t, dataStorage)
+
+	frule := frule_module.NewFRule(ctx, searchRequestFRule)
+	assert.NotNil(t, frule)
+
+	connectionGroup := "fake"
+	departureCityId := uint64(495)
+	arrivalCityId := uint64(75)
+	countryId := uint64(7)
+	testRule := SearchSchemeRule{
+		ConnectionGroup:    &connectionGroup,
+		DepartureCityId:    &departureCityId,
+		ArrivalCityId:      &arrivalCityId,
+		DepartureCountryId: &countryId,
+		ArrivalCountryId:   &countryId,
+	}
+
+	result := frule.GetResult(testRule).([]string)
+	assert.Equal(t, []string{"default"}, result)
+
+	connectionGroup = "galileo"
+	departureCityId = uint64(491)
+	arrivalCityId = uint64(34)
+	countryId = uint64(7)
+	testRule = SearchSchemeRule{
+		ConnectionGroup:    &connectionGroup,
+		DepartureCityId:    &departureCityId,
+		ArrivalCityId:      &arrivalCityId,
+		DepartureCountryId: &countryId,
+		ArrivalCountryId:   &countryId,
+	}
+
+	result = frule.GetResult(testRule).([]string)
+	assert.Contains(t, result, "onlySU")
+	assert.Contains(t, result, "notSU")
+}
