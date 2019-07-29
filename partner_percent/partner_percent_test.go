@@ -2,7 +2,6 @@ package partner_percent
 
 import (
 	"context"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
@@ -11,11 +10,9 @@ import (
 	"time"
 )
 
-func TestPartnerPercent(t *testing.T) {
-	pwd, _ := filepath.Abs("./")
-	testConfig := &repository.Config{
-		DataURI: "file://" + pwd + "/../testdata/partner_percent.json",
-	}
+func TestPartnerPercentStorage(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/partner_percent.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
@@ -27,24 +24,71 @@ func TestPartnerPercent(t *testing.T) {
 	dataStorage := partnerPercentFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
+	assert.Len(t, (*dataStorage)[0], 1)
+	assert.Len(t, (*dataStorage)[2], 2)
+
+	maxKey := 0
+	for key := range *dataStorage {
+		if key > maxKey {
+			maxKey = key
+		}
+	}
+	assert.Equal(t, 7, maxKey)
+}
+
+func TestPartnerPercentResult(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/partner_percent.json")}
+	ctx := context.Background()
+	defer ctx.Done()
+
+	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, testConfig)
+	assert.Nil(t, err)
+
 	frule := frule_module.NewFRule(ctx, partnerPercentFRule)
 	assert.NotNil(t, frule)
 
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	partner := "new_tt"
-	connectionGroup := "galileo"
-	carrierId := int64(1347)
-	dateOfPurchaseFrom := "2019-01-01"
-	dateOfPurchaseTo := time.Now().Format("2006-01-02 15:04:05")
-
-	testRule := PartnerPercentRule{
+	dateOfPurchaseFrom := currentTime
+	dateOfPurchaseTo := currentTime
+	connectionGroup := "sabre"
+	carrierId := int64(1062)
+	fareType := "subsidy"
+	assert.Equal(t, 0.1, frule.GetResult(PartnerPercentRule{
 		Partner:            &partner,
 		ConnectionGroup:    &connectionGroup,
 		CarrierId:          &carrierId,
 		DateOfPurchaseFrom: &dateOfPurchaseFrom,
 		DateOfPurchaseTo:   &dateOfPurchaseTo,
-	}
+		FareType:           &fareType,
+	}))
 
-	result := frule.GetResult(testRule)
-	fmt.Printf("%+v", result)
-	assert.Equal(t, 0.4, result)
+	fareType = "test"
+	assert.NotEqual(t, 0.1, frule.GetResult(PartnerPercentRule{
+		Partner:            &partner,
+		ConnectionGroup:    &connectionGroup,
+		CarrierId:          &carrierId,
+		DateOfPurchaseFrom: &dateOfPurchaseFrom,
+		DateOfPurchaseTo:   &dateOfPurchaseTo,
+		FareType:           &fareType,
+	}))
+
+	assert.Equal(t, partnerPercentFRule.GetDefaultValue(), frule.GetResult(PartnerPercentRule{
+		Partner:            &partner,
+		DateOfPurchaseFrom: &dateOfPurchaseFrom,
+		DateOfPurchaseTo:   &dateOfPurchaseTo,
+	}))
+
+	assert.Equal(t, partnerPercentFRule.GetDefaultValue(), frule.GetResult(PartnerPercentRule{Partner: &partner}))
+
+	connectionGroup = "galileo"
+	carrierId = int64(1111)
+	assert.Equal(t, 0.4, frule.GetResult(PartnerPercentRule{
+		Partner:            &partner,
+		ConnectionGroup:    &connectionGroup,
+		CarrierId:          &carrierId,
+		DateOfPurchaseFrom: &dateOfPurchaseFrom,
+		DateOfPurchaseTo:   &dateOfPurchaseTo,
+	}))
 }
