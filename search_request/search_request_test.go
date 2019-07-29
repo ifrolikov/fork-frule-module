@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestSearchRequest(t *testing.T) {
+func TestSearchConnectionStorage(t *testing.T) {
 	pwd, _ := filepath.Abs("../")
 	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_request.json")}
 	ctx := context.Background()
@@ -23,6 +23,26 @@ func TestSearchRequest(t *testing.T) {
 	dataStorage := searchRequestFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
+	assert.Len(t, (*dataStorage)[0], 4)
+
+	maxKey := 0
+	for key := range *dataStorage {
+		if key > maxKey {
+			maxKey = key
+		}
+	}
+	assert.Equal(t, 17, maxKey)
+}
+
+func TestSearchRequestData(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_request.json")}
+	ctx := context.Background()
+	defer ctx.Done()
+
+	searchRequestFRule, err := NewSearchRequestFRule(ctx, testConfig)
+	assert.Nil(t, err)
+
 	frule := frule_module.NewFRule(ctx, searchRequestFRule)
 	assert.NotNil(t, frule)
 
@@ -31,15 +51,28 @@ func TestSearchRequest(t *testing.T) {
 	departureCityId := uint64(495)
 	arrivalCityId := uint64(75)
 	countryId := uint64(7)
-	testRule := SearchRequestRule{
+	assert.True(t, frule.GetResult(SearchRequestRule{
 		ConnectionGroup:    &connectionGroup,
 		DepartureCityId:    &departureCityId,
 		ArrivalCityId:      &arrivalCityId,
 		DepartureCountryId: &countryId,
 		ArrivalCountryId:   &countryId,
 		ServiceClass:       &serviceClass,
-	}
+	}).(bool))
 
-	result := frule.GetResult(testRule).(bool)
-	assert.False(t, result)
+	countryId = uint64(1)
+	assert.False(t, frule.GetResult(SearchRequestRule{
+		ConnectionGroup:    &connectionGroup,
+		DepartureCityId:    &departureCityId,
+		ArrivalCityId:      &arrivalCityId,
+		DepartureCountryId: &countryId,
+		ArrivalCountryId:   &countryId,
+		ServiceClass:       &serviceClass,
+	}).(bool))
+
+	connectionGroup = "galileo"
+	assert.True(t, frule.GetResult(SearchRequestRule{ConnectionGroup:    &connectionGroup}).(bool))
+
+	connectionGroup = "unknown"
+	assert.Equal(t, searchRequestFRule.GetDefaultValue(), frule.GetResult(SearchRequestRule{ConnectionGroup:    &connectionGroup}).(bool))
 }
