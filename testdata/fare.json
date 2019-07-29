@@ -1,7 +1,7 @@
 [
   [
     {
-      "id": 52,
+      "id": 1,
       "partner": "new_tt",
       "connection_group": "galileo",
       "carrier_id": 73,
@@ -10,7 +10,7 @@
       "departute_country_id": null,
       "arrival_country_id": null,
       "fare_spec": "%BTPACRA%",
-      "result": "closed"
+      "result": "subsidy"
     }
   ],
   [],
@@ -30,8 +30,8 @@
   [],
   [
     {
-      "id": 1,
-      "partner": "tt",
+      "id": 2,
+      "partner": "new_tt",
       "connection_group": "galileo",
       "carrier_id": 19,
       "departure_city_id": null,
@@ -42,7 +42,7 @@
       "result": "closed"
     },
     {
-      "id": 2,
+      "id": 3,
       "partner": "tt",
       "connection_group": "galileo",
       "carrier_id": 12,
@@ -54,7 +54,7 @@
       "result": "confined"
     },
     {
-      "id": 3,
+      "id": 4,
       "partner": "tt",
       "connection_group": "galileo",
       "carrier_id": 73,
@@ -66,5 +66,18 @@
       "result": "closed"
     }
   ],
-  []
+  [
+    {
+      "id": 5,
+      "partner": "new_tt",
+      "connection_group": null,
+      "carrier_id": 73,
+      "departure_city_id": null,
+      "arrival_city_id": null,
+      "departute_country_id": null,
+      "arrival_country_id": null,
+      "fare_spec": "%ST%",
+      "result": "closed"
+    }
+  ]
 ]

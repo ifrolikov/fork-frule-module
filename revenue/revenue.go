@@ -1227,9 +1227,6 @@ func (rule *RevenueRule) GetComparisonOrder() frule_module.ComparisonOrder {
 func (rule *RevenueRule) GetComparisonOperators() frule_module.ComparisonOperators {
 	return frule_module.ComparisonOperators{
 		"ab_variant": func(a, b reflect.Value) bool {
-			if a.IsNil() {
-				return true
-			}
 			offerABCampaigns, ok := b.Elem().Interface().([]string)
 			if !ok {
 				return false
@@ -1237,15 +1234,9 @@ func (rule *RevenueRule) GetComparisonOperators() frule_module.ComparisonOperato
 			return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
 		},
 		"days_to_departure_min": func(a, b reflect.Value) bool {
-			if a.IsNil() {
-				return true
-			}
 			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
 		},
 		"days_to_departure_max": func(a, b reflect.Value) bool {
-			if a.IsNil() {
-				return true
-			}
 			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
 		},
 	}

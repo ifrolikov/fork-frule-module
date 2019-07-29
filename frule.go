@@ -155,21 +155,22 @@ func (f *FRule) findRanks(testRule interface{}) []int {
 }
 
 func (f *FRule) GetResult(testRule interface{}) interface{} {
+	comparisonOperators := f.ruleSpecificData.GetComparisonOperators()
 	for _, rank := range f.findRanks(testRule) {
 		hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
-			if len(foundRuleSet) == 1 {
-				return foundRuleSet[0].GetResultValue(testRule)
-			} else {
-			RULESET:
-				for _, foundRule := range foundRuleSet {
-					for fieldName, comparisonFunc := range f.ruleSpecificData.GetComparisonOperators() {
-						if !comparisonFunc(getFieldValueByTag(foundRule, fieldName), getFieldValueByTag(testRule, fieldName)) {
+		RULESET:
+			for _, foundRule := range foundRuleSet {
+				for fieldName, comparisonFunc := range comparisonOperators {
+					a := getFieldValueByTag(foundRule, fieldName)
+					if !a.IsNil() {
+						b := getFieldValueByTag(testRule, fieldName)
+						if b.IsNil() || !comparisonFunc(a, b) {
 							continue RULESET
 						}
 					}
-					return foundRule.GetResultValue(testRule)
 				}
+				return foundRule.GetResultValue(testRule)
 			}
 		}
 	}

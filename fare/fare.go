@@ -3,9 +3,9 @@ package fare
 import (
 	"context"
 	"reflect"
-	"regexp"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"strings"
 )
 
 type FareRule struct {
@@ -63,12 +63,9 @@ func (rule *FareRule) GetComparisonOrder() frule_module.ComparisonOrder {
 func (rule *FareRule) GetComparisonOperators() frule_module.ComparisonOperators {
 	return frule_module.ComparisonOperators{
 		"fare_spec": func(a, b reflect.Value) bool {
-			if a.IsNil() {
-				return true
-			}
-			fareTest := regexp.MustCompile(a.Elem().Interface().(string))
-			bValue := b.Elem().Interface().(string)
-			return fareTest.Match([]byte(bValue))
+			return strings.Contains(
+				b.Elem().Interface().(string),
+				strings.Trim(a.Elem().Interface().(string), "%"))
 		},
 	}
 }
