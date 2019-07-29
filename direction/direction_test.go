@@ -22,6 +22,7 @@ func TestDirectionStorage(t *testing.T) {
 
 	dataStorage := frule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
+
 	assert.Len(t, (*dataStorage)[0], 2)
 	assert.Len(t, (*dataStorage)[1], 1)
 
@@ -31,7 +32,7 @@ func TestDirectionStorage(t *testing.T) {
 			maxKey = key
 		}
 	}
-	assert.Equal(t, maxKey, 7)
+	assert.Equal(t, 7, maxKey)
 }
 
 func TestDirectionData(t *testing.T) {

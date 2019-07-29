@@ -31,7 +31,7 @@ func TestFareStorage(t *testing.T) {
 			maxKey = key
 		}
 	}
-	assert.Equal(t, maxKey, 17)
+	assert.Equal(t, 17, maxKey)
 }
 
 func TestFareResult(t *testing.T) {

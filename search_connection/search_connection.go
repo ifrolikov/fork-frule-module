@@ -46,7 +46,6 @@ func (rule *SearchConnectionRule) GetResultValue(testRule interface{}) interface
 				return false
 			}
 		}
-
 	}
 
 	if maxDepartureDateBorder := rule.getSpecInterval(rule.MaxDepartureDateParsed, nowLocal); maxDepartureDateBorder != "" {

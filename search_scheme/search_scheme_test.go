@@ -4,16 +4,14 @@ import (
 	"context"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
-	frule_module "stash.tutu.ru/avia-search-common/frule-module"
+	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
 
-func TestSearchScheme(t *testing.T) {
-	pwd, _ := filepath.Abs("./")
-	testConfig := &repository.Config{
-		DataURI: "file://" + pwd + "/../testdata/search_scheme.json",
-	}
+func TestSearchSchemeStorage(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_scheme.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
@@ -24,6 +22,27 @@ func TestSearchScheme(t *testing.T) {
 
 	dataStorage := searchRequestFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
+
+	assert.Len(t, (*dataStorage)[0], 21)
+	assert.Len(t, (*dataStorage)[2], 0)
+
+	maxKey := 0
+	for key := range *dataStorage {
+		if key > maxKey {
+			maxKey = key
+		}
+	}
+	assert.Equal(t, 13, maxKey)
+}
+
+func TestSearchSchemeData(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_scheme.json")}
+	ctx := context.Background()
+	defer ctx.Done()
+
+	searchRequestFRule, err := NewSearchSchemeFRule(ctx, testConfig)
+	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, searchRequestFRule)
 	assert.NotNil(t, frule)

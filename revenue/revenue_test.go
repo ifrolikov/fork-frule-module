@@ -13,10 +13,8 @@ import (
 )
 
 func TestRevenue(t *testing.T) {
-	pwd, _ := filepath.Abs("./")
-	testConfig := &repository.Config{
-		DataURI: "file://" + pwd + "/../testdata/revenue.json",
-	}
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/revenue.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 

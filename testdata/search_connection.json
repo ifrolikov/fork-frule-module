@@ -1,1 +1,74 @@
-[[{"id":2,"partner":"europe","connection_group":"europe","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":5,"partner":"tt","connection_group":"sig23","min_departure_date":"a:2:{s:12:\"* 0-19 * * *\";s:1:\"0\";s:9:\"* * * * *\";s:3:\"+2d\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":6,"partner":"tt","connection_group":"galileo","min_departure_date":"a:2:{s:12:\"* 0-17 * * *\";s:1:\"0\";s:9:\"* * * * *\";s:3:\"+2d\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":7,"partner":"fake","connection_group":"fake","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":10,"partner":"tt","connection_group":"galileo_tkp","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":12,"partner":"berlogic","connection_group":"berlogic","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:10:\"01.06.2017\";}"},{"id":13,"partner":"berlogic","connection_group":"berlogic_demo","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":14,"partner":"tt","connection_group":"sig23_devel","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":15,"partner":"tt","connection_group":"galileo_de","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":16,"partner":"tt","connection_group":"sirena","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":47,"partner":"new_tt","connection_group":"galileo","min_departure_date":"a:2:{s:12:\"* 0-17 * * *\";s:1:\"0\";s:9:\"* * * * *\";s:3:\"+2d\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":48,"partner":"new_tt","connection_group":"galileo_de","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":49,"partner":"new_tt","connection_group":"galileo_tkp","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":50,"partner":"new_tt","connection_group":"sig23","min_departure_date":"a:2:{s:12:\"* 0-19 * * *\";s:1:\"0\";s:9:\"* * * * *\";s:3:\"+2d\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":51,"partner":"new_tt","connection_group":"sig23_devel","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":52,"partner":"new_tt","connection_group":"sirena","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":53,"partner":"new_tt","connection_group":"galileo_lv","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":63,"partner":"s7","connection_group":"sig23_s7","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":65,"partner":"new_tt","connection_group":"sig23_direct","min_departure_date":"a:2:{s:12:\"* 0-19 * * *\";s:1:\"0\";s:9:\"* * * * *\";s:3:\"+2d\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":66,"partner":"new_tt","connection_group":"galileo_subclass","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":67,"partner":"nba","connection_group":"nba","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:5:\"+365d\";}"},{"id":68,"partner":"nba","connection_group":"nba_demo","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:5:\"+365d\";}"},{"id":72,"partner":"new_tt","connection_group":"tkp_sig23","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":79,"partner":"new_tt","connection_group":"sabre","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:5:\"+365d\";}"},{"id":83,"partner":"iata","connection_group":"galileo","min_departure_date":"a:2:{s:14:\"40-59 23 * * *\";s:3:\"+3d\";s:9:\"* * * * *\";i:0;}","max_departure_date":"a:1:{s:9:\"* * * * *\";i:0;}"},{"id":89,"partner":"new_tt","connection_group":"sirena_direct_yc","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"},{"id":94,"partner":"new_tt","connection_group":"sirena_direct_u6","min_departure_date":"a:2:{s:14:\"40-59 23 * * *\";s:3:\"+3d\";s:9:\"* * * * *\";i:0;}","max_departure_date":"a:1:{s:9:\"* * * * *\";i:0;}"},{"id":95,"partner":"biletix","connection_group":"biletix","min_departure_date":"a:2:{s:14:\"40-59 23 * * *\";s:3:\"+3d\";s:9:\"* * * * *\";i:0;}","max_departure_date":"a:1:{s:9:\"* * * * *\";i:0;}"},{"id":97,"partner":"new_tt","connection_group":"sirena_direct_ut","min_departure_date":"a:2:{s:14:\"40-59 23 * * *\";s:3:\"+3d\";s:9:\"* * * * *\";i:0;}","max_departure_date":"a:1:{s:9:\"* * * * *\";i:0;}"},{"id":98,"partner":"s7","connection_group":"ndc","min_departure_date":"a:2:{s:14:\"40-59 23 * * *\";s:3:\"+3d\";s:9:\"* * * * *\";i:0;}","max_departure_date":"a:1:{s:9:\"* * * * *\";i:0;}"},{"id":99,"partner":"s7","connection_group":"s7_ndc","min_departure_date":"a:2:{s:14:\"40-59 23 * * *\";s:3:\"+3d\";s:9:\"* * * * *\";i:0;}","max_departure_date":"a:1:{s:9:\"* * * * *\";i:0;}"},{"id":100,"partner":"nba","connection_group":"nba_lowcost_demo","min_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}","max_departure_date":"a:1:{s:9:\"* * * * *\";s:1:\"0\";}"}]]
+[
+  [
+    {
+      "id": 7,
+      "partner": "fake",
+      "connection_group": "fake",
+      "min_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 47,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "min_departure_date": "[{\"key\":\"* 0-17 * * *\",\"value\":\"0\"},{\"key\":\"* * * * *\",\"value\":\"+2d\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 50,
+      "partner": "new_tt",
+      "connection_group": "sig23",
+      "min_departure_date": "[{\"key\":\"* 0-19 * * *\",\"value\":\"0\"},{\"key\":\"* * * * *\",\"value\":\"+2d\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 52,
+      "partner": "new_tt",
+      "connection_group": "sirena",
+      "min_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 79,
+      "partner": "new_tt",
+      "connection_group": "sabre",
+      "min_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"+365d\"}]"
+    },
+    {
+      "id": 83,
+      "partner": "iata",
+      "connection_group": "galileo",
+      "min_departure_date": "[{\"key\":\"40-59 23 * * *\",\"value\":\"+3d\"},{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 94,
+      "partner": "new_tt",
+      "connection_group": "sirena_direct_u6",
+      "min_departure_date": "[{\"key\":\"40-59 23 * * *\",\"value\":\"+3d\"},{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 95,
+      "partner": "biletix",
+      "connection_group": "biletix",
+      "min_departure_date": "[{\"key\":\"40-59 23 * * *\",\"value\":\"+3d\"},{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 97,
+      "partner": "new_tt",
+      "connection_group": "sirena_direct_ut",
+      "min_departure_date": "[{\"key\":\"40-59 23 * * *\",\"value\":\"+3d\"},{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    },
+    {
+      "id": 99,
+      "partner": "s7",
+      "connection_group": "s7_ndc",
+      "min_departure_date": "[{\"key\":\"40-59 23 * * *\",\"value\":\"+3d\"},{\"key\":\"* * * * *\",\"value\":\"0\"}]",
+      "max_departure_date": "[{\"key\":\"* * * * *\",\"value\":\"0\"}]"
+    }
+  ]
+]

@@ -2,7 +2,6 @@ package search_connection
 
 import (
 	"context"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
@@ -11,11 +10,9 @@ import (
 	"time"
 )
 
-func TestSearchConnection(t *testing.T) {
-	pwd, _ := filepath.Abs("./")
-	testConfig := &repository.Config{
-		DataURI: "file://" + pwd + "/../testdata/search_connection.json",
-	}
+func TestSearchConnectionStorage(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_connection.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
@@ -27,30 +24,60 @@ func TestSearchConnection(t *testing.T) {
 	dataStorage := searchConnectionFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
-	frule := frule_module.NewFRule(ctx, searchConnectionFRule)
-	assert.NotNil(t, frule)
+	assert.Len(t, (*dataStorage)[0], 10)
 
-	partner := "new_tt"
-	connectionGroup := "galileo"
-	testRule := SearchConnectionRule{
-		Partner:         &partner,
-		ConnectionGroup: &connectionGroup,
-		DepartureDate:   time.Now(),
+	maxKey := 0
+	for key := range *dataStorage {
+		if key > maxKey {
+			maxKey = key
+		}
 	}
-
-	result := frule.GetResult(testRule)
-	fmt.Println(result)
-	//assert.True(t, result)
+	assert.Equal(t, 0, maxKey)
 }
 
-func TestSearchConnectionSpecs(t *testing.T) {
-	pwd, _ := filepath.Abs("./")
-	testConfig := &repository.Config{
-		DataURI: "file://" + pwd + "/../testdata/search_request.json",
-	}
+func TestSearchConnectionData(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_connection.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
+	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, testConfig)
+	assert.Nil(t, err)
+	frule := frule_module.NewFRule(ctx, searchConnectionFRule)
+	assert.NotNil(t, frule)
+
+	partner := "fake"
+	connectionGroup := "fake"
+	assert.True(t, frule.GetResult(SearchConnectionRule{
+		Partner:         &partner,
+		ConnectionGroup: &connectionGroup,
+		DepartureDate:   time.Now(),
+	}).(bool))
+
+	partner = "new_tt"
+	connectionGroup = "sabre"
+	departureDate := time.Now().Add(time.Hour * 24 * 365)
+	assert.True(t, frule.GetResult(SearchConnectionRule{
+		Partner:         &partner,
+		ConnectionGroup: &connectionGroup,
+		DepartureDate:   departureDate,
+	}).(bool))
+
+	departureDate = time.Now().Add(time.Hour * 24 * 366)
+	assert.False(t, frule.GetResult(SearchConnectionRule{
+		Partner:         &partner,
+		ConnectionGroup: &connectionGroup,
+		DepartureDate:   departureDate,
+	}).(bool))
+}
+
+func TestSearchConnectionSpecs(t *testing.T) {
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_connection.json")}
+	ctx := context.Background()
+	defer ctx.Done()
+
+	// TODO - сделать, чтобы можно было инициализировать пустой frule
 	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, testConfig)
 	assert.Nil(t, err)
 

@@ -79,6 +79,12 @@ func TestPartnerPercentResult(t *testing.T) {
 		DateOfPurchaseFrom: &dateOfPurchaseFrom,
 		DateOfPurchaseTo:   &dateOfPurchaseTo,
 	}))
+	dateOfPurchaseToAlternative := time.Date(2016, 11, 3, 0, 0, 0, 0, time.UTC).Format("2006-01-02 15:04:05")
+	assert.Equal(t, float64(1), frule.GetResult(PartnerPercentRule{
+		Partner:            &partner,
+		DateOfPurchaseFrom: &dateOfPurchaseFrom,
+		DateOfPurchaseTo:   &dateOfPurchaseToAlternative,
+	}))
 
 	assert.Equal(t, partnerPercentFRule.GetDefaultValue(), frule.GetResult(PartnerPercentRule{Partner: &partner}))
 

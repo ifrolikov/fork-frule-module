@@ -22,6 +22,7 @@ func TestAirlineStorage(t *testing.T) {
 
 	dataStorage := frule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
+
 	assert.Len(t, (*dataStorage)[0], 3)
 	assert.Len(t, (*dataStorage)[3], 1)
 

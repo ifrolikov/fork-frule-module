@@ -10,10 +10,8 @@ import (
 )
 
 func TestSearchRequest(t *testing.T) {
-	pwd, _ := filepath.Abs("./")
-	testConfig := &repository.Config{
-		DataURI: "file://" + pwd + "/../testdata/search_request.json",
-	}
+	pwd, _ := filepath.Abs("../")
+	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_request.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
