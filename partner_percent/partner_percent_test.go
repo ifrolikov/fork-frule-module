@@ -3,7 +3,6 @@ package partner_percent
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
@@ -11,12 +10,10 @@ import (
 )
 
 func TestPartnerPercentStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/partner_percent.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, testConfig)
+	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/partner_percent.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), partnerPercentFRule)
@@ -27,22 +24,14 @@ func TestPartnerPercentStorage(t *testing.T) {
 	assert.Len(t, (*dataStorage)[0], 1)
 	assert.Len(t, (*dataStorage)[2], 2)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 7, maxKey)
+	assert.Equal(t, 7, dataStorage.GetMaxRank())
 }
 
 func TestPartnerPercentResult(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/partner_percent.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, testConfig)
+	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/partner_percent.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, partnerPercentFRule)

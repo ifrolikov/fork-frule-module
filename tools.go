@@ -2,6 +2,7 @@ package frule_module
 
 import (
 	"github.com/robfig/cron"
+	"path/filepath"
 	"reflect"
 	"stash.tutu.ru/avia-search-common/contracts/base"
 	"strconv"
@@ -104,6 +105,7 @@ func PriceRange(rangeSpec *string, testPrice base.Money) bool {
 	}
 
 }
+
 func CronSpec(cronSpec *string, testTime time.Time) bool {
 	if cronSpec == nil {
 		return false
@@ -123,4 +125,9 @@ type CronStructString struct {
 type CronStructBool struct {
 	Spec  string
 	Value bool
+}
+
+func GetFilePath(fp string) string {
+	pwd, _ := filepath.Abs("./")
+	return filepath.ToSlash("file://" + pwd + "/" + fp)
 }

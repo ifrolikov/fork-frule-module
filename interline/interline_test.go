@@ -3,19 +3,16 @@ package interline
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
 
 func TestInterlineStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/interline.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	interlineFRule, err := NewInterlineFRule(ctx, testConfig)
+	interlineFRule, err := NewInterlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/interline.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), interlineFRule)
@@ -26,22 +23,14 @@ func TestInterlineStorage(t *testing.T) {
 	assert.Len(t, (*dataStorage)[0], 13)
 	assert.Len(t, (*dataStorage)[1], 147)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 7, maxKey)
+	assert.Equal(t, 7, dataStorage.GetMaxRank())
 }
 
 func TestInterlineResult(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/interline.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	interlineFRule, err := NewInterlineFRule(ctx, testConfig)
+	interlineFRule, err := NewInterlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/interline.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, interlineFRule)

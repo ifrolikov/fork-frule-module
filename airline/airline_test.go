@@ -3,45 +3,34 @@ package airline
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
 
 func TestAirlineStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/airline.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	frule, err := NewAirlineFRule(ctx, testConfig)
+	airlineFRule, err := NewAirlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/airline.json")})
 	assert.Nil(t, err)
 
-	assert.Implements(t, (*frule_module.FRuler)(nil), frule)
+	assert.Implements(t, (*frule_module.FRuler)(nil), airlineFRule)
 
-	dataStorage := frule.GetDataStorage()
+	dataStorage := airlineFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
 	assert.Len(t, (*dataStorage)[0], 3)
 	assert.Len(t, (*dataStorage)[3], 1)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 3, maxKey)
+	assert.Equal(t, 3, dataStorage.GetMaxRank())
 }
 
 func TestAirlineResult(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/airline.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineFRule, err := NewAirlineFRule(ctx, testConfig)
+	airlineFRule, err := NewAirlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/airline.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, airlineFRule)

@@ -3,7 +3,6 @@ package revenue
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/contracts/base"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
@@ -12,12 +11,10 @@ import (
 )
 
 func TestRevenueStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/revenue.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	revenueFRule, err := NewRevenueFRule(ctx, testConfig)
+	revenueFRule, err := NewRevenueFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/revenue.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), revenueFRule)
@@ -28,22 +25,14 @@ func TestRevenueStorage(t *testing.T) {
 	assert.Len(t, (*dataStorage)[0], 0)
 	assert.Len(t, (*dataStorage)[13], 2)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 236, maxKey)
+	assert.Equal(t, 236, dataStorage.GetMaxRank())
 }
 
 func TestRevenueData(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/revenue.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	revenueFRule, err := NewRevenueFRule(ctx, testConfig)
+	revenueFRule, err := NewRevenueFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/revenue.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, revenueFRule)

@@ -3,45 +3,34 @@ package codeshare
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
 
 func TestCodeshareStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/codeshare.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	frule, err := NewCodeshareFRule(ctx, testConfig)
+	codeshareFRule, err := NewCodeshareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/codeshare.json")})
 	assert.Nil(t, err)
 
-	assert.Implements(t, (*frule_module.FRuler)(nil), frule)
+	assert.Implements(t, (*frule_module.FRuler)(nil), codeshareFRule)
 
-	dataStorage := frule.GetDataStorage()
+	dataStorage := codeshareFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
 	assert.Len(t, (*dataStorage)[0], 2)
 	assert.Len(t, (*dataStorage)[1], 1)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 7, maxKey)
+	assert.Equal(t, 7, dataStorage.GetMaxRank())
 }
 
 func TestCodeshareResult(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/codeshare.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	codeshareFRule, err := NewCodeshareFRule(ctx, testConfig)
+	codeshareFRule, err := NewCodeshareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/codeshare.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, codeshareFRule)

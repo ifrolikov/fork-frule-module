@@ -3,45 +3,34 @@ package direction
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
 
 func TestDirectionStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/direction.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	frule, err := NewDirectionFRule(ctx, testConfig)
+	directionFRule, err := NewDirectionFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/direction.json")})
 	assert.Nil(t, err)
 
-	assert.Implements(t, (*frule_module.FRuler)(nil), frule)
+	assert.Implements(t, (*frule_module.FRuler)(nil), directionFRule)
 
-	dataStorage := frule.GetDataStorage()
+	dataStorage := directionFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
 	assert.Len(t, (*dataStorage)[0], 2)
 	assert.Len(t, (*dataStorage)[1], 1)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 7, maxKey)
+	assert.Equal(t, 7, dataStorage.GetMaxRank())
 }
 
 func TestDirectionData(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/direction.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	directionFRule, err := NewDirectionFRule(ctx, testConfig)
+	directionFRule, err := NewDirectionFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/direction.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, directionFRule)

@@ -3,7 +3,6 @@ package search_connection
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
@@ -11,12 +10,10 @@ import (
 )
 
 func TestSearchConnectionStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_connection.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, testConfig)
+	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/search_connection.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), searchConnectionFRule)
@@ -26,22 +23,14 @@ func TestSearchConnectionStorage(t *testing.T) {
 
 	assert.Len(t, (*dataStorage)[0], 10)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 0, maxKey)
+	assert.Equal(t, 0, dataStorage.GetMaxRank())
 }
 
 func TestSearchConnectionData(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_connection.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, testConfig)
+	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/search_connection.json")})
 	assert.Nil(t, err)
 	frule := frule_module.NewFRule(ctx, searchConnectionFRule)
 	assert.NotNil(t, frule)
@@ -72,14 +61,11 @@ func TestSearchConnectionData(t *testing.T) {
 }
 
 func TestSearchConnectionSpecs(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/search_connection.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
 	// TODO - сделать, чтобы можно было инициализировать пустой frule
-	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, testConfig)
-	assert.Nil(t, err)
+	searchConnectionFRule, _ := NewSearchConnectionFRule(ctx, &repository.Config{})
 
 	specs := []frule_module.CronStructString{
 		{"50-59 23 * * *", "+3w"},

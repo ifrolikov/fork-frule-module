@@ -3,44 +3,33 @@ package fare
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
 
 func TestFareStorage(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/fare.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	frule, err := NewFareFRule(ctx, testConfig)
+	fareFRule, err := NewFareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/fare.json")})
 	assert.Nil(t, err)
 
-	assert.Implements(t, (*frule_module.FRuler)(nil), frule)
+	assert.Implements(t, (*frule_module.FRuler)(nil), fareFRule)
 
-	dataStorage := frule.GetDataStorage()
+	dataStorage := fareFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 	assert.Len(t, (*dataStorage)[0], 1)
 	assert.Len(t, (*dataStorage)[16], 3)
 
-	maxKey := 0
-	for key := range *dataStorage {
-		if key > maxKey {
-			maxKey = key
-		}
-	}
-	assert.Equal(t, 17, maxKey)
+	assert.Equal(t, 17, dataStorage.GetMaxRank())
 }
 
 func TestFareResult(t *testing.T) {
-	pwd, _ := filepath.Abs("../")
-	testConfig := &repository.Config{DataURI: filepath.ToSlash("file://" + pwd + "/testdata/fare.json")}
 	ctx := context.Background()
 	defer ctx.Done()
 
-	fareFRule, err := NewFareFRule(ctx, testConfig)
+	fareFRule, err := NewFareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/fare.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, fareFRule)
