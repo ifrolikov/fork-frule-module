@@ -41,9 +41,107 @@
   [],
   [],
   [],
+  [],
   [
     {
-      "id": 100,
+      "id": 34,
+      "partner": "tt",
+      "connection_group": "galileo",
+      "carrier_id": 1111,
+      "departure_country_id": 27,
+      "departure_city_id": 330,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "result": false
+    },
+    {
+      "id": 75,
+      "partner": "new_tt",
+      "connection_group": "galileo",
+      "carrier_id": 1111,
+      "departure_country_id": 27,
+      "departure_city_id": 330,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "result": true
+    }
+  ],
+  [],
+  [],
+  [],
+  [
+    {
+      "id": 125,
+      "partner": "new_tt",
+      "connection_group": "galileo_lv",
+      "carrier_id": 1062,
+      "departure_country_id": 7,
+      "departure_city_id": null,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "result": false
+    }
+  ],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+    {
+      "id": 88,
+      "partner": "s7",
+      "connection_group": "sig23_s7",
+      "carrier_id": 1106,
+      "departure_country_id": null,
+      "departure_city_id": null,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "result": true
+    }
+  ],
+  [
+    {
+      "id": 40,
+      "partner": "tt",
+      "connection_group": "galileo",
+      "carrier_id": null,
+      "departure_country_id": null,
+      "departure_city_id": null,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "result": true
+    }
+  ],
+  [],
+  [
+    {
+      "id": 47,
+      "partner": "fake",
+      "connection_group": null,
+      "carrier_id": null,
+      "departure_country_id": null,
+      "departure_city_id": null,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "result": true
+    },
+    {
+      "id": 50,
       "partner": "new_tt",
       "connection_group": null,
       "carrier_id": null,

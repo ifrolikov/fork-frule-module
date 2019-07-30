@@ -23,7 +23,7 @@ func TestDirectionStorage(t *testing.T) {
 	assert.Len(t, (*dataStorage)[0], 2)
 	assert.Len(t, (*dataStorage)[1], 1)
 
-	assert.Equal(t, 7, dataStorage.GetMaxRank())
+	assert.Equal(t, 35, dataStorage.GetMaxRank())
 }
 
 func TestDirectionData(t *testing.T) {
