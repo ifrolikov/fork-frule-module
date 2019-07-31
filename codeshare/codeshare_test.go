@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"
 )
 
@@ -12,7 +13,7 @@ func TestCodeshareStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	codeshareFRule, err := NewCodeshareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/codeshare.json")})
+	codeshareFRule, err := NewCodeshareFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/codeshare.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), codeshareFRule)
@@ -30,7 +31,7 @@ func TestCodeshareResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	codeshareFRule, err := NewCodeshareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/codeshare.json")})
+	codeshareFRule, err := NewCodeshareFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/codeshare.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, codeshareFRule)

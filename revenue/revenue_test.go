@@ -6,6 +6,7 @@ import (
 	"stash.tutu.ru/avia-search-common/contracts/base"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"
 	"time"
 )
@@ -14,7 +15,7 @@ func TestRevenueStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	revenueFRule, err := NewRevenueFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/revenue.json")})
+	revenueFRule, err := NewRevenueFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/revenue.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), revenueFRule)
@@ -32,7 +33,7 @@ func TestRevenueData(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	revenueFRule, err := NewRevenueFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/revenue.json")})
+	revenueFRule, err := NewRevenueFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/revenue.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, revenueFRule)

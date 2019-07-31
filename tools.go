@@ -2,7 +2,6 @@ package frule_module
 
 import (
 	"github.com/robfig/cron"
-	"path/filepath"
 	"reflect"
 	"stash.tutu.ru/avia-search-common/contracts/base"
 	"strconv"
@@ -127,7 +126,3 @@ type CronStructBool struct {
 	Value bool
 }
 
-func GetFilePath(fp string) string {
-	pwd, _ := filepath.Abs("./")
-	return filepath.ToSlash("file://" + pwd + "/" + fp)
-}

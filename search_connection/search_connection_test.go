@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"
 	"time"
 )
@@ -13,7 +14,7 @@ func TestSearchConnectionStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/search_connection.json")})
+	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/search_connection.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), searchConnectionFRule)
@@ -30,7 +31,7 @@ func TestSearchConnectionData(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/search_connection.json")})
+	searchConnectionFRule, err := NewSearchConnectionFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/search_connection.json")})
 	assert.Nil(t, err)
 	frule := frule_module.NewFRule(ctx, searchConnectionFRule)
 	assert.NotNil(t, frule)

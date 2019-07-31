@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"
 )
 
@@ -12,7 +13,7 @@ func TestAirlineStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineFRule, err := NewAirlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/airline.json")})
+	airlineFRule, err := NewAirlineFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), airlineFRule)
@@ -30,7 +31,7 @@ func TestAirlineResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineFRule, err := NewAirlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/airline.json")})
+	airlineFRule, err := NewAirlineFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, airlineFRule)

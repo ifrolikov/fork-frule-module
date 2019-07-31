@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"
 	"time"
 )
@@ -13,7 +14,7 @@ func TestPartnerPercentStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/partner_percent.json")})
+	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/partner_percent.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), partnerPercentFRule)
@@ -31,7 +32,7 @@ func TestPartnerPercentResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/partner_percent.json")})
+	partnerPercentFRule, err := NewPartnerPercentFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/partner_percent.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, partnerPercentFRule)

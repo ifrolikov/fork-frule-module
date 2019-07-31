@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"
 )
 
@@ -12,7 +13,7 @@ func TestInterlineStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	interlineFRule, err := NewInterlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/interline.json")})
+	interlineFRule, err := NewInterlineFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/interline.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), interlineFRule)
@@ -30,7 +31,7 @@ func TestInterlineResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	interlineFRule, err := NewInterlineFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/interline.json")})
+	interlineFRule, err := NewInterlineFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/interline.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, interlineFRule)

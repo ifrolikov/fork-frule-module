@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"
 )
 
@@ -12,7 +13,7 @@ func TestFareStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	fareFRule, err := NewFareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/fare.json")})
+	fareFRule, err := NewFareFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/fare.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), fareFRule)
@@ -29,7 +30,7 @@ func TestFareResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	fareFRule, err := NewFareFRule(ctx, &repository.Config{DataURI: frule_module.GetFilePath("../testdata/fare.json")})
+	fareFRule, err := NewFareFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/fare.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, fareFRule)
