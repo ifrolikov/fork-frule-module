@@ -105,6 +105,8 @@ func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 			hashPart = strconv.FormatUint(fieldValue.Elem().Uint(), 10)
 		case *string:
 			hashPart = fieldValue.Elem().String()
+		case *bool:
+			hashPart = strconv.FormatBool(fieldValue.Elem().Bool())
 		}
 		result += hashField + "=>" + hashPart + "|"
 	}

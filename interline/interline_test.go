@@ -20,8 +20,8 @@ func TestInterlineStorage(t *testing.T) {
 	dataStorage := interlineFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
-	assert.Len(t, (*dataStorage)[0], 13)
-	assert.Len(t, (*dataStorage)[1], 147)
+	assert.Len(t, (*dataStorage)[0], 2)
+	assert.Len(t, (*dataStorage)[1], 1)
 
 	assert.Equal(t, 7, dataStorage.GetMaxRank())
 }
@@ -39,8 +39,12 @@ func TestInterlineResult(t *testing.T) {
 	partner := "new_tt"
 	connectionGroup := "galileo"
 	carrierPlating := int64(1347)
+	pureInterline := true
 
-	result := frule.GetResult(InterlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierPlating: &carrierPlating, Carriers: []int64{1453}})
+	result := frule.GetResult(InterlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierPlating: &carrierPlating, PureInterline: &pureInterline, Carriers: []int64{1453}})
+	assert.True(t, result.(bool))
+
+	result = frule.GetResult(InterlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierPlating: &carrierPlating, Carriers: []int64{1453}})
 	assert.False(t, result.(bool))
 
 	result = frule.GetResult(InterlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierPlating: &carrierPlating, Carriers: []int64{1212,1062}})
@@ -53,7 +57,6 @@ func TestInterlineResult(t *testing.T) {
 	result = frule.GetResult(InterlineRule{Partner: &partner})
 	assert.False(t, result.(bool))
 
-	pureInterline := true
 	result = frule.GetResult(InterlineRule{Partner: &partner, PureInterline: &pureInterline})
 	assert.True(t, result.(bool))
 
