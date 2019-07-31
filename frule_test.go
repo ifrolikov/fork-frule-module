@@ -2,6 +2,7 @@ package frule_module
 
 import (
 	"context"
+	"stash.tutu.ru/avia-search-common/repository"
 	"testing"
 )
 
@@ -59,8 +60,12 @@ func (a DummyFRule) GetDataStorage() *RankedFRuleStorage {
 	return &result
 }
 
-func (a DummyFRule) GetNotificationChannel() chan error {
+func (a DummyFRule) GetNotificationChannel() chan repository.Notification {
 	return a.repo.NotificationChannel
+}
+
+func (a DummyFRule) GetRuleName() string {
+	return "Dummy"
 }
 
 func TestIntersect(t *testing.T) {

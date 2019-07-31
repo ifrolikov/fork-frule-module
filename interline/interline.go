@@ -89,7 +89,10 @@ func (rule *InterlineRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *InterlineRule) GetNotificationChannel() chan error {
+func (rule *InterlineRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
 }
 
+func (rule *InterlineRule) GetRuleName() string {
+	return "Interline"
+}

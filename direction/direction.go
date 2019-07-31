@@ -91,6 +91,10 @@ func (rule *DirectionRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *DirectionRule) GetNotificationChannel() chan error {
+func (rule *DirectionRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *DirectionRule) GetRuleName() string {
+	return "Direction"
 }

@@ -1320,6 +1320,10 @@ func (rule *RevenueRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *RevenueRule) GetNotificationChannel() chan error {
+func (rule *RevenueRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *RevenueRule) GetRuleName() string {
+	return "Revenue"
 }

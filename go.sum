@@ -97,6 +97,8 @@ stash.tutu.ru/avia-search-common/contracts v0.2.1 h1:6Ydt1S0fbu+fLC6SDZV3Nh0NwZg
 stash.tutu.ru/avia-search-common/contracts v0.2.1/go.mod h1:a+lKATuqln+7QEsGrRbPSebmrbLaSOD7qcwLFdASb0U=
 stash.tutu.ru/avia-search-common/repository v0.0.0-20190709154213-bbb3fd83b88a h1:hWETReWIcUHzgFFZc+/1Re91+8/tNxpdyiV2KXj8JF8=
 stash.tutu.ru/avia-search-common/repository v0.0.0-20190709154213-bbb3fd83b88a/go.mod h1:r4iRi/AniGYjHotkvTzvXTrm7wE/fXfNPVjeTrvx2Og=
+stash.tutu.ru/avia-search-common/repository v0.1.0 h1:/yGimwDReDu6XR55POSTpgT1JRythm8ZRnwW/htrGDE=
+stash.tutu.ru/avia-search-common/repository v0.1.0/go.mod h1:r4iRi/AniGYjHotkvTzvXTrm7wE/fXfNPVjeTrvx2Og=
 stash.tutu.ru/avia-search-common/utils v0.0.0-20190731124301-975c74b4d3b9 h1:75jlguH3FDR3GwUFHy82uT7Mx78UNnLeWVOHnC4gTf4=
 stash.tutu.ru/avia-search-common/utils v0.0.0-20190731124301-975c74b4d3b9/go.mod h1:85Z+sk52tyRoaAQBPj0xi3anartoYNUmkAjFVPWLwvo=
 stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938 h1:a9tR6opQoGCDkzqZxY4/y0LAvQuV2ytf1ow12uQWYpY=

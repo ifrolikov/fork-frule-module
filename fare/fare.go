@@ -91,6 +91,10 @@ func (rule *FareRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *FareRule) GetNotificationChannel() chan error {
+func (rule *FareRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *FareRule) GetRuleName() string {
+	return "Fare"
 }

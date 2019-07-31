@@ -72,6 +72,10 @@ func (rule *PartnerPercentRule) GetDataStorage() *frule_module.RankedFRuleStorag
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *PartnerPercentRule) GetNotificationChannel() chan error {
+func (rule *PartnerPercentRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *PartnerPercentRule) GetRuleName() string {
+	return "PartnerPercent"
 }

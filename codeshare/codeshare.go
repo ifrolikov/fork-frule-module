@@ -61,6 +61,10 @@ func (rule *CodeshareRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *CodeshareRule) GetNotificationChannel() chan error {
+func (rule *CodeshareRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *CodeshareRule) GetRuleName() string {
+	return "Codeshare"
 }

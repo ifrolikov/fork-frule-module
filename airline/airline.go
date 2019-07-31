@@ -55,6 +55,10 @@ func (rule *AirlineRule) GetDataStorage() *frule_module.RankedFRuleStorage {
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *AirlineRule) GetNotificationChannel() chan error {
+func (rule *AirlineRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *AirlineRule) GetRuleName() string {
+	return "Airline"
 }

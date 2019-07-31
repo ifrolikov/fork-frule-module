@@ -147,6 +147,10 @@ func (rule *SearchRequestRule) parseCronSpecField(value string) []frule_module.C
 	return result
 }
 
-func (rule *SearchRequestRule) GetNotificationChannel() chan error {
+func (rule *SearchRequestRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *SearchRequestRule) GetRuleName() string {
+	return "SearchRequest"
 }

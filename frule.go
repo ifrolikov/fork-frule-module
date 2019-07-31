@@ -4,6 +4,7 @@ import (
 	"context"
 	"reflect"
 	"sort"
+	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/golang/log"
 	"strconv"
 	"sync"
@@ -23,7 +24,8 @@ type FRuler interface {
 	GetStrategyKeys() []string
 	GetDefaultValue() interface{}
 	GetDataStorage() *RankedFRuleStorage
-	GetNotificationChannel() chan error
+	GetNotificationChannel() chan repository.Notification
+	GetRuleName() string
 }
 
 type FRule struct {
@@ -64,18 +66,20 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 	definition.lastUpdateTime = time.Now()
 
 	go func(ctx context.Context, definition *FRule) {
+		name := definition.ruleSpecificData.GetRuleName()
 		for {
 			select {
-			case err := <- definition.ruleSpecificData.GetNotificationChannel():
-				log.Logger.Info().Msgf("repository update message received: %v", err)
-				if err != nil {
-					log.Logger.Error().Err(err).Msgf("repository update error: %v", err)
+			case n := <-definition.ruleSpecificData.GetNotificationChannel():
+				if n.Err != nil {
+					log.Logger.Err(n.Err).Msgf("Error during FRule %s update: %s", name, n.Msg)
 				} else {
-					log.Logger.Info().Msg("start index update")
-					if indexUpdateErr := definition.buildIndex(); indexUpdateErr != nil {
-						log.Logger.Error().Err(err).Msgf("index update err: %v", err)
-					} else {
-						log.Logger.Info().Msg("index updated")
+					log.Logger.Info().Msgf("FRule %s update: %s", name, n.Msg)
+					if n.Type == repository.NOTIFICATION_TYPE_UPDATED {
+						if indexUpdateErr := definition.buildIndex(); indexUpdateErr != nil {
+							log.Logger.Error().Err(indexUpdateErr).Msgf("FRule %s index update err: %v", name, indexUpdateErr)
+						} else {
+							log.Logger.Info().Msgf("FRule %s index updated", name)
+						}
 					}
 				}
 			case <-ctx.Done():

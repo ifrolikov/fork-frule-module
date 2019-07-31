@@ -102,8 +102,12 @@ func (rule *SearchConnectionRule) GetDataStorage() *frule_module.RankedFRuleStor
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *SearchConnectionRule) GetNotificationChannel() chan error {
+func (rule *SearchConnectionRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *SearchConnectionRule) GetRuleName() string {
+	return "SearchConnection"
 }
 
 func (rule *SearchConnectionRule) parseCronSpecField(value string) ([]frule_module.CronStructString, error) {

@@ -78,6 +78,10 @@ func (rule *SearchSchemeRule) GetDataStorage() *frule_module.RankedFRuleStorage 
 	return rule.repo.GetRankedFRuleStorage()
 }
 
-func (rule *SearchSchemeRule) GetNotificationChannel() chan error {
+func (rule *SearchSchemeRule) GetNotificationChannel() chan repository.Notification {
 	return rule.repo.NotificationChannel
+}
+
+func (rule *SearchSchemeRule) GetRuleName() string {
+	return "SearchScheme"
 }

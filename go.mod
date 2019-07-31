@@ -12,7 +12,7 @@ require (
 	github.com/rs/zerolog v1.14.3 // indirect
 	github.com/stretchr/testify v1.3.0
 	stash.tutu.ru/avia-search-common/contracts v0.2.1
-	stash.tutu.ru/avia-search-common/repository v0.0.0-20190709154213-bbb3fd83b88a
+	stash.tutu.ru/avia-search-common/repository v0.1.0
 	stash.tutu.ru/avia-search-common/utils v0.0.0-20190731124301-975c74b4d3b9
 	stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938 // indirect
 	stash.tutu.ru/golang/log v0.0.0-20190620130826-53d4213dca54
