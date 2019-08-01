@@ -2,7 +2,6 @@ package revenue
 
 import (
 	"context"
-	"encoding/json"
 	"reflect"
 	"regexp"
 	"stash.tutu.ru/avia-search-common/contracts/base"
@@ -28,7 +27,9 @@ type RevenueRule struct {
 	DepartureCityId        *int64  `json:"departure_city_id"`
 	ArrivalCityId          *int64  `json:"arrival_city_id"`
 	Revenue                *string `json:"result_revenue"`
+	RevenueParsed          *Revenue
 	Margin                 *string `json:"result_margin"`
+	MarginParsed           *Margin
 	TestOfferPrice         base.Money
 	TestOfferPurchaseDate  time.Time
 	TestOfferDepartureDate time.Time
@@ -182,34 +183,26 @@ func selectMarginRow(choices []ConditionMarginResult, testRule RevenueRule) stri
 }
 
 func (rule *RevenueRule) GetResultValue(testRule interface{}) interface{} {
-	var revenueResult Revenue
-	var marginResult Margin
 	result := RevenueRuleResult{
 		Id: rule.Id,
 	}
-	if rule.Revenue != nil && *rule.Revenue != "[]" {
-		if err := json.Unmarshal([]byte(*rule.Revenue), &revenueResult); err != nil {
-			log.Logger.Error().Err(err).Msg("Unmarshal revenue")
-		}
-		fullResult := selectRevenueRow(revenueResult.Full, testRule.(RevenueRule))
+	if rule.RevenueParsed != nil {
+		fullResult := selectRevenueRow(rule.RevenueParsed.Full, testRule.(RevenueRule))
 		result.Revenue.Full.Ticket = parseMoneySpec(fullResult.Ticket)
 		result.Revenue.Full.Segment = parseMoneySpec(fullResult.Segment)
-		childResult := selectRevenueRow(revenueResult.Child, testRule.(RevenueRule))
+		childResult := selectRevenueRow(rule.RevenueParsed.Child, testRule.(RevenueRule))
 		result.Revenue.Child.Ticket = parseMoneySpec(childResult.Ticket)
 		result.Revenue.Child.Segment = parseMoneySpec(childResult.Segment)
-		infantResult := selectRevenueRow(revenueResult.Infant, testRule.(RevenueRule))
+		infantResult := selectRevenueRow(rule.RevenueParsed.Infant, testRule.(RevenueRule))
 		result.Revenue.Infant.Ticket = parseMoneySpec(infantResult.Ticket)
 		result.Revenue.Infant.Segment = parseMoneySpec(infantResult.Segment)
 	}
-	if rule.Margin != nil && *rule.Margin != "[]" {
-		if err := json.Unmarshal([]byte(*rule.Margin), &marginResult); err != nil {
-			log.Logger.Error().Err(err).Msg("Unmarshal margin")
-		}
-		fullResult := selectMarginRow(marginResult.Full, testRule.(RevenueRule))
+	if rule.MarginParsed != nil {
+		fullResult := selectMarginRow(rule.MarginParsed.Full, testRule.(RevenueRule))
 		result.Margin.Full = parseMoneySpec(&fullResult)
-		childResult := selectMarginRow(marginResult.Child, testRule.(RevenueRule))
+		childResult := selectMarginRow(rule.MarginParsed.Child, testRule.(RevenueRule))
 		result.Margin.Child = parseMoneySpec(&childResult)
-		infantResult := selectMarginRow(marginResult.Infant, testRule.(RevenueRule))
+		infantResult := selectMarginRow(rule.MarginParsed.Infant, testRule.(RevenueRule))
 		result.Margin.Infant = parseMoneySpec(&infantResult)
 	}
 	return result
