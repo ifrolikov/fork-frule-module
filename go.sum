@@ -106,4 +106,5 @@ stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938/go.mod h1:cIaYZxccb
 stash.tutu.ru/golang/gob_encdec v0.0.0-20181225175604-7cc34657d129/go.mod h1:NsZ9h91ApXKsKxR3Kwpcjb77a4yd0HZZhRAbgUk9Gbs=
 stash.tutu.ru/golang/log v0.0.0-20190620130826-53d4213dca54 h1:6HyIhHBSHjXM19NxSm2MlIRei3Wp8dnJ/evy1I99k3U=
 stash.tutu.ru/golang/log v0.0.0-20190620130826-53d4213dca54/go.mod h1:IupeV4XGfB/i6IGeJlQ5nGk5z770rGpzUNGuES4BBUs=
+stash.tutu.ru/mtp/geo v0.0.0-20190419070539-122896b555f0 h1:onPsB0dFY/DYuZhMGorX0g2eWbH6Pm6hsbIAI4yVSWc=
 stash.tutu.ru/mtp/geo v0.0.0-20190419070539-122896b555f0/go.mod h1:xpextDsQI+mXr4KeHT2UHQGg2JQF9cvF+5fW/XWZdQU=

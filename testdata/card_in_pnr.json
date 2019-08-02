@@ -1,0 +1,309 @@
+[
+  [
+    {
+      "id": 9,
+      "connection_group": "sig23_devel",
+      "partner": "new_tt",
+      "carrier_id": 1116,
+      "result": true
+    },
+    {
+      "id": 17,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 1106,
+      "result": false
+    },
+    {
+      "id": 18,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 1116,
+      "result": true
+    },
+    {
+      "id": 19,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 1111,
+      "result": false
+    },
+    {
+      "id": 20,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 2227,
+      "result": false
+    },
+    {
+      "id": 23,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1106,
+      "result": false
+    },
+    {
+      "id": 24,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1116,
+      "result": true
+    },
+    {
+      "id": 25,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1111,
+      "result": false
+    },
+    {
+      "id": 26,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 2227,
+      "result": false
+    },
+    {
+      "id": 27,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1062,
+      "result": false
+    },
+    {
+      "id": 32,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 10,
+      "result": false
+    },
+    {
+      "id": 33,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 10,
+      "result": false
+    },
+    {
+      "id": 34,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1098,
+      "result": true
+    },
+    {
+      "id": 35,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 1098,
+      "result": true
+    },
+    {
+      "id": 36,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 2481,
+      "result": false
+    },
+    {
+      "id": 37,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 2481,
+      "result": false
+    },
+    {
+      "id": 38,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 2644,
+      "result": false
+    },
+    {
+      "id": 39,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": 2644,
+      "result": false
+    },
+    {
+      "id": 40,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": 2644,
+      "result": false
+    },
+    {
+      "id": 41,
+      "connection_group": "sig23_devel",
+      "partner": "new_tt",
+      "carrier_id": 2644,
+      "result": false
+    },
+    {
+      "id": 42,
+      "connection_group": "berlogic",
+      "partner": "new_tt",
+      "carrier_id": 2644,
+      "result": false
+    },
+    {
+      "id": 43,
+      "connection_group": "nba",
+      "partner": "new_tt",
+      "carrier_id": 2644,
+      "result": false
+    },
+    {
+      "id": 44,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 2645,
+      "result": false
+    },
+    {
+      "id": 45,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": 2645,
+      "result": false
+    },
+    {
+      "id": 46,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": 2645,
+      "result": false
+    },
+    {
+      "id": 47,
+      "connection_group": "sig23_devel",
+      "partner": "new_tt",
+      "carrier_id": 2645,
+      "result": false
+    },
+    {
+      "id": 48,
+      "connection_group": "berlogic",
+      "partner": "new_tt",
+      "carrier_id": 2645,
+      "result": false
+    },
+    {
+      "id": 49,
+      "connection_group": "nba",
+      "partner": "new_tt",
+      "carrier_id": 2645,
+      "result": false
+    },
+    {
+      "id": 50,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1742,
+      "result": false
+    },
+    {
+      "id": 51,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 1742,
+      "result": false
+    },
+    {
+      "id": 52,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1061,
+      "result": false
+    },
+    {
+      "id": 53,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 1061,
+      "result": false
+    },
+    {
+      "id": 54,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 74,
+      "result": false
+    },
+    {
+      "id": 55,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": 74,
+      "result": false
+    },
+    {
+      "id": 56,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1155,
+      "result": false
+    },
+    {
+      "id": 57,
+      "connection_group": "tkp_sig23",
+      "partner": "sitt",
+      "carrier_id": 1155,
+      "result": false
+    }
+  ],
+  [
+    {
+      "id": 16,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "result": true
+    },
+    {
+      "id": 21,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "result": false
+    },
+    {
+      "id": 22,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "result": true
+    },
+    {
+      "id": 28,
+      "connection_group": "sirena_direct_yc",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "result": false
+    },
+    {
+      "id": 29,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": null,
+      "result": false
+    },
+    {
+      "id": 30,
+      "connection_group": "sirena_direct_ut",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "result": false
+    },
+    {
+      "id": 31,
+      "connection_group": "sirena_direct_u6",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "result": false
+    }
+  ],
+  [],
+  []
+]

@@ -1,0 +1,432 @@
+[
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+    {
+      "id": 39,
+      "connection_group": "fake",
+      "partner": "fake",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "fakeCard",
+      "config_type": null,
+      "subtype": null
+    },
+    {
+      "id": 41,
+      "connection_group": "berlogic_demo",
+      "partner": "berlogic",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "berlogic",
+      "config_type": "demo",
+      "subtype": null
+    },
+    {
+      "id": 42,
+      "connection_group": "sig23_devel",
+      "partner": "tt",
+      "carrier_id": null,
+      "payment_method": "card_in_pnr",
+      "real_gds": null,
+      "engine": "mps_avia",
+      "config_type": "work",
+      "subtype": null
+    },
+    {
+      "id": 46,
+      "connection_group": "fake_api",
+      "partner": "fake",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "fakeCard",
+      "config_type": null,
+      "subtype": null
+    },
+    {
+      "id": 52,
+      "connection_group": "sig23_devel",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "card_in_pnr",
+      "real_gds": null,
+      "engine": "mps_avia",
+      "config_type": "ntt",
+      "subtype": null
+    },
+    {
+      "id": 63,
+      "connection_group": "galileo_lv",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 64,
+      "connection_group": "sig23_s7",
+      "partner": "s7",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 67,
+      "connection_group": "fake",
+      "partner": "fake",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 68,
+      "connection_group": "fake_api",
+      "partner": "fake",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 69,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 70,
+      "connection_group": "nba",
+      "partner": "nba",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 71,
+      "connection_group": "nba_demo",
+      "partner": "nba",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "fakeCard",
+      "config_type": "ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 72,
+      "connection_group": "sig23_s7",
+      "partner": "s7",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 79,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 80,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "card_in_pnr",
+      "real_gds": null,
+      "engine": "mps_avia",
+      "config_type": "ntt",
+      "subtype": null
+    },
+    {
+      "id": 81,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "equal_cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 82,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 83,
+      "connection_group": "nba",
+      "partner": "nba",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 84,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 85,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "card_in_pnr",
+      "real_gds": null,
+      "engine": "mps_avia",
+      "config_type": "ntt",
+      "subtype": null
+    },
+    {
+      "id": 86,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "equal_cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 87,
+      "connection_group": "sirena_direct_yc",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 88,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 89,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 90,
+      "connection_group": "sirena_direct_u6",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 91,
+      "connection_group": "sirena_direct_u6",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 92,
+      "connection_group": "biletix",
+      "partner": "biletix",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 93,
+      "connection_group": "sirena_direct_ut",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 94,
+      "connection_group": "sirena_direct_ut",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 95,
+      "connection_group": "sirena_direct_yc",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia_applepay",
+      "subtype": null
+    },
+    {
+      "id": 96,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 97,
+      "connection_group": "s7_ndc",
+      "partner": "s7",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 98,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 101,
+      "connection_group": "s7_ndc",
+      "partner": "s7",
+      "carrier_id": null,
+      "payment_method": "apple_pay",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia_applepay",
+      "subtype": null
+    }
+  ],
+  [],
+  [
+    {
+      "id": 1,
+      "connection_group": null,
+      "partner": "sitt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "fakeCard",
+      "config_type": "devel",
+      "subtype": null
+    },
+    {
+      "id": 48,
+      "connection_group": null,
+      "partner": "new_tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "boxplat|gateline",
+      "config_type": "work_avia|ntt_avia",
+      "subtype": null
+    },
+    {
+      "id": 99,
+      "connection_group": null,
+      "partner": "tt",
+      "carrier_id": null,
+      "payment_method": "cardonline",
+      "real_gds": null,
+      "engine": "gateline",
+      "config_type": "ntt_avia",
+      "subtype": null
+    }
+  ],
+  [
+    {
+      "id": 100,
+      "connection_group": null,
+      "partner": null,
+      "carrier_id": null,
+      "payment_method": "b2b_cashless",
+      "real_gds": null,
+      "engine": "B2bRusAccount",
+      "config_type": "work",
+      "subtype": null
+    }
+  ]
+]

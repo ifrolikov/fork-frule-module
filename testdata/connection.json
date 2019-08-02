@@ -1,0 +1,412 @@
+[
+  [],
+  [],
+  [],
+  [
+    {
+      "id": 66,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": 1116,
+      "operation": "service_operation",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sirena_direct_ut"
+    },
+    {
+      "id": 68,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": 1118,
+      "operation": "service_operation",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sirena_direct_yc"
+    }
+  ],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+    {
+      "id": 71,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": "update",
+      "flight_date": null,
+      "payment_engine": "mps_avia",
+      "result": "tkp_sig23_mps"
+    }
+  ],
+  [
+    {
+      "id": 31,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": 1106,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_galileo_issue_s7"
+    },
+    {
+      "id": 65,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": 1116,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sig23_direct_ut"
+    },
+    {
+      "id": 67,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": 1118,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sig23_direct_yc"
+    },
+    {
+      "id": 80,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": 1062,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_galileo_issue_su"
+    }
+  ],
+  [
+    {
+      "id": 58,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": "service_operation",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "tkp_sirena"
+    },
+    {
+      "id": 59,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": "service_operation",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sirena_direct"
+    },
+    {
+      "id": 63,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": "service_operation",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "tkp_sirena"
+    },
+    {
+      "id": 70,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": "update",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "tkp_sig23_search"
+    },
+    {
+      "id": 73,
+      "connection_group": "nba",
+      "partner": "nba",
+      "carrier_id": null,
+      "operation": "service_operation",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "tkp_sirena"
+    },
+    {
+      "id": 76,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": null,
+      "operation": "book",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "iata_galileo_book"
+    },
+    {
+      "id": 77,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": null,
+      "operation": "service_operation",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_galileo_issue_bsp"
+    },
+    {
+      "id": 78,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": null,
+      "operation": "issue",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "iata_galileo_issue"
+    },
+    {
+      "id": 85,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": "exchange",
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sabre_exchange"
+    }
+  ],
+  [
+    {
+      "id": 36,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": "mps_avia",
+      "result": "new_tt_sig23_mps"
+    },
+    {
+      "id": 64,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": "mps_avia",
+      "result": "tkp_sig23_mps"
+    }
+  ],
+  [
+    {
+      "id": 1,
+      "connection_group": "fake",
+      "partner": "fake",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "fake"
+    },
+    {
+      "id": 13,
+      "connection_group": "fake_api",
+      "partner": "fake",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "fake_api"
+    },
+    {
+      "id": 21,
+      "connection_group": "berlogic_demo",
+      "partner": "berlogic",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "berlogic_demo"
+    },
+    {
+      "id": 29,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_galileo_issue_bsp"
+    },
+    {
+      "id": 33,
+      "connection_group": "galileo_de",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_galileo_issue_de"
+    },
+    {
+      "id": 34,
+      "connection_group": "galileo_tkp",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_galileo_issue_tkp"
+    },
+    {
+      "id": 35,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sig23_search"
+    },
+    {
+      "id": 40,
+      "connection_group": "sig23_devel",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sig23_mps"
+    },
+    {
+      "id": 41,
+      "connection_group": "galileo_lv",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_galileo_issue_lv"
+    },
+    {
+      "id": 42,
+      "connection_group": "sig23_s7",
+      "partner": "s7",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "s7_sig23_issue"
+    },
+    {
+      "id": 44,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sig23_direct_issue"
+    },
+    {
+      "id": 60,
+      "connection_group": "nba",
+      "partner": "nba",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "nba"
+    },
+    {
+      "id": 61,
+      "connection_group": "nba_demo",
+      "partner": "nba",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "nba_demo"
+    },
+    {
+      "id": 62,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "tkp_sig23_search"
+    },
+    {
+      "id": 69,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sabre_issue"
+    },
+    {
+      "id": 72,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sirena"
+    },
+    {
+      "id": 75,
+      "connection_group": "sirena_direct_yc",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sirena_direct_yc_37MOB"
+    },
+    {
+      "id": 79,
+      "connection_group": "sirena_direct_u6",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sirena_direct_u6_37MOB"
+    },
+    {
+      "id": 82,
+      "connection_group": "biletix",
+      "partner": "biletix",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "biletix"
+    },
+    {
+      "id": 83,
+      "connection_group": "sirena_direct_ut",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "new_tt_sirena_direct_ut_37MOB"
+    },
+    {
+      "id": 84,
+      "connection_group": "s7_ndc",
+      "partner": "s7",
+      "carrier_id": null,
+      "operation": null,
+      "flight_date": null,
+      "payment_engine": null,
+      "result": "s7_ndc"
+    }
+  ]
+]

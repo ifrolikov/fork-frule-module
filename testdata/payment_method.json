@@ -1,0 +1,382 @@
+[
+  [],
+  [
+    {
+      "id": 84,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": 1106,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"55-59 23 * * 2\",\"value\":\"\"},{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 101,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": 54,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 102,
+      "connection_group": "nba",
+      "partner": "nba",
+      "carrier_id": 54,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 103,
+      "connection_group": "sirena_direct_yc",
+      "partner": "new_tt",
+      "carrier_id": 1118,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 105,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": 80,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 107,
+      "connection_group": "sirena_direct_u6",
+      "partner": "new_tt",
+      "carrier_id": 1111,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 111,
+      "connection_group": "sirena_direct_ut",
+      "partner": "new_tt",
+      "carrier_id": 1116,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 113,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": 54,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 115,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": 67,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 116,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": 1586,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 117,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": 72,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 118,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": 1106,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"55-59 23 * * 2\",\"value\":\"\"},{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 120,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": 1116,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline,equal_cardonline,card_in_pnr\"}]"
+    }
+  ],
+  [
+    {
+      "id": 51,
+      "connection_group": "fake",
+      "partner": "fake",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"\"}]",
+      "autoticketing": true,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 70,
+      "connection_group": "fake",
+      "partner": "fake",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"\"}]",
+      "autoticketing": false,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline,apple_pay\"}]"
+    },
+    {
+      "id": 77,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": false,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 78,
+      "connection_group": "galileo",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": true,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 79,
+      "connection_group": "galileo_de",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* 0-19 * * *\",\"value\":\"-1\"},{\"key\":\"0-15 20 * * *\",\"value\":\"-1\"},{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": false,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 80,
+      "connection_group": "galileo_de",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* 9-19 * * *\",\"value\":\"-1\"},{\"key\":\"0-15 20 * * *\",\"value\":\"-1\"},{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": true,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 82,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": false,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline,card_in_pnr,equal_cardonline\"}]"
+    },
+    {
+      "id": 83,
+      "connection_group": "sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": true,
+      "result": "[{\"key\":\"55-59 23 * * 2\",\"value\":\"\"},{\"key\":\"* * * * *\",\"value\":\"cardonline,card_in_pnr,equal_cardonline\"}]"
+    },
+    {
+      "id": 86,
+      "connection_group": "galileo_lv",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* 9-19 * * *\",\"value\":\"-1\"},{\"key\":\"0-15 20 * * *\",\"value\":\"-1\"},{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": true,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 87,
+      "connection_group": "galileo_lv",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* 9-19 * * *\",\"value\":\"-1\"},{\"key\":\"0-15 20 * * *\",\"value\":\"-1\"},{\"key\":\"* * * * *\",\"value\":\"1\"}]",
+      "autoticketing": false,
+      "result": "[{\"key\":\"* 8-19 * * *\",\"value\":\"cardonline\"},{\"key\":\"0-15 20 * * *\",\"value\":\"cardonline\"},{\"key\":\"* * * * *\",\"value\":\"\"}]"
+    },
+    {
+      "id": 90,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": true,
+      "result": "[{\"key\":\"55-59 23 * * 2\",\"value\":\"\"},{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 91,
+      "connection_group": "sig23_direct",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": false,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline,card_in_pnr,equal_cardonline\"}]"
+    },
+    {
+      "id": 97,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": true,
+      "result": "[{\"key\":\"55-59 23 * * 2\",\"value\":\"\"},{\"key\":\"* * * * *\",\"value\":\"cardonline,equal_cardonline,card_in_pnr\"}]"
+    }
+  ],
+  [
+    {
+      "id": 75,
+      "connection_group": "fake_api",
+      "partner": "fake",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline,apple_pay\"}]"
+    },
+    {
+      "id": 81,
+      "connection_group": "galileo_tkp",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 85,
+      "connection_group": "sig23_devel",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, card_in_pnr\"}]"
+    },
+    {
+      "id": 88,
+      "connection_group": "sig23_s7",
+      "partner": "s7",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"55-59 23 * * 2\",\"value\":\"\"},{\"key\":\"* * * * *\",\"value\":\"cardonline,apple_pay\"}]"
+    },
+    {
+      "id": 92,
+      "connection_group": "nba",
+      "partner": "nba",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 93,
+      "connection_group": "nba_demo",
+      "partner": "nba",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 98,
+      "connection_group": "tkp_sig23",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline,equal_cardonline,card_in_pnr\"}]"
+    },
+    {
+      "id": 99,
+      "connection_group": "sabre",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    },
+    {
+      "id": 100,
+      "connection_group": "sirena",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline,equal_cardonline,card_in_pnr\"}]"
+    },
+    {
+      "id": 104,
+      "connection_group": "galileo",
+      "partner": "iata",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"\"}]"
+    },
+    {
+      "id": 106,
+      "connection_group": "sirena_direct_u6",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"\"}]"
+    },
+    {
+      "id": 109,
+      "connection_group": "biletix",
+      "partner": "biletix",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline\"}]"
+    },
+    {
+      "id": 110,
+      "connection_group": "sirena_direct_ut",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"\"}]"
+    },
+    {
+      "id": 112,
+      "connection_group": "sirena_direct_yc",
+      "partner": "new_tt",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"\"}]"
+    },
+    {
+      "id": 119,
+      "connection_group": "s7_ndc",
+      "partner": "s7",
+      "carrier_id": null,
+      "days_till_departure": "[{\"key\":\"* * * * *\",\"value\":\"-1\"}]",
+      "autoticketing": null,
+      "result": "[{\"key\":\"* * * * *\",\"value\":\"cardonline, apple_pay\"}]"
+    }
+  ],
+  [],
+  [],
+  [],
+  []
+]

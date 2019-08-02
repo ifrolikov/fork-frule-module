@@ -16,4 +16,5 @@ require (
 	stash.tutu.ru/avia-search-common/utils v0.0.0-20190731124301-975c74b4d3b9
 	stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938 // indirect
 	stash.tutu.ru/golang/log v0.0.0-20190620130826-53d4213dca54
+	stash.tutu.ru/mtp/geo v0.0.0-20190419070539-122896b555f0
 )
