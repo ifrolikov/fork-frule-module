@@ -60,8 +60,8 @@ func TestRevenueData(t *testing.T) {
 	connectionGroup = "galileo"
 	carrierId = int64(1062)
 	fareType := "subsidy"
-	departureCityId := int64(21)
-	arrivalCityId := int64(100)
+	departureCityId := uint64(21)
+	arrivalCityId := uint64(100)
 	params = RevenueRule{
 		Partner:         &partner,
 		ConnectionGroup: &connectionGroup,
@@ -74,7 +74,7 @@ func TestRevenueData(t *testing.T) {
 	result = frule.GetResult(params)
 	assert.Equal(t, 86012, result.(RevenueRuleResult).Id)
 
-	departureCityId = int64(34)
+	departureCityId = uint64(34)
 	params = RevenueRule{
 		Partner:         &partner,
 		ConnectionGroup: &connectionGroup,
@@ -86,7 +86,7 @@ func TestRevenueData(t *testing.T) {
 	result = frule.GetResult(params)
 	assert.Equal(t, 86013, result.(RevenueRuleResult).Id)
 
-	departureCityId = int64(34)
+	departureCityId = uint64(34)
 	params = RevenueRule{
 		Partner:         &partner,
 		ConnectionGroup: &connectionGroup,
