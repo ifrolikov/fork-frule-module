@@ -17,11 +17,11 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 			var err error
 			frule.MinDepartureDateParsed, err = frule.parseCronSpecField(*frule.MinDepartureDate)
 			if err != nil {
-				log.For("search_connection").Error().Err(err).Msg("parsing minDepartureDate")
+				log.For("search_connection").Error().Stack().Err(err).Msg("parsing minDepartureDate")
 			}
 			frule.MaxDepartureDateParsed, err = frule.parseCronSpecField(*frule.MaxDepartureDate)
 			if err != nil {
-				log.For("search_connection").Error().Err(err).Msg("parsing maxDepartureDate")
+				log.For("search_connection").Error().Stack().Err(err).Msg("parsing maxDepartureDate")
 			}
 
 			frulerList = append(frulerList, frule)

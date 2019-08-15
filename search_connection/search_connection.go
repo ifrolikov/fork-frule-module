@@ -115,7 +115,7 @@ func (rule *SearchConnectionRule) parseCronSpecField(value string) ([]frule_modu
 	err := json.Unmarshal([]byte(value), &resultParsed)
 
 	if err != nil {
-		log.Logger.Error().Err(err).Msg("Unmarshal")
+		log.Logger.Error().Stack().Err(err).Msg("Unmarshal")
 	}
 
 	return resultParsed, nil

@@ -18,14 +18,14 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 			if frule.Revenue != nil && *frule.Revenue != "[]" {
 				var revenueParsed Revenue
 				if err := json.Unmarshal([]byte(*frule.Revenue), &revenueParsed); err != nil {
-					log.Logger.Error().Err(err).Msg("Unmarshal revenue")
+					log.Logger.Error().Stack().Err(err).Msg("Unmarshal revenue")
 				}
 				frule.RevenueParsed = &revenueParsed
 			}
 			if frule.Margin != nil && *frule.Margin != "[]" {
 				var marginParsed Margin
 				if err := json.Unmarshal([]byte(*frule.Margin), &marginParsed); err != nil {
-					log.Logger.Error().Err(err).Msg("Unmarshal margin")
+					log.Logger.Error().Stack().Err(err).Msg("Unmarshal margin")
 				}
 				frule.MarginParsed = &marginParsed
 			}

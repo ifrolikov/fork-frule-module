@@ -19,14 +19,14 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 				var daysTillDepartureParsed []frule_module.CronStructString
 				err := json.Unmarshal([]byte(*frule.DaysTillDeparture), &daysTillDepartureParsed)
 				if err != nil {
-					log.Logger.Error().Err(err).Msg("Unmarshal DaysTillDeparture")
+					log.Logger.Error().Stack().Err(err).Msg("Unmarshal DaysTillDeparture")
 				}
 				frule.DaysTillDepartureParsed = daysTillDepartureParsed
 			}
 			var resultParsed []frule_module.CronStructString
 			err := json.Unmarshal([]byte(frule.Result), &resultParsed)
 			if err != nil {
-				log.Logger.Error().Err(err).Msg("Unmarshal PaymentMethod result")
+				log.Logger.Error().Stack().Err(err).Msg("Unmarshal PaymentMethod result")
 			}
 			frule.ResultParsed = resultParsed
 			frulerList = append(frulerList, frule)

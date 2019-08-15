@@ -119,7 +119,7 @@ func parseMoneySpec(spec *string) base.Money {
 	if len(parsedData) == 3 {
 		amount, err := strconv.ParseInt(parsedData[1], 10, 64)
 		if err != nil {
-			log.Logger.Error().Err(err).Msg("Parsing money")
+			log.Logger.Error().Stack().Err(err).Msg("Parsing money")
 		}
 		return base.Money{
 			Amount: amount,

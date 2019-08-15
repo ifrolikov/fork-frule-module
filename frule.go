@@ -61,7 +61,7 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 	definition.primaryKeys = primaryKeys
 
 	if err := definition.buildIndex(); err != nil {
-		log.Logger.Error().Err(err).Msg("Building index")
+		log.Logger.Error().Stack().Err(err).Msg("Building index")
 	}
 	definition.lastUpdateTime = time.Now()
 
@@ -76,7 +76,7 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 					log.Logger.Info().Msgf("FRule %s update: %s", name, n.Msg)
 					if n.Type == repository.NOTIFICATION_TYPE_UPDATED {
 						if indexUpdateErr := definition.buildIndex(); indexUpdateErr != nil {
-							log.Logger.Error().Err(indexUpdateErr).Msgf("FRule %s index update err: %v", name, indexUpdateErr)
+							log.Logger.Error().Stack().Err(indexUpdateErr).Msgf("FRule %s index update err: %v", name, indexUpdateErr)
 						} else {
 							log.Logger.Info().Msgf("FRule %s index updated", name)
 						}

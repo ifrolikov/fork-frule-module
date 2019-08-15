@@ -136,7 +136,7 @@ func (rule *SearchRequestRule) parseCronSpecField(value string) []frule_module.C
 	err := json.Unmarshal([]byte(value), &resultParsed)
 
 	if err != nil {
-		log.Logger.Error().Err(err).Msg("Unmarshal")
+		log.Logger.Error().Stack().Err(err).Msg("Unmarshal")
 	}
 
 	result := make([]frule_module.CronStructBool, 0, len(resultParsed))

@@ -42,7 +42,7 @@ func (rule *PaymentMethodRule) GetResultValue(interface{}) interface{} {
 		} else if frule_module.CronSpec(&daysTillDeparture.Spec, time.Now()) {
 			days, err := strconv.Atoi(daysTillDeparture.Value)
 			if err != nil {
-				log.Logger.Error().Err(err).Msg("Parsing days")
+				log.Logger.Error().Stack().Err(err).Msg("Parsing days")
 			}
 			if rule.TestDaysTillDeparture <= days {
 				return rule.GetDefaultValue()
