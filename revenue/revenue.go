@@ -106,7 +106,6 @@ func NewRevenueFRule(ctx context.Context, config *repository.Config) (*RevenueRu
 var moneySpec = regexp.MustCompile("([0-9]+)([A-Z]+)")
 
 func parseMoneySpec(spec *string) base.Money {
-
 	if spec == nil {
 		return base.Money{
 			Currency: &base.Currency{
@@ -115,14 +114,16 @@ func parseMoneySpec(spec *string) base.Money {
 			},
 		}
 	}
+
 	parsedData := moneySpec.FindStringSubmatch(*spec)
+
 	if len(parsedData) == 3 {
 		amount, err := strconv.ParseInt(parsedData[1], 10, 64)
 		if err != nil {
-			log.Logger.Error().Stack().Err(err).Msg("Parsing money")
+			log.Logger.Error().Stack().Err(err).Msg("parsing money")
 		}
 		return base.Money{
-			Amount: amount,
+			Amount: amount * 100, // TODO вынести defaultFraction
 			Currency: &base.Currency{ // TODO: load from DB by code
 				Code:     parsedData[2],
 				Fraction: 100,
@@ -130,7 +131,7 @@ func parseMoneySpec(spec *string) base.Money {
 		}
 	} else {
 		return base.Money{
-			Currency: &base.Currency{
+			Currency: &base.Currency{ // TODO нужна factory для Currency??
 				Code:     "RUB",
 				Fraction: 100,
 			},
