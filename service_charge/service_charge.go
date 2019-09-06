@@ -71,7 +71,7 @@ func NewServiceChargeFRule(ctx context.Context, config *repository.Config) (*Ser
 	return &ServiceChargeRule{repo: repo}, nil
 }
 
-var moneySpec = regexp.MustCompile("([0-9]+)([A-Z]+)")
+var moneySpec = regexp.MustCompile("([0-9\.]+)([A-Z]+)")
 
 func parseMoneySpec(spec *string) base.Money {
 	if spec == nil {
@@ -86,12 +86,12 @@ func parseMoneySpec(spec *string) base.Money {
 	parsedData := moneySpec.FindStringSubmatch(*spec)
 
 	if len(parsedData) == 3 {
-		amount, err := strconv.ParseInt(parsedData[1], 10, 64)
+		amount, err := strconv.ParseFloat(parsedData[1], 10)
 		if err != nil {
 			log.Logger.Error().Stack().Err(err).Msg("parsing money")
 		}
 		return base.Money{
-			Amount: amount * 100, // TODO вынести defaultFraction
+			Amount: int64(amount * 100), // TODO вынести defaultFraction
 			Currency: &base.Currency{ // TODO: load from DB by code
 				Code:     parsedData[2],
 				Fraction: 100,
