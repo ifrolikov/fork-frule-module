@@ -71,7 +71,7 @@ func NewServiceChargeFRule(ctx context.Context, config *repository.Config) (*Ser
 	return &ServiceChargeRule{repo: repo}, nil
 }
 
-var moneySpec = regexp.MustCompile("([0-9\.]+)([A-Z]+)")
+var moneySpec = regexp.MustCompile(`([0-9\.]+)([A-Z]+)`)
 
 func parseMoneySpec(spec *string) base.Money {
 	if spec == nil {
