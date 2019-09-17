@@ -52,9 +52,9 @@ func TestRevenueData(t *testing.T) {
 	}
 	result := frule.GetResult(params)
 	assert.Equal(t, 190, result.(RevenueRuleResult).Id)
-	assert.Equal(t, int64(500), result.(RevenueRuleResult).Revenue.Full.Ticket.Amount)
-	assert.Equal(t, int64(400), result.(RevenueRuleResult).Revenue.Child.Ticket.Amount)
-	assert.Equal(t, int64(200), result.(RevenueRuleResult).Revenue.Infant.Ticket.Amount)
+	assert.EqualValues(t, 50000, result.(RevenueRuleResult).Revenue.Full.Ticket.Amount)
+	assert.EqualValues(t, 40000, result.(RevenueRuleResult).Revenue.Child.Ticket.Amount)
+	assert.EqualValues(t, 20000, result.(RevenueRuleResult).Revenue.Infant.Ticket.Amount)
 
 	partner = "new_tt"
 	connectionGroup = "galileo"
@@ -96,7 +96,7 @@ func TestRevenueData(t *testing.T) {
 	result = frule.GetResult(params)
 	//fmt.Printf("%+v", result)
 	assert.Equal(t, 86682, result.(RevenueRuleResult).Id)
-	assert.Equal(t, int64(300), result.(RevenueRuleResult).Revenue.Full.Ticket.Amount)
-	assert.Equal(t, int64(300), result.(RevenueRuleResult).Revenue.Child.Ticket.Amount)
-	assert.Equal(t, int64(0), result.(RevenueRuleResult).Revenue.Infant.Ticket.Amount)
+	assert.EqualValues(t, 30000, result.(RevenueRuleResult).Revenue.Full.Ticket.Amount)
+	assert.EqualValues(t, 30000, result.(RevenueRuleResult).Revenue.Child.Ticket.Amount)
+	assert.EqualValues(t, 0, result.(RevenueRuleResult).Revenue.Infant.Ticket.Amount)
 }

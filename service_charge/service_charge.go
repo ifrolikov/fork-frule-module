@@ -2,6 +2,7 @@ package service_charge
 
 import (
 	"context"
+	"math"
 	"reflect"
 	"regexp"
 	"stash.tutu.ru/avia-search-common/contracts/base"
@@ -91,7 +92,7 @@ func parseMoneySpec(spec *string) base.Money {
 			log.Logger.Error().Stack().Err(err).Msg("parsing money")
 		}
 		return base.Money{
-			Amount: int64(amount * 100), // TODO вынести defaultFraction
+			Amount: int64(math.Round(amount * 100)), // TODO вынести defaultFraction
 			Currency: &base.Currency{ // TODO: load from DB by code
 				Code:     parsedData[2],
 				Fraction: 100,
