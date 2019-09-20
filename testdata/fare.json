@@ -9,7 +9,7 @@
       "arrival_city_id": 75,
       "departute_country_id": null,
       "arrival_country_id": null,
-      "fare_spec": "%BTPACRA%",
+      "fare_spec": "BTPACRA",
       "result": "subsidy"
     }
   ],
@@ -38,7 +38,7 @@
       "arrival_city_id": null,
       "departute_country_id": null,
       "arrival_country_id": null,
-      "fare_spec": "%TTARU%",
+      "fare_spec": "TTARU",
       "result": "closed"
     },
     {
@@ -50,7 +50,7 @@
       "arrival_city_id": null,
       "departute_country_id": null,
       "arrival_country_id": null,
-      "fare_spec": "%ITRTRU%",
+      "fare_spec": "ITRTRU",
       "result": "confined"
     },
     {
@@ -62,7 +62,7 @@
       "arrival_city_id": null,
       "departute_country_id": null,
       "arrival_country_id": null,
-      "fare_spec": "%BTPACRS%",
+      "fare_spec": "BTPACRS",
       "result": "closed"
     }
   ],
@@ -76,7 +76,7 @@
       "arrival_city_id": null,
       "departute_country_id": null,
       "arrival_country_id": null,
-      "fare_spec": "%ST%",
+      "fare_spec": "ST",
       "result": "closed"
     }
   ]
