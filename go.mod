@@ -10,5 +10,4 @@ require (
 	stash.tutu.ru/avia-search-common/repository v0.1.0
 	stash.tutu.ru/avia-search-common/utils v0.1.0
 	stash.tutu.ru/golang/log v0.0.0-20190925120345-16f0e05f99a0
-	stash.tutu.ru/mtp/geo v0.0.0-20190729104709-8ab6ef52df4d
 )

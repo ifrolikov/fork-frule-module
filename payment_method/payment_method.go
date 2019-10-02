@@ -4,7 +4,7 @@ import (
 	"context"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
-	"stash.tutu.ru/mtp/geo/log"
+	"stash.tutu.ru/golang/log"
 	"strconv"
 	"strings"
 	"time"

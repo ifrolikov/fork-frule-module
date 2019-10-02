@@ -3,7 +3,7 @@ package payment_method
 import (
 	"encoding/json"
 	"stash.tutu.ru/avia-search-common/frule-module"
-	"stash.tutu.ru/mtp/geo/log"
+	"stash.tutu.ru/golang/log"
 )
 
 type fruleStorageContainer struct {
