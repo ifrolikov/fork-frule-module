@@ -13,27 +13,27 @@ import (
 )
 
 type ServiceChargeRule struct {
-	Id                     int     `json:"id"`
-	CarrierId              *int64  `json:"carrier_id"`
-	Partner                *string `json:"partner"`
-	ConnectionGroup        *string `json:"connection_group"`
-	TicketingConnection    *string `json:"ticketing_connection"`
-	DaysToDepartureMin     *int64  `json:"days_to_departure_min"`
-	DaysToDepartureMax     *int64  `json:"days_to_departure_max"`
-	FareType               *string `json:"tariff"`
-	ABVariant              *string `json:"ab_variant"`
-	DepartureCountryId     *uint64 `json:"departure_country_id"`
-	ArrivalCountryId       *uint64 `json:"arrival_country_id"`
-	DepartureCityId        *uint64 `json:"departure_city_id"`
-	ArrivalCityId          *uint64 `json:"arrival_city_id"`
-	Margin                 *string `json:"result_margin"`
-	MarginParsed           *Margin
-	TestOfferPrice         base.Money
-	repo                   *frule_module.Repository
+	Id                  int         `json:"id"`
+	CarrierId           *int64      `json:"carrier_id"`
+	Partner             *string     `json:"partner"`
+	ConnectionGroup     *string     `json:"connection_group"`
+	TicketingConnection *string     `json:"ticketing_connection"`
+	DaysToDepartureMin  *int64      `json:"days_to_departure_min"`
+	DaysToDepartureMax  *int64      `json:"days_to_departure_max"`
+	FareType            *string     `json:"tariff"`
+	ABVariant           interface{} `json:"ab_variant"`
+	DepartureCountryId  *uint64     `json:"departure_country_id"`
+	ArrivalCountryId    *uint64     `json:"arrival_country_id"`
+	DepartureCityId     *uint64     `json:"departure_city_id"`
+	ArrivalCityId       *uint64     `json:"arrival_city_id"`
+	Margin              *string     `json:"result_margin"`
+	MarginParsed        *Margin
+	TestOfferPrice      base.Money
+	repo                *frule_module.Repository
 }
 
 type Conditions struct {
-	PriceRange        *string `json:"price_range"`
+	PriceRange *string `json:"price_range"`
 }
 
 type Result struct {
@@ -53,7 +53,7 @@ type Margin struct {
 }
 
 type ServiceChargeRuleResult struct {
-	Id      int
+	Id     int
 	Margin struct {
 		Full   base.Money
 		Child  base.Money
