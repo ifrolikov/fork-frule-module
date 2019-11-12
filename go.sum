@@ -374,6 +374,7 @@ stash.tutu.ru/avia-search-common/currency-repository v0.0.0-20190924155332-be430
 stash.tutu.ru/avia-search-common/repository v0.1.0 h1:/yGimwDReDu6XR55POSTpgT1JRythm8ZRnwW/htrGDE=
 stash.tutu.ru/avia-search-common/repository v0.1.0/go.mod h1:r4iRi/AniGYjHotkvTzvXTrm7wE/fXfNPVjeTrvx2Og=
 stash.tutu.ru/avia-search-common/repository v0.1.1/go.mod h1:RxCxKeK36EqulGyxL2sKm7Y/ElwcB9+iy6D4XeSVTgw=
+stash.tutu.ru/avia-search-common/repository v0.1.2/go.mod h1:RxCxKeK36EqulGyxL2sKm7Y/ElwcB9+iy6D4XeSVTgw=
 stash.tutu.ru/avia-search-common/utils v0.1.0 h1:Pi+VvpIpAC70HnKoA3rhB8Q4o3AuXUjhUDkSAJlOiZM=
 stash.tutu.ru/avia-search-common/utils v0.1.0/go.mod h1:S4Uz/FD/1gtsOj10Adkeo8v1xc/ma7FNq/+EewOxrSY=
 stash.tutu.ru/avia-search-common/utils v0.2.0/go.mod h1:plvZ+sq9np8v2ftgJ6xpOyH/DyoR+1ABmgxa3mGBrC0=
