@@ -12,6 +12,1013 @@ import (
 	"strconv"
 )
 
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"carrier_id", "tariff",
+	},
+
+	// []string{город=>город} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id", "tariff"},
+
+	// []string{город=>город} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_city_id", "carrier_id", "tariff"},
+
+	// []string{город=>страна} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"carrier_id", "tariff",
+	},
+
+	// []string{город=>страна} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id", "tariff"},
+
+	// []string{город=>страна} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_country_id", "carrier_id", "tariff"},
+
+	// []string{страна=>город} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"carrier_id", "tariff",
+	},
+
+	// []string{страна=>город} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id", "tariff"},
+
+	// []string{страна=>город} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_city_id", "carrier_id", "tariff"},
+
+	// []string{страна=>страна} и конкретная а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"carrier_id", "tariff"},
+
+	// []string{страна=>страна} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id", "tariff"},
+
+	// []string{страна=>страна} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_country_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к из конкретного города
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к из конкретного города без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к из конкретного города без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к из конкретной страны
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к из конкретной страны без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к из конкретной страны без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к в конкретный город
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к в конкретный город без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_city_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к в конкретный город без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к в конкретную страну
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к в конкретную страну без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_country_id", "carrier_id", "tariff"},
+
+	// все рейсы конкретной а/к в конкретную страну без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id", "carrier_id", "tariff"},
+
+	// все рейсы
+	[]string{"partner", "connection_group", "ticketing_connection", "carrier_id", "tariff"},
+
+	// все рейсы без ticketing_connection
+	[]string{"partner", "connection_group", "carrier_id", "tariff"},
+
+	// все рейсы без ticketing_connection, connection_group
+	[]string{"partner", "carrier_id", "tariff"},
+
+	// основной набор правил []string{направления: города и страны} +аб кампания
+	// []string{город=>город} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_city_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>страна} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_city_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>город} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_country_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>страна} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_country_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>город} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"carrier_id", "ab_variant",
+	},
+
+	// []string{город=>город} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id", "ab_variant"},
+
+	// []string{город=>город} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_city_id", "carrier_id", "ab_variant"},
+
+	// []string{город=>страна} и конкретная а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"carrier_id", "ab_variant"},
+
+	// []string{город=>страна} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id", "ab_variant"},
+
+	// []string{город=>страна} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_country_id", "carrier_id", "ab_variant"},
+
+	// []string{страна=>город} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"carrier_id", "ab_variant",
+	},
+
+	// []string{страна=>город} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id", "ab_variant"},
+
+	// []string{страна=>город} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_city_id", "carrier_id", "ab_variant"},
+
+	// []string{страна=>страна} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"carrier_id", "ab_variant",
+	},
+
+	// []string{страна=>страна} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id", "ab_variant"},
+
+	// []string{страна=>страна} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_country_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к из конкретного города с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы конкретной а/к из конкретной страны с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы конкретной а/к из конкретного города
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к из конкретного города без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к из конкретного города без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к из конкретной страны
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к из конкретной страны без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к из конкретной страны без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к в конкретный город с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "arrival_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "arrival_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы конкретной а/к в конкретную страну с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "arrival_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "arrival_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы конкретной а/к в конкретный город
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к в конкретный город без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_city_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к в конкретный город без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к в конкретную страну
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к в конкретную страну без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_country_id", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к в конкретную страну без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id", "carrier_id", "ab_variant"},
+
+	// []string{город=>город} любых а/к с днями до вылета
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// []string{город=>город} любых а/к с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant"},
+
+	// []string{город=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_city_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// []string{город=>страна} любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "arrival_country_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_city_id", "arrival_country_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// []string{страна=>город} любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_city_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_country_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// []string{страна=>страна} любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"days_to_departure_min", "days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_country_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_country_id", "arrival_country_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// []string{город=>город} любых а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"ab_variant",
+	},
+
+	// []string{город=>город} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "ab_variant"},
+
+	// []string{город=>город} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_city_id", "ab_variant"},
+
+	// []string{город=>страна} любых а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"ab_variant",
+	},
+
+	// []string{город=>страна} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "ab_variant"},
+
+	// []string{город=>страна} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_country_id", "ab_variant"},
+
+	// []string{страна=>город} любых а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"ab_variant",
+	},
+
+	// []string{страна=>город} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "ab_variant"},
+
+	// []string{страна=>город} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_city_id", "ab_variant"},
+
+	// []string{страна=>страна} любых а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"ab_variant",
+	},
+
+	// []string{страна=>страна} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "ab_variant"},
+
+	// []string{страна=>страна} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_country_id", "ab_variant"},
+
+	// все рейсы из конкретного города любых а/к с днями до вылета
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant"},
+
+	// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// все рейсы из конкретной страны любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// все рейсы из конкретного города любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "ab_variant"},
+
+	// все рейсы из конкретного города любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "ab_variant"},
+
+	// все рейсы из конкретного города любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "ab_variant"},
+
+	// все рейсы из конкретной страны любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "ab_variant"},
+
+	// все рейсы из конкретной страны любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "ab_variant"},
+
+	// все рейсы из конкретной страны любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "ab_variant"},
+
+	// все рейсы в конкретный город любых а/к с днями до вылета
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant"},
+
+	// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "arrival_city_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// все рейсы в конкретную страну любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "arrival_country_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "arrival_country_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// все рейсы в конкретный город любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "ab_variant"},
+
+	// все рейсы в конкретный город любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_city_id", "ab_variant"},
+
+	// все рейсы в конкретный город любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id", "ab_variant"},
+
+	// все рейсы в конкретную страну любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "ab_variant"},
+
+	// все рейсы в конкретную страну любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_country_id", "ab_variant"},
+
+	// все рейсы в конкретную страну любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id", "ab_variant"},
+
+	// все рейсы конкретной а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max", "ab_variant",
+	},
+
+	// все рейсы конкретной а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "carrier_id", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы конкретной а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// все рейсы конкретной а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к без ticketing_connection
+	[]string{"partner", "connection_group", "carrier_id", "ab_variant"},
+
+	// все рейсы конкретной а/к без ticketing_connection, connection_group
+	[]string{"partner", "carrier_id", "ab_variant"},
+
+	// все рейсы с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "days_to_departure_min", "days_to_departure_max",
+		"ab_variant",
+	},
+
+	// все рейсы с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// все рейсы с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
+
+	// все рейсы
+	[]string{"partner", "connection_group", "ticketing_connection", "ab_variant"},
+
+	// все рейсы без ticketing_connection
+	[]string{"partner", "connection_group", "ab_variant"},
+
+	// все рейсы без ticketing_connection, connection_group
+	[]string{"partner", "ab_variant"},
+
+	// основной набор правил []string{направления: города и страны}
+	// []string{город=>город} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_city_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{город=>страна} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_city_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{страна=>город} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_country_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{страна=>страна} и конкретная а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"carrier_id", "days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{
+		"partner", "departure_country_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{город=>город} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"carrier_id",
+	},
+
+	// []string{город=>город} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id"},
+
+	// []string{город=>город} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_city_id", "carrier_id"},
+
+	// []string{город=>страна} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"carrier_id",
+	},
+
+	// []string{город=>страна} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id"},
+
+	// []string{город=>страна} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_country_id", "carrier_id"},
+
+	// []string{страна=>город} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"carrier_id",
+	},
+
+	// []string{страна=>город} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id"},
+
+	// []string{страна=>город} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_city_id", "carrier_id"},
+
+	// []string{страна=>страна} и конкретная а/к
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"carrier_id",
+	},
+
+	// []string{страна=>страна} и конкретная а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id"},
+
+	// []string{страна=>страна} и конкретная а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_country_id", "carrier_id"},
+
+	// все рейсы конкретной а/к из конкретного города с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы конкретной а/к из конкретной страны с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max"},
+
+	// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы конкретной а/к из конкретного города
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id"},
+
+	// все рейсы конкретной а/к из конкретного города без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "carrier_id"},
+
+	// все рейсы конкретной а/к из конкретного города без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "carrier_id"},
+
+	// все рейсы конкретной а/к из конкретной страны
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id"},
+
+	// все рейсы конкретной а/к из конкретной страны без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "carrier_id"},
+
+	// все рейсы конкретной а/к из конкретной страны без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "carrier_id"},
+
+	// все рейсы конкретной а/к в конкретный город с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "arrival_city_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы конкретной а/к в конкретную страну с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "arrival_country_id", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы конкретной а/к в конкретный город
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id"},
+
+	// все рейсы конкретной а/к в конкретный город без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_city_id", "carrier_id"},
+
+	// все рейсы конкретной а/к в конкретный город без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id", "carrier_id"},
+
+	// все рейсы конкретной а/к в конкретную страну
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id"},
+
+	// все рейсы конкретной а/к в конкретную страну без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_country_id", "carrier_id"},
+
+	// все рейсы конкретной а/к в конкретную страну без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id", "carrier_id"},
+
+	// []string{город=>город} любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{город=>город} любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "arrival_city_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{город=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// []string{город=>страна} любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_city_id", "arrival_country_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// []string{страна=>город} любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_city_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// []string{страна=>страна} любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
+		"days_to_departure_min", "days_to_departure_max",
+	},
+
+	// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection
+	[]string{
+		"partner", "connection_group", "departure_country_id", "arrival_country_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// []string{город=>город} любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id"},
+
+	// []string{город=>город} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id"},
+
+	// []string{город=>город} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_city_id"},
+
+	// []string{город=>страна} любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id"},
+
+	// []string{город=>страна} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id"},
+
+	// []string{город=>страна} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "arrival_country_id"},
+
+	// []string{страна=>город} любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id"},
+
+	// []string{страна=>город} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id"},
+
+	// []string{страна=>город} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_city_id"},
+
+	// []string{страна=>страна} любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id"},
+
+	// []string{страна=>страна} любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id"},
+
+	// []string{страна=>страна} любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "arrival_country_id"},
+
+	// все рейсы из конкретного города любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_city_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы из конкретной страны любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "departure_country_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы из конкретного города любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id"},
+
+	// все рейсы из конкретного города любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_city_id"},
+
+	// все рейсы из конкретного города любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_city_id"},
+
+	// все рейсы из конкретной страны любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id"},
+
+	// все рейсы из конкретной страны любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "departure_country_id"},
+
+	// все рейсы из конкретной страны любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "departure_country_id"},
+
+	// все рейсы в конкретный город любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "arrival_city_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы в конкретную страну любых а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "arrival_country_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы в конкретный город любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id"},
+
+	// все рейсы в конкретный город любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_city_id"},
+
+	// все рейсы в конкретный город любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "arrival_city_id"},
+
+	// все рейсы в конкретную страну любых а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id"},
+
+	// все рейсы в конкретную страну любых а/к без ticketing_connection
+	[]string{"partner", "connection_group", "arrival_country_id"},
+
+	// все рейсы в конкретную страну любых а/к без ticketing_connection, connection_group
+	[]string{"partner", "arrival_country_id"},
+
+	// все рейсы конкретной а/к с днями до вылета
+	[]string{
+		"partner", "connection_group", "ticketing_connection", "carrier_id", "days_to_departure_min",
+		"days_to_departure_max",
+	},
+
+	// все рейсы конкретной а/к с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы конкретной а/к с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы конкретной а/к
+	[]string{"partner", "connection_group", "ticketing_connection", "carrier_id"},
+
+	// все рейсы конкретной а/к без ticketing_connection
+	[]string{"partner", "connection_group", "carrier_id"},
+
+	// все рейсы конкретной а/к без ticketing_connection, connection_group
+	[]string{"partner", "carrier_id"},
+
+	// все рейсы с днями до вылета
+	[]string{"partner", "connection_group", "ticketing_connection", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы с днями до вылета без ticketing_connection
+	[]string{"partner", "connection_group", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы с днями до вылета без ticketing_connection, connection_group
+	[]string{"partner", "days_to_departure_min", "days_to_departure_max"},
+
+	// все рейсы
+	[]string{"partner", "connection_group", "ticketing_connection"},
+
+	// все рейсы без ticketing_connection
+	[]string{"partner", "connection_group"},
+
+	// все рейсы без ticketing_connection, connection_group
+	[]string{"partner"},
+}
+
 type ServiceChargeRule struct {
 	Id                  int         `json:"id"`
 	CarrierId           *int64      `json:"carrier_id"`
@@ -133,1012 +1140,7 @@ func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} 
 }
 
 func (rule *ServiceChargeRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"carrier_id", "tariff",
-		},
-
-		// []string{город=>город} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id", "tariff"},
-
-		// []string{город=>город} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_city_id", "carrier_id", "tariff"},
-
-		// []string{город=>страна} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"carrier_id", "tariff",
-		},
-
-		// []string{город=>страна} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id", "tariff"},
-
-		// []string{город=>страна} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_country_id", "carrier_id", "tariff"},
-
-		// []string{страна=>город} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"carrier_id", "tariff",
-		},
-
-		// []string{страна=>город} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id", "tariff"},
-
-		// []string{страна=>город} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_city_id", "carrier_id", "tariff"},
-
-		// []string{страна=>страна} и конкретная а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"carrier_id", "tariff"},
-
-		// []string{страна=>страна} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id", "tariff"},
-
-		// []string{страна=>страна} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_country_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к из конкретного города
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к из конкретного города без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к из конкретного города без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к из конкретной страны
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к из конкретной страны без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к из конкретной страны без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к в конкретный город
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к в конкретный город без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_city_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к в конкретный город без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к в конкретную страну
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к в конкретную страну без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_country_id", "carrier_id", "tariff"},
-
-		// все рейсы конкретной а/к в конкретную страну без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id", "carrier_id", "tariff"},
-
-		// все рейсы
-		[]string{"partner", "connection_group", "ticketing_connection", "carrier_id", "tariff"},
-
-		// все рейсы без ticketing_connection
-		[]string{"partner", "connection_group", "carrier_id", "tariff"},
-
-		// все рейсы без ticketing_connection, connection_group
-		[]string{"partner", "carrier_id", "tariff"},
-
-		// основной набор правил []string{направления: города и страны} +аб кампания
-		// []string{город=>город} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_city_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>страна} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_city_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>город} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_country_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>страна} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_country_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>город} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"carrier_id", "ab_variant",
-		},
-
-		// []string{город=>город} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id", "ab_variant"},
-
-		// []string{город=>город} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_city_id", "carrier_id", "ab_variant"},
-
-		// []string{город=>страна} и конкретная а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"carrier_id", "ab_variant"},
-
-		// []string{город=>страна} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id", "ab_variant"},
-
-		// []string{город=>страна} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_country_id", "carrier_id", "ab_variant"},
-
-		// []string{страна=>город} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"carrier_id", "ab_variant",
-		},
-
-		// []string{страна=>город} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id", "ab_variant"},
-
-		// []string{страна=>город} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_city_id", "carrier_id", "ab_variant"},
-
-		// []string{страна=>страна} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"carrier_id", "ab_variant",
-		},
-
-		// []string{страна=>страна} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id", "ab_variant"},
-
-		// []string{страна=>страна} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_country_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к из конкретного города с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы конкретной а/к из конкретной страны с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы конкретной а/к из конкретного города
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к из конкретного города без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к из конкретного города без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к из конкретной страны
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к из конкретной страны без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к из конкретной страны без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к в конкретный город с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "arrival_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "arrival_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы конкретной а/к в конкретную страну с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "arrival_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "arrival_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы конкретной а/к в конкретный город
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к в конкретный город без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_city_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к в конкретный город без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к в конкретную страну
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к в конкретную страну без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_country_id", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к в конкретную страну без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id", "carrier_id", "ab_variant"},
-
-		// []string{город=>город} любых а/к с днями до вылета
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// []string{город=>город} любых а/к с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant"},
-
-		// []string{город=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_city_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// []string{город=>страна} любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "arrival_country_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_city_id", "arrival_country_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// []string{страна=>город} любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_city_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_country_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// []string{страна=>страна} любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"days_to_departure_min", "days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_country_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_country_id", "arrival_country_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// []string{город=>город} любых а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"ab_variant",
-		},
-
-		// []string{город=>город} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "ab_variant"},
-
-		// []string{город=>город} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_city_id", "ab_variant"},
-
-		// []string{город=>страна} любых а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"ab_variant",
-		},
-
-		// []string{город=>страна} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "ab_variant"},
-
-		// []string{город=>страна} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_country_id", "ab_variant"},
-
-		// []string{страна=>город} любых а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"ab_variant",
-		},
-
-		// []string{страна=>город} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "ab_variant"},
-
-		// []string{страна=>город} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_city_id", "ab_variant"},
-
-		// []string{страна=>страна} любых а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"ab_variant",
-		},
-
-		// []string{страна=>страна} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "ab_variant"},
-
-		// []string{страна=>страна} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_country_id", "ab_variant"},
-
-		// все рейсы из конкретного города любых а/к с днями до вылета
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant"},
-
-		// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// все рейсы из конкретной страны любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// все рейсы из конкретного города любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "ab_variant"},
-
-		// все рейсы из конкретного города любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "ab_variant"},
-
-		// все рейсы из конкретного города любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "ab_variant"},
-
-		// все рейсы из конкретной страны любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "ab_variant"},
-
-		// все рейсы из конкретной страны любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "ab_variant"},
-
-		// все рейсы из конкретной страны любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "ab_variant"},
-
-		// все рейсы в конкретный город любых а/к с днями до вылета
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant"},
-
-		// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "arrival_city_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// все рейсы в конкретную страну любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "arrival_country_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "arrival_country_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// все рейсы в конкретный город любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "ab_variant"},
-
-		// все рейсы в конкретный город любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_city_id", "ab_variant"},
-
-		// все рейсы в конкретный город любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id", "ab_variant"},
-
-		// все рейсы в конкретную страну любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "ab_variant"},
-
-		// все рейсы в конкретную страну любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_country_id", "ab_variant"},
-
-		// все рейсы в конкретную страну любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id", "ab_variant"},
-
-		// все рейсы конкретной а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max", "ab_variant",
-		},
-
-		// все рейсы конкретной а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "carrier_id", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы конкретной а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "carrier_id", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// все рейсы конкретной а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к без ticketing_connection
-		[]string{"partner", "connection_group", "carrier_id", "ab_variant"},
-
-		// все рейсы конкретной а/к без ticketing_connection, connection_group
-		[]string{"partner", "carrier_id", "ab_variant"},
-
-		// все рейсы с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "days_to_departure_min", "days_to_departure_max",
-			"ab_variant",
-		},
-
-		// все рейсы с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// все рейсы с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "days_to_departure_min", "days_to_departure_max", "ab_variant"},
-
-		// все рейсы
-		[]string{"partner", "connection_group", "ticketing_connection", "ab_variant"},
-
-		// все рейсы без ticketing_connection
-		[]string{"partner", "connection_group", "ab_variant"},
-
-		// все рейсы без ticketing_connection, connection_group
-		[]string{"partner", "ab_variant"},
-
-		// основной набор правил []string{направления: города и страны}
-		// []string{город=>город} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{город=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_city_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{город=>страна} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{город=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_city_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{страна=>город} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{страна=>город} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_country_id", "arrival_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{страна=>страна} и конкретная а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"carrier_id", "days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{страна=>страна} и конкретная а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{
-			"partner", "departure_country_id", "arrival_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{город=>город} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"carrier_id",
-		},
-
-		// []string{город=>город} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id", "carrier_id"},
-
-		// []string{город=>город} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_city_id", "carrier_id"},
-
-		// []string{город=>страна} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"carrier_id",
-		},
-
-		// []string{город=>страна} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id", "carrier_id"},
-
-		// []string{город=>страна} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_country_id", "carrier_id"},
-
-		// []string{страна=>город} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"carrier_id",
-		},
-
-		// []string{страна=>город} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id", "carrier_id"},
-
-		// []string{страна=>город} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_city_id", "carrier_id"},
-
-		// []string{страна=>страна} и конкретная а/к
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"carrier_id",
-		},
-
-		// []string{страна=>страна} и конкретная а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id", "carrier_id"},
-
-		// []string{страна=>страна} и конкретная а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_country_id", "carrier_id"},
-
-		// все рейсы конкретной а/к из конкретного города с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к из конкретного города с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы конкретной а/к из конкретной страны с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max"},
-
-		// все рейсы конкретной а/к из конкретной страны с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы конкретной а/к из конкретного города
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "carrier_id"},
-
-		// все рейсы конкретной а/к из конкретного города без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "carrier_id"},
-
-		// все рейсы конкретной а/к из конкретного города без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "carrier_id"},
-
-		// все рейсы конкретной а/к из конкретной страны
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "carrier_id"},
-
-		// все рейсы конкретной а/к из конкретной страны без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "carrier_id"},
-
-		// все рейсы конкретной а/к из конкретной страны без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "carrier_id"},
-
-		// все рейсы конкретной а/к в конкретный город с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "arrival_city_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к в конкретный город с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы конкретной а/к в конкретную страну с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "arrival_country_id", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к в конкретную страну с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы конкретной а/к в конкретный город
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id", "carrier_id"},
-
-		// все рейсы конкретной а/к в конкретный город без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_city_id", "carrier_id"},
-
-		// все рейсы конкретной а/к в конкретный город без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id", "carrier_id"},
-
-		// все рейсы конкретной а/к в конкретную страну
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id", "carrier_id"},
-
-		// все рейсы конкретной а/к в конкретную страну без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_country_id", "carrier_id"},
-
-		// все рейсы конкретной а/к в конкретную страну без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id", "carrier_id"},
-
-		// []string{город=>город} любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{город=>город} любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "arrival_city_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{город=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// []string{город=>страна} любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_city_id", "arrival_country_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{город=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// []string{страна=>город} любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_city_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{страна=>город} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// []string{страна=>страна} любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id",
-			"days_to_departure_min", "days_to_departure_max",
-		},
-
-		// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection
-		[]string{
-			"partner", "connection_group", "departure_country_id", "arrival_country_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// []string{страна=>страна} любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// []string{город=>город} любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_city_id"},
-
-		// []string{город=>город} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_city_id"},
-
-		// []string{город=>город} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_city_id"},
-
-		// []string{город=>страна} любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id", "arrival_country_id"},
-
-		// []string{город=>страна} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "arrival_country_id"},
-
-		// []string{город=>страна} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "arrival_country_id"},
-
-		// []string{страна=>город} любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_city_id"},
-
-		// []string{страна=>город} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_city_id"},
-
-		// []string{страна=>город} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_city_id"},
-
-		// []string{страна=>страна} любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id", "arrival_country_id"},
-
-		// []string{страна=>страна} любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "arrival_country_id"},
-
-		// []string{страна=>страна} любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "arrival_country_id"},
-
-		// все рейсы из конкретного города любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_city_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы из конкретного города любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы из конкретной страны любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "departure_country_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы из конкретной страны любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы из конкретного города любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_city_id"},
-
-		// все рейсы из конкретного города любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_city_id"},
-
-		// все рейсы из конкретного города любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_city_id"},
-
-		// все рейсы из конкретной страны любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "departure_country_id"},
-
-		// все рейсы из конкретной страны любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "departure_country_id"},
-
-		// все рейсы из конкретной страны любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "departure_country_id"},
-
-		// все рейсы в конкретный город любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "arrival_city_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы в конкретный город любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы в конкретную страну любых а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "arrival_country_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы в конкретную страну любых а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы в конкретный город любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_city_id"},
-
-		// все рейсы в конкретный город любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_city_id"},
-
-		// все рейсы в конкретный город любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "arrival_city_id"},
-
-		// все рейсы в конкретную страну любых а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "arrival_country_id"},
-
-		// все рейсы в конкретную страну любых а/к без ticketing_connection
-		[]string{"partner", "connection_group", "arrival_country_id"},
-
-		// все рейсы в конкретную страну любых а/к без ticketing_connection, connection_group
-		[]string{"partner", "arrival_country_id"},
-
-		// все рейсы конкретной а/к с днями до вылета
-		[]string{
-			"partner", "connection_group", "ticketing_connection", "carrier_id", "days_to_departure_min",
-			"days_to_departure_max",
-		},
-
-		// все рейсы конкретной а/к с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы конкретной а/к с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "carrier_id", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы конкретной а/к
-		[]string{"partner", "connection_group", "ticketing_connection", "carrier_id"},
-
-		// все рейсы конкретной а/к без ticketing_connection
-		[]string{"partner", "connection_group", "carrier_id"},
-
-		// все рейсы конкретной а/к без ticketing_connection, connection_group
-		[]string{"partner", "carrier_id"},
-
-		// все рейсы с днями до вылета
-		[]string{"partner", "connection_group", "ticketing_connection", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы с днями до вылета без ticketing_connection
-		[]string{"partner", "connection_group", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы с днями до вылета без ticketing_connection, connection_group
-		[]string{"partner", "days_to_departure_min", "days_to_departure_max"},
-
-		// все рейсы
-		[]string{"partner", "connection_group", "ticketing_connection"},
-
-		// все рейсы без ticketing_connection
-		[]string{"partner", "connection_group"},
-
-		// все рейсы без ticketing_connection, connection_group
-		[]string{"partner"},
-	}
+	return comparisonOrder
 }
 
 func (rule *ServiceChargeRule) GetComparisonOperators() frule_module.ComparisonOperators {

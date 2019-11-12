@@ -8,6 +8,6 @@ require (
 	github.com/stretchr/testify v1.4.0
 	stash.tutu.ru/avia-search-common/contracts v1.1.0
 	stash.tutu.ru/avia-search-common/repository v0.1.0
-	stash.tutu.ru/avia-search-common/utils v0.2.0
+	stash.tutu.ru/avia-search-common/utils v0.2.2
 	stash.tutu.ru/golang/log v0.0.0-20190925120345-16f0e05f99a0
 )

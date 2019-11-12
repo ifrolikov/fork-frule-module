@@ -351,6 +351,7 @@ gopkg.in/yaml.v2 v2.0.0-20170812160011-eb3733d160e7/go.mod h1:JAlM8MvJe8wmxCU4Bl
 gopkg.in/yaml.v2 v2.2.1/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v2 v2.2.2 h1:ZCJp+EgiOT7lHqUV2J862kp8Qj64Jo6az82+3Td9dZw=
 gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
+gopkg.in/yaml.v2 v2.2.4 h1:/eiJrUcujPVeJ3xlSWaiNi3uSVmDGBK1pDHUHAnao1I=
 gopkg.in/yaml.v2 v2.2.4/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 honnef.co/go/tools v0.0.0-20180728063816-88497007e858/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
 honnef.co/go/tools v0.0.0-20190102054323-c2f93a96b099/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
@@ -366,6 +367,7 @@ stash.tutu.ru/avia-search-common/contracts v0.7.0 h1:Hdn+2Re6xgHgJOMp0Sl39gaj6k4
 stash.tutu.ru/avia-search-common/contracts v0.7.0/go.mod h1:a+lKATuqln+7QEsGrRbPSebmrbLaSOD7qcwLFdASb0U=
 stash.tutu.ru/avia-search-common/contracts v0.7.1/go.mod h1:c+lv2UnbtHDtkoKYF/uvjpTnleQzK0myp8uYUDIyGJM=
 stash.tutu.ru/avia-search-common/contracts v1.0.0/go.mod h1:c+lv2UnbtHDtkoKYF/uvjpTnleQzK0myp8uYUDIyGJM=
+stash.tutu.ru/avia-search-common/contracts v1.1.0 h1:89Xbl8kz31QcFw4b9g76XtUEZtAhfcIrpvHaLxSRi9E=
 stash.tutu.ru/avia-search-common/contracts v1.1.0/go.mod h1:c+lv2UnbtHDtkoKYF/uvjpTnleQzK0myp8uYUDIyGJM=
 stash.tutu.ru/avia-search-common/currency-repository v0.0.0-20190924155332-be4304e286d9/go.mod h1:TuGDcC/pmQzt+JaekAyEtjqNf+oQ4Wv2I63IEMYVk0o=
 stash.tutu.ru/avia-search-common/repository v0.1.0 h1:/yGimwDReDu6XR55POSTpgT1JRythm8ZRnwW/htrGDE=
@@ -373,9 +375,12 @@ stash.tutu.ru/avia-search-common/repository v0.1.0/go.mod h1:r4iRi/AniGYjHotkvTz
 stash.tutu.ru/avia-search-common/utils v0.1.0 h1:Pi+VvpIpAC70HnKoA3rhB8Q4o3AuXUjhUDkSAJlOiZM=
 stash.tutu.ru/avia-search-common/utils v0.1.0/go.mod h1:S4Uz/FD/1gtsOj10Adkeo8v1xc/ma7FNq/+EewOxrSY=
 stash.tutu.ru/avia-search-common/utils v0.2.0/go.mod h1:plvZ+sq9np8v2ftgJ6xpOyH/DyoR+1ABmgxa3mGBrC0=
+stash.tutu.ru/avia-search-common/utils v0.2.2 h1:VzYUxQ/PJnBLkXnzoi2lfqQ7PT0v8YufcSB/IYvqLf0=
+stash.tutu.ru/avia-search-common/utils v0.2.2/go.mod h1:857ZVbdJHC34DfHVTq3ShXrSphxMCsQW8W6YmcANE1w=
 stash.tutu.ru/aviasearch/domain v0.2.0 h1:SwmjPrevvHnfGQHhu9/F0pIXVdo/7OsIIOY6/g88YH0=
 stash.tutu.ru/aviasearch/domain v0.2.0/go.mod h1:GKFoKLrlrxlDe5Wh1AORN8vO80n5CRt0SMVqHhR15fw=
 stash.tutu.ru/aviasearch/domain v0.2.2/go.mod h1:q7nSW/hDmj/sDrK8xEap/KAr2lqSbhu8TnKeI7fKcr8=
+stash.tutu.ru/aviasearch/domain v0.2.3/go.mod h1:p8as9g+kusaQXPVLUbmJsEmYg1HrLpziqjeWX0pt4no=
 stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938 h1:a9tR6opQoGCDkzqZxY4/y0LAvQuV2ytf1ow12uQWYpY=
 stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938/go.mod h1:cIaYZxccbvj5U0fdFr2aK5V4HwmveQ1m2gqOosAHtJo=
 stash.tutu.ru/golang/envs v0.0.0-20190916141851-23a48261f2d7 h1:9HPfTcMZuzHvkOGAjmstjM+wBTja+KCFI9QVjEZ/ZUI=
