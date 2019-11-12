@@ -61,26 +61,32 @@ func (rule *PaymentEngineRule) GetResultValue(interface{}) interface{} {
 	return result
 }
 
-func (rule *PaymentEngineRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"partner", "connection_group", "real_gds", "carrier_id", "payment_method"},
-		[]string{"partner", "connection_group", "real_gds", "payment_method"},
-		[]string{"partner", "real_gds", "carrier_id", "payment_method"},
-		[]string{"partner", "real_gds", "payment_method"},
-		[]string{"partner", "connection_group", "carrier_id", "payment_method"},
-		[]string{"partner", "connection_group", "payment_method"},
-		[]string{"partner", "carrier_id", "payment_method"},
-		[]string{"partner", "payment_method"},
-		[]string{"payment_method"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"partner", "connection_group", "real_gds", "carrier_id", "payment_method"},
+	[]string{"partner", "connection_group", "real_gds", "payment_method"},
+	[]string{"partner", "real_gds", "carrier_id", "payment_method"},
+	[]string{"partner", "real_gds", "payment_method"},
+	[]string{"partner", "connection_group", "carrier_id", "payment_method"},
+	[]string{"partner", "connection_group", "payment_method"},
+	[]string{"partner", "carrier_id", "payment_method"},
+	[]string{"partner", "payment_method"},
+	[]string{"payment_method"},
 }
+
+func (rule *PaymentEngineRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *PaymentEngineRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"partner", "connection_group", "real_gds", "carrier_id", "payment_method"}
+
 func (rule *PaymentEngineRule) GetStrategyKeys() []string {
-	return []string{"partner", "connection_group", "real_gds", "carrier_id", "payment_method"}
+	return strategyKeys
 }
 
 func (rule *PaymentEngineRule) GetDefaultValue() interface{} {

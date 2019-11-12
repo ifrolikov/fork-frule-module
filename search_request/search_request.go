@@ -43,42 +43,48 @@ func (rule *SearchRequestRule) GetResultValue(interface{}) interface{} {
 	return false
 }
 
-func (rule *SearchRequestRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "service_class"},
-		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
-		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "service_class"},
-		[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id"},
-		[]string{"connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id", "service_class"},
-		[]string{"connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id"},
-		[]string{"connection_group", "departure_country_id", "departure_city_id", "service_class"},
-		[]string{"connection_group", "departure_country_id", "departure_city_id"},
-		[]string{"connection_group", "arrival_country_id", "arrival_city_id", "service_class"},
-		[]string{"connection_group", "arrival_country_id", "arrival_city_id"},
-		[]string{"connection_group", "departure_country_id", "arrival_country_id", "service_class"},
-		[]string{"connection_group", "departure_country_id", "arrival_country_id"},
-		[]string{"connection_group", "departure_country_id", "service_class"},
-		[]string{"connection_group", "departure_country_id"},
-		[]string{"connection_group", "arrival_country_id", "service_class"},
-		[]string{"connection_group", "arrival_country_id"},
-		[]string{"connection_group", "service_class"},
-		[]string{"connection_group"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "service_class"},
+	[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "service_class"},
+	[]string{"connection_group", "departure_country_id", "departure_city_id", "arrival_country_id"},
+	[]string{"connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id", "service_class"},
+	[]string{"connection_group", "departure_country_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"connection_group", "departure_country_id", "departure_city_id", "service_class"},
+	[]string{"connection_group", "departure_country_id", "departure_city_id"},
+	[]string{"connection_group", "arrival_country_id", "arrival_city_id", "service_class"},
+	[]string{"connection_group", "arrival_country_id", "arrival_city_id"},
+	[]string{"connection_group", "departure_country_id", "arrival_country_id", "service_class"},
+	[]string{"connection_group", "departure_country_id", "arrival_country_id"},
+	[]string{"connection_group", "departure_country_id", "service_class"},
+	[]string{"connection_group", "departure_country_id"},
+	[]string{"connection_group", "arrival_country_id", "service_class"},
+	[]string{"connection_group", "arrival_country_id"},
+	[]string{"connection_group", "service_class"},
+	[]string{"connection_group"},
 }
 
+func (rule *SearchRequestRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comaprisonOperators = frule_module.ComparisonOperators{}
+
 func (rule *SearchRequestRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comaprisonOperators
+}
+
+var strategyKeys = []string{
+	"connection_group",
+	"arrival_country_id",
+	"departure_country_id",
+	"arrival_city_id",
+	"departure_city_id",
+	"service_class",
 }
 
 func (rule SearchRequestRule) GetStrategyKeys() []string {
-	return []string{
-		"connection_group",
-		"arrival_country_id",
-		"departure_country_id",
-		"arrival_city_id",
-		"departure_city_id",
-		"service_class",
-	}
+	return strategyKeys
 }
 
 func (rule *SearchRequestRule) GetDefaultValue() interface{} {

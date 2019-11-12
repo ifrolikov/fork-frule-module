@@ -1143,39 +1143,43 @@ func (rule *ServiceChargeRule) GetComparisonOrder() frule_module.ComparisonOrder
 	return comparisonOrder
 }
 
+var comparisonOperators = frule_module.ComparisonOperators{
+	"ab_variant": func(a, b reflect.Value) bool {
+		offerABCampaigns, ok := b.Elem().Interface().([]string)
+		if !ok {
+			return false
+		}
+		return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
+	},
+	"days_to_departure_min": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+	},
+	"days_to_departure_max": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+	},
+}
+
 func (rule *ServiceChargeRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{
-		"ab_variant": func(a, b reflect.Value) bool {
-			offerABCampaigns, ok := b.Elem().Interface().([]string)
-			if !ok {
-				return false
-			}
-			return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
-		},
-		"days_to_departure_min": func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
-		},
-		"days_to_departure_max": func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
-		},
-	}
+	return comparisonOperators
+}
+
+var strategyKeys = []string{
+	"partner",
+	"connection_group",
+	"ticketing_connection",
+	"carrier_id",
+	"tariff",
+	"ab_variant",
+	"departure_city_id",
+	"arrival_city_id",
+	"departure_country_id",
+	"arrival_country_id",
+	"days_to_departure_min",
+	"days_to_departure_max",
 }
 
 func (rule *ServiceChargeRule) GetStrategyKeys() []string {
-	return []string{
-		"partner",
-		"connection_group",
-		"ticketing_connection",
-		"carrier_id",
-		"tariff",
-		"ab_variant",
-		"departure_city_id",
-		"arrival_city_id",
-		"departure_country_id",
-		"arrival_country_id",
-		"days_to_departure_min",
-		"days_to_departure_max",
-	}
+	return strategyKeys
 }
 
 func (rule *ServiceChargeRule) GetDefaultValue() interface{} {

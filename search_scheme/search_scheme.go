@@ -35,39 +35,45 @@ func (rule *SearchSchemeRule) GetResultValue(interface{}) interface{} {
 	return rule.ResultParsed
 }
 
-func (rule *SearchSchemeRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"connection_group", "departure_city_id", "arrival_city_id"},
-		[]string{"connection_group", "departure_city_id", "arrival_country_id"},
-		[]string{"connection_group", "departure_country_id", "arrival_city_id"},
-		[]string{"connection_group", "departure_country_id", "arrival_country_id"},
-		[]string{"connection_group", "departure_region_id", "arrival_country_id"},
-		[]string{"connection_group", "departure_country_id", "arrival_region_id"},
-		[]string{"connection_group", "departure_region_id", "arrival_region_id"},
-		[]string{"connection_group", "departure_region_id"},
-		[]string{"connection_group", "departure_country_id"},
-		[]string{"connection_group", "departure_city_id"},
-		[]string{"connection_group", "arrival_region_id"},
-		[]string{"connection_group", "arrival_country_id"},
-		[]string{"connection_group", "arrival_city_id"},
-		[]string{"connection_group"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"connection_group", "departure_city_id", "arrival_city_id"},
+	[]string{"connection_group", "departure_city_id", "arrival_country_id"},
+	[]string{"connection_group", "departure_country_id", "arrival_city_id"},
+	[]string{"connection_group", "departure_country_id", "arrival_country_id"},
+	[]string{"connection_group", "departure_region_id", "arrival_country_id"},
+	[]string{"connection_group", "departure_country_id", "arrival_region_id"},
+	[]string{"connection_group", "departure_region_id", "arrival_region_id"},
+	[]string{"connection_group", "departure_region_id"},
+	[]string{"connection_group", "departure_country_id"},
+	[]string{"connection_group", "departure_city_id"},
+	[]string{"connection_group", "arrival_region_id"},
+	[]string{"connection_group", "arrival_country_id"},
+	[]string{"connection_group", "arrival_city_id"},
+	[]string{"connection_group"},
 }
 
+func (rule *SearchSchemeRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
+
 func (rule *SearchSchemeRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
+}
+
+var strategyKeys = []string{
+	"connection_group",
+	"departure_region_id",
+	"departure_country_id",
+	"departure_city_id",
+	"arrival_region_id",
+	"arrival_country_id",
+	"arrival_city_id",
 }
 
 func (rule SearchSchemeRule) GetStrategyKeys() []string {
-	return []string{
-		"connection_group",
-		"departure_region_id",
-		"departure_country_id",
-		"departure_city_id",
-		"arrival_region_id",
-		"arrival_country_id",
-		"arrival_city_id",
-	}
+	return strategyKeys
 }
 
 func (rule *SearchSchemeRule) GetDefaultValue() interface{} {

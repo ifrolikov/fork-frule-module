@@ -14,10 +14,10 @@ type InterlineRule struct {
 	PureInterline        *bool   `json:"pure_interline"`
 	CarriersForbid       string  `json:"carriers_forbid"`
 	CarriersForbidParsed []int64
-	CarriersNeed         string  `json:"carrier_need"`
+	CarriersNeed         string `json:"carrier_need"`
 	CarriersNeedParsed   []int64
 	Carriers             []int64
-	Result               bool    `json:"result"`
+	Result               bool `json:"result"`
 	repo                 *frule_module.Repository
 }
 
@@ -60,25 +60,31 @@ func (rule *InterlineRule) GetResultValue(testRule interface{}) interface{} {
 	return rule.Result
 }
 
-func (rule *InterlineRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"partner", "connection_group", "carrier_plating", "pure_interline"},
-		[]string{"partner", "connection_group", "carrier_plating"},
-		[]string{"partner", "connection_group", "pure_interline"},
-		[]string{"partner", "connection_group"},
-		[]string{"partner", "carrier_plating", "pure_interline"},
-		[]string{"partner", "carrier_plating"},
-		[]string{"partner", "pure_interline"},
-		[]string{"partner"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"partner", "connection_group", "carrier_plating", "pure_interline"},
+	[]string{"partner", "connection_group", "carrier_plating"},
+	[]string{"partner", "connection_group", "pure_interline"},
+	[]string{"partner", "connection_group"},
+	[]string{"partner", "carrier_plating", "pure_interline"},
+	[]string{"partner", "carrier_plating"},
+	[]string{"partner", "pure_interline"},
+	[]string{"partner"},
 }
+
+func (rule *InterlineRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *InterlineRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"partner", "connection_group", "carrier_plating", "pure_interline"}
+
 func (rule *InterlineRule) GetStrategyKeys() []string {
-	return []string{"partner", "connection_group", "carrier_plating", "pure_interline"}
+	return strategyKeys
 }
 
 func (rule *InterlineRule) GetDefaultValue() interface{} {

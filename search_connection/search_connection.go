@@ -59,18 +59,24 @@ func (rule *SearchConnectionRule) GetResultValue(testRule interface{}) interface
 	return true
 }
 
-func (rule *SearchConnectionRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"partner", "connection_group"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"partner", "connection_group"},
 }
+
+func (rule *SearchConnectionRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *SearchConnectionRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"partner", "connection_group"}
+
 func (rule *SearchConnectionRule) GetStrategyKeys() []string {
-	return []string{"partner", "connection_group"}
+	return strategyKeys
 }
 
 func (rule *SearchConnectionRule) GetDefaultValue() interface{} {

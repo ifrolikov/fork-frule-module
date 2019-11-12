@@ -14,7 +14,7 @@ type CodeshareRule struct {
 	CarrierMarketing *int64  `json:"carrier_marketing"`
 	ServiceClass     *string `json:"service_class"`
 	Result           bool    `json:"result"`
-	repo            *frule_module.Repository
+	repo             *frule_module.Repository
 }
 
 func NewCodeshareFRule(ctx context.Context, config *repository.Config) (*CodeshareRule, error) {
@@ -32,25 +32,31 @@ func (rule *CodeshareRule) GetResultValue(testRule interface{}) interface{} {
 	return rule.Result
 }
 
-func (rule *CodeshareRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing", "service_class"},
-		[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing"},
-		[]string{"partner", "connection_group", "service_class"},
-		[]string{"partner", "connection_group"},
-		[]string{"partner", "carrier_operating", "carrier_marketing", "service_class"},
-		[]string{"partner", "carrier_operating", "carrier_marketing"},
-		[]string{"partner", "service_class"},
-		[]string{"partner"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing", "service_class"},
+	[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing"},
+	[]string{"partner", "connection_group", "service_class"},
+	[]string{"partner", "connection_group"},
+	[]string{"partner", "carrier_operating", "carrier_marketing", "service_class"},
+	[]string{"partner", "carrier_operating", "carrier_marketing"},
+	[]string{"partner", "service_class"},
+	[]string{"partner"},
 }
+
+func (rule *CodeshareRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *CodeshareRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"partner", "connection_group", "carrier_operating", "carrier_marketing", "service_class"}
+
 func (rule *CodeshareRule) GetStrategyKeys() []string {
-	return []string{"partner", "connection_group", "carrier_operating", "carrier_marketing", "service_class"}
+	return strategyKeys
 }
 
 func (rule *CodeshareRule) GetDefaultValue() interface{} {

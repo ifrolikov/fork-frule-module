@@ -33,35 +33,41 @@ func (rule *ConnectionRule) GetResultValue(interface{}) interface{} {
 	return rule.Result
 }
 
-func (rule *ConnectionRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date", "payment_engine"},
-		[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date"},
-		[]string{"partner", "connection_group", "operation", "carrier_id", "payment_engine"},
-		[]string{"partner", "connection_group", "operation", "carrier_id"},
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date", "payment_engine"},
+	[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date"},
+	[]string{"partner", "connection_group", "operation", "carrier_id", "payment_engine"},
+	[]string{"partner", "connection_group", "operation", "carrier_id"},
 
-		[]string{"partner", "connection_group", "carrier_id", "flight_date", "payment_engine"},
-		[]string{"partner", "connection_group", "carrier_id", "flight_date"},
-		[]string{"partner", "connection_group", "carrier_id", "payment_engine"},
+	[]string{"partner", "connection_group", "carrier_id", "flight_date", "payment_engine"},
+	[]string{"partner", "connection_group", "carrier_id", "flight_date"},
+	[]string{"partner", "connection_group", "carrier_id", "payment_engine"},
 
-		[]string{"partner", "connection_group", "operation", "flight_date", "payment_engine"},
-		[]string{"partner", "connection_group", "operation", "flight_date"},
-		[]string{"partner", "connection_group", "operation", "payment_engine"},
+	[]string{"partner", "connection_group", "operation", "flight_date", "payment_engine"},
+	[]string{"partner", "connection_group", "operation", "flight_date"},
+	[]string{"partner", "connection_group", "operation", "payment_engine"},
 
-		[]string{"partner", "connection_group", "carrier_id"},
-		[]string{"partner", "connection_group", "operation"},
-		[]string{"partner", "connection_group", "payment_engine"},
+	[]string{"partner", "connection_group", "carrier_id"},
+	[]string{"partner", "connection_group", "operation"},
+	[]string{"partner", "connection_group", "payment_engine"},
 
-		[]string{"partner", "connection_group"},
-	}
+	[]string{"partner", "connection_group"},
 }
+
+func (rule *ConnectionRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *ConnectionRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"partner", "connection_group", "operation", "carrier_id", "flight_date", "payment_engine"}
+
 func (rule *ConnectionRule) GetStrategyKeys() []string {
-	return []string{"partner", "connection_group", "operation", "carrier_id", "flight_date", "payment_engine"}
+	return strategyKeys
 }
 
 func (rule *ConnectionRule) GetDefaultValue() interface{} {

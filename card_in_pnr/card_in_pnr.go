@@ -30,21 +30,27 @@ func (rule *CardInPnrRule) GetResultValue(interface{}) interface{} {
 	return rule.Result
 }
 
-func (rule *CardInPnrRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"partner", "carrier_id", "connection_group"},
-		[]string{"partner", "connection_group"},
-		[]string{"partner", "carrier_id"},
-		[]string{"partner"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"partner", "carrier_id", "connection_group"},
+	[]string{"partner", "connection_group"},
+	[]string{"partner", "carrier_id"},
+	[]string{"partner"},
 }
+
+func (rule *CardInPnrRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *CardInPnrRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"partner", "carrier_id", "connection_group"}
+
 func (rule *CardInPnrRule) GetStrategyKeys() []string {
-	return []string{"partner", "carrier_id", "connection_group"}
+	return strategyKeys
 }
 
 func (rule *CardInPnrRule) GetDefaultValue() interface{} {

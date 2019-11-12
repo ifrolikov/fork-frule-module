@@ -66,25 +66,31 @@ func (rule *PaymentMethodRule) parseResult() []string {
 	return resultSlice
 }
 
-func (rule *PaymentMethodRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"partner", "connection_group", "carrier_id", "autoticketing"},
-		[]string{"partner", "connection_group", "carrier_id"},
-		[]string{"partner", "connection_group", "autoticketing"},
-		[]string{"partner", "connection_group"},
-		[]string{"partner", "carrier_id", "autoticketing"},
-		[]string{"partner", "carrier_id"},
-		[]string{"partner", "autoticketing"},
-		[]string{"partner"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"partner", "connection_group", "carrier_id", "autoticketing"},
+	[]string{"partner", "connection_group", "carrier_id"},
+	[]string{"partner", "connection_group", "autoticketing"},
+	[]string{"partner", "connection_group"},
+	[]string{"partner", "carrier_id", "autoticketing"},
+	[]string{"partner", "carrier_id"},
+	[]string{"partner", "autoticketing"},
+	[]string{"partner"},
 }
+
+func (rule *PaymentMethodRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *PaymentMethodRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"partner", "connection_group", "carrier_id", "autoticketing"}
+
 func (rule *PaymentMethodRule) GetStrategyKeys() []string {
-	return []string{"partner", "connection_group", "carrier_id", "autoticketing"}
+	return strategyKeys
 }
 
 func (rule *PaymentMethodRule) GetDefaultValue() interface{} {

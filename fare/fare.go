@@ -37,52 +37,58 @@ func (rule *FareRule) GetResultValue(interface{}) interface{} {
 	return rule.Result
 }
 
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"departure_city_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "arrival_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "arrival_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"arrival_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"arrival_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"partner", "carrier_id", "fare_spec"},
+}
+
 func (rule *FareRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"departure_city_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"departure_city_id", "arrival_city_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"departure_city_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"departure_city_id", "arrival_country_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"departure_country_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"departure_country_id", "arrival_city_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"departure_country_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"departure_country_id", "arrival_country_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"departure_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"departure_city_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"arrival_city_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"departure_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"departure_country_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"arrival_country_id", "partner", "carrier_id", "fare_spec"},
-		[]string{"partner", "connection_group", "carrier_id", "fare_spec"},
-		[]string{"partner", "carrier_id", "fare_spec"},
-	}
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{
+	"fare_spec": func(a, b reflect.Value) bool {
+		r, err := regexp.Compile(a.Elem().Interface().(string))
+		if err != nil {
+			return false
+		}
+		return r.Match([]byte(b.Elem().Interface().(string)))
+	},
 }
 
 func (rule *FareRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{
-		"fare_spec": func(a, b reflect.Value) bool {
-			r, err := regexp.Compile(a.Elem().Interface().(string))
-			if err != nil {
-				return false
-			}
-			return r.Match([]byte(b.Elem().Interface().(string)))
-		},
-	}
+	return comparisonOperators
+}
+
+var strategyKeys = []string{
+	"partner",
+	"connection_group",
+	"carrier_id",
+	"arrival_country_id",
+	"departure_country_id",
+	"arrival_city_id",
+	"departure_city_id",
+	"fare_spec",
 }
 
 func (rule *FareRule) GetStrategyKeys() []string {
-	return []string{
-		"partner",
-		"connection_group",
-		"carrier_id",
-		"arrival_country_id",
-		"departure_country_id",
-		"arrival_city_id",
-		"departure_city_id",
-		"fare_spec",
-	}
+	return strategyKeys
 }
 
 func (rule *FareRule) GetDefaultValue() interface{} {

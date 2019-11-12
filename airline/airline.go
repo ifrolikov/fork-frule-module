@@ -30,21 +30,27 @@ func (rule *AirlineRule) GetResultValue(testRule interface{}) interface{} {
 	return rule.Result
 }
 
-func (rule *AirlineRule) GetComparisonOrder() frule_module.ComparisonOrder {
-	return frule_module.ComparisonOrder{
-		[]string{"carrier_id", "partner", "connection_group"},
-		[]string{"partner", "connection_group"},
-		[]string{"carrier_id", "partner"},
-		[]string{"partner"},
-	}
+var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"carrier_id", "partner", "connection_group"},
+	[]string{"partner", "connection_group"},
+	[]string{"carrier_id", "partner"},
+	[]string{"partner"},
 }
+
+func (rule *AirlineRule) GetComparisonOrder() frule_module.ComparisonOrder {
+	return comparisonOrder
+}
+
+var comparisonOperators = frule_module.ComparisonOperators{}
 
 func (rule *AirlineRule) GetComparisonOperators() frule_module.ComparisonOperators {
-	return frule_module.ComparisonOperators{}
+	return comparisonOperators
 }
 
+var strategyKeys = []string{"carrier_id", "partner", "connection_group"}
+
 func (rule *AirlineRule) GetStrategyKeys() []string {
-	return []string{"carrier_id", "partner", "connection_group"}
+	return strategyKeys
 }
 
 func (rule *AirlineRule) GetDefaultValue() interface{} {
