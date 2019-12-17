@@ -17,6 +17,11 @@ type SearchFilterSchemeRule struct {
 	repo               *frule_module.Repository
 }
 
+type RuleResult struct {
+	Id     int
+	Result *string
+}
+
 func NewSearchFilterSchemeFRule(ctx context.Context, config *repository.Config) (*SearchFilterSchemeRule, error) {
 	repo, err := frule_module.NewFRuleRepository(
 		ctx,
@@ -29,7 +34,7 @@ func NewSearchFilterSchemeFRule(ctx context.Context, config *repository.Config) 
 }
 
 func (rule *SearchFilterSchemeRule) GetResultValue(testRule interface{}) interface{} {
-	return rule.Result
+	return &RuleResult{Id: rule.Id, Result: rule.Result}
 }
 
 var comparisonOrder = frule_module.ComparisonOrder{
