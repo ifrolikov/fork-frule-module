@@ -1049,8 +1049,9 @@ type Result struct {
 }
 
 type ConditionMarginResult struct {
-	Conditions Conditions `json:"conditions"`
-	Result     string     `json:"result"`
+	Conditions   Conditions `json:"conditions"`
+	Result       string     `json:"result"`
+	ResultParsed base.Money
 }
 
 type Margin struct {
@@ -1115,13 +1116,13 @@ func parseMoneySpec(spec *string) base.Money {
 	}
 }
 
-func selectMarginRow(choices []ConditionMarginResult, testRule ServiceChargeRule) string {
+func selectMarginRow(choices []ConditionMarginResult, testRule ServiceChargeRule) base.Money {
 	for _, choice := range choices {
 		if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) {
-			return choice.Result
+			return choice.ResultParsed
 		}
 	}
-	return ""
+	return base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 }
 
 func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} {
@@ -1129,12 +1130,9 @@ func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} 
 		Id: rule.Id,
 	}
 	if rule.MarginParsed != nil {
-		fullResult := selectMarginRow(rule.MarginParsed.Full, testRule.(ServiceChargeRule))
-		result.Margin.Full = parseMoneySpec(&fullResult)
-		childResult := selectMarginRow(rule.MarginParsed.Child, testRule.(ServiceChargeRule))
-		result.Margin.Child = parseMoneySpec(&childResult)
-		infantResult := selectMarginRow(rule.MarginParsed.Infant, testRule.(ServiceChargeRule))
-		result.Margin.Infant = parseMoneySpec(&infantResult)
+		result.Margin.Full = selectMarginRow(rule.MarginParsed.Full, testRule.(ServiceChargeRule))
+		result.Margin.Child = selectMarginRow(rule.MarginParsed.Child, testRule.(ServiceChargeRule))
+		result.Margin.Infant = selectMarginRow(rule.MarginParsed.Infant, testRule.(ServiceChargeRule))
 	}
 	return result
 }

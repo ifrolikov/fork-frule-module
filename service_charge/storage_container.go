@@ -20,6 +20,15 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 				if err := json.Unmarshal([]byte(*frule.Margin), &marginParsed); err != nil {
 					log.Logger.Error().Stack().Err(err).Msg("Unmarshal margin")
 				}
+				for idx := range marginParsed.Full {
+					marginParsed.Full[idx].ResultParsed = parseMoneySpec(&marginParsed.Full[idx].Result)
+				}
+				for idx := range marginParsed.Child {
+					marginParsed.Child[idx].ResultParsed = parseMoneySpec(&marginParsed.Child[idx].Result)
+				}
+				for idx := range marginParsed.Infant {
+					marginParsed.Infant[idx].ResultParsed = parseMoneySpec(&marginParsed.Infant[idx].Result)
+				}
 				frule.MarginParsed = &marginParsed
 			}
 			frulerList = append(frulerList, frule)
