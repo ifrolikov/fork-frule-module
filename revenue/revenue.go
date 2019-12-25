@@ -49,8 +49,10 @@ type Conditions struct {
 }
 
 type Result struct {
-	Ticket  *string `json:"ticket"`
-	Segment *string `json:"segment"`
+	Ticket        *string `json:"ticket"`
+	TicketParsed  base.Money
+	Segment       *string `json:"segment"`
+	SegmentParsed base.Money
 }
 
 type ConditionRevenueResult struct {
@@ -59,8 +61,9 @@ type ConditionRevenueResult struct {
 }
 
 type ConditionMarginResult struct {
-	Conditions Conditions `json:"conditions"`
-	Result     string     `json:"result"`
+	Conditions   Conditions `json:"conditions"`
+	Result       string     `json:"result"`
+	ResultParsed base.Money
 }
 
 type Margin struct {
@@ -161,26 +164,26 @@ func selectRevenueRow(choices []ConditionRevenueResult, testRule RevenueRule) Re
 	return Result{}
 }
 
-func selectMarginRow(choices []ConditionMarginResult, testRule RevenueRule) string {
+func selectMarginRow(choices []ConditionMarginResult, testRule RevenueRule) base.Money {
 	for _, choice := range choices {
 		if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
 			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
 			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) {
-			return choice.Result
+			return choice.ResultParsed
 		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
 			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
 			choice.Conditions.PurchaseCronSpec == nil {
-			return choice.Result
+			return choice.ResultParsed
 		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
 			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) &&
 			choice.Conditions.DepartureCronSpec == nil {
-			return choice.Result
+			return choice.ResultParsed
 		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
 			choice.Conditions.DepartureCronSpec == nil && choice.Conditions.PurchaseCronSpec == nil {
-			return choice.Result
+			return choice.ResultParsed
 		}
 	}
-	return ""
+	return base.Money{Amount: 0, Currency: &base.Currency{Fraction: 100, Code: "RUB"}}
 }
 
 func (rule *RevenueRule) GetResultValue(testRule interface{}) interface{} {
@@ -189,22 +192,19 @@ func (rule *RevenueRule) GetResultValue(testRule interface{}) interface{} {
 	}
 	if rule.RevenueParsed != nil {
 		fullResult := selectRevenueRow(rule.RevenueParsed.Full, testRule.(RevenueRule))
-		result.Revenue.Full.Ticket = parseMoneySpec(fullResult.Ticket)
-		result.Revenue.Full.Segment = parseMoneySpec(fullResult.Segment)
+		result.Revenue.Full.Ticket = fullResult.TicketParsed
+		result.Revenue.Full.Segment = fullResult.SegmentParsed
 		childResult := selectRevenueRow(rule.RevenueParsed.Child, testRule.(RevenueRule))
-		result.Revenue.Child.Ticket = parseMoneySpec(childResult.Ticket)
-		result.Revenue.Child.Segment = parseMoneySpec(childResult.Segment)
+		result.Revenue.Child.Ticket = childResult.TicketParsed
+		result.Revenue.Child.Segment = childResult.SegmentParsed
 		infantResult := selectRevenueRow(rule.RevenueParsed.Infant, testRule.(RevenueRule))
-		result.Revenue.Infant.Ticket = parseMoneySpec(infantResult.Ticket)
-		result.Revenue.Infant.Segment = parseMoneySpec(infantResult.Segment)
+		result.Revenue.Infant.Ticket = infantResult.TicketParsed
+		result.Revenue.Infant.Segment = infantResult.SegmentParsed
 	}
 	if rule.MarginParsed != nil {
-		fullResult := selectMarginRow(rule.MarginParsed.Full, testRule.(RevenueRule))
-		result.Margin.Full = parseMoneySpec(&fullResult)
-		childResult := selectMarginRow(rule.MarginParsed.Child, testRule.(RevenueRule))
-		result.Margin.Child = parseMoneySpec(&childResult)
-		infantResult := selectMarginRow(rule.MarginParsed.Infant, testRule.(RevenueRule))
-		result.Margin.Infant = parseMoneySpec(&infantResult)
+		result.Margin.Full = selectMarginRow(rule.MarginParsed.Full, testRule.(RevenueRule))
+		result.Margin.Child = selectMarginRow(rule.MarginParsed.Child, testRule.(RevenueRule))
+		result.Margin.Infant = selectMarginRow(rule.MarginParsed.Infant, testRule.(RevenueRule))
 	}
 	return result
 }

@@ -20,12 +20,33 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 				if err := json.Unmarshal([]byte(*frule.Revenue), &revenueParsed); err != nil {
 					log.Logger.Error().Stack().Err(err).Msg("Unmarshal revenue")
 				}
+				for idx := range revenueParsed.Full {
+					revenueParsed.Full[idx].Result.SegmentParsed = parseMoneySpec(revenueParsed.Full[idx].Result.Segment)
+					revenueParsed.Full[idx].Result.TicketParsed = parseMoneySpec(revenueParsed.Full[idx].Result.Ticket)
+				}
+				for idx := range revenueParsed.Child {
+					revenueParsed.Child[idx].Result.SegmentParsed = parseMoneySpec(revenueParsed.Child[idx].Result.Segment)
+					revenueParsed.Child[idx].Result.TicketParsed = parseMoneySpec(revenueParsed.Child[idx].Result.Ticket)
+				}
+				for idx := range revenueParsed.Infant {
+					revenueParsed.Infant[idx].Result.SegmentParsed = parseMoneySpec(revenueParsed.Infant[idx].Result.Segment)
+					revenueParsed.Infant[idx].Result.TicketParsed = parseMoneySpec(revenueParsed.Infant[idx].Result.Ticket)
+				}
 				frule.RevenueParsed = &revenueParsed
 			}
 			if frule.Margin != nil && *frule.Margin != "[]" {
 				var marginParsed Margin
 				if err := json.Unmarshal([]byte(*frule.Margin), &marginParsed); err != nil {
 					log.Logger.Error().Stack().Err(err).Msg("Unmarshal margin")
+				}
+				for idx := range marginParsed.Full {
+					marginParsed.Full[idx].ResultParsed = parseMoneySpec(&marginParsed.Full[idx].Result)
+				}
+				for idx := range marginParsed.Child {
+					marginParsed.Child[idx].ResultParsed = parseMoneySpec(&marginParsed.Child[idx].Result)
+				}
+				for idx := range marginParsed.Infant {
+					marginParsed.Infant[idx].ResultParsed = parseMoneySpec(&marginParsed.Infant[idx].Result)
 				}
 				frule.MarginParsed = &marginParsed
 			}
