@@ -1020,7 +1020,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 }
 
 type ServiceChargeRule struct {
-	Id                  int         `json:"id"`
+	Id                  int32         `json:"id"`
 	CarrierId           *int64      `json:"carrier_id"`
 	Partner             *string     `json:"partner"`
 	ConnectionGroup     *string     `json:"connection_group"`
@@ -1061,7 +1061,7 @@ type Margin struct {
 }
 
 type ServiceChargeRuleResult struct {
-	Id     int
+	Id     int32
 	Margin struct {
 		Full   base.Money
 		Child  base.Money

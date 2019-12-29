@@ -32,7 +32,7 @@ func NewPartnerPercentFRule(ctx context.Context, config *repository.Config) (*Pa
 }
 
 func (rule *PartnerPercentRule) GetResultValue(testRule interface{}) interface{} {
-	return float64(rule.Result)
+	return rule.Result
 }
 
 var comparisonOrder = frule_module.ComparisonOrder{

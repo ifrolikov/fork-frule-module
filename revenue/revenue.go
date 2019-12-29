@@ -13,7 +13,7 @@ import (
 )
 
 type RevenueRule struct {
-	Id                     int     `json:"id"`
+	Id                     int32     `json:"id"`
 	CarrierId              *int64  `json:"carrier_id"`
 	Partner                *string `json:"partner"`
 	ConnectionGroup        *string `json:"connection_group"`
@@ -73,7 +73,7 @@ type Margin struct {
 }
 
 type RevenueRuleResult struct {
-	Id      int
+	Id      int32
 	Revenue struct {
 		Full struct {
 			Ticket  base.Money

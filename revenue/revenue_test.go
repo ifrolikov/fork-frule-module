@@ -51,7 +51,7 @@ func TestRevenueData(t *testing.T) {
 		TestOfferDepartureDate: time.Now(),
 	}
 	result := frule.GetResult(params)
-	assert.Equal(t, 190, result.(RevenueRuleResult).Id)
+	assert.EqualValues(t, 190, result.(RevenueRuleResult).Id)
 	assert.EqualValues(t, 50000, result.(RevenueRuleResult).Revenue.Full.Ticket.Amount)
 	assert.EqualValues(t, 40000, result.(RevenueRuleResult).Revenue.Child.Ticket.Amount)
 	assert.EqualValues(t, 20000, result.(RevenueRuleResult).Revenue.Infant.Ticket.Amount)
@@ -72,7 +72,7 @@ func TestRevenueData(t *testing.T) {
 		ArrivalCityId:   &arrivalCityId,
 	}
 	result = frule.GetResult(params)
-	assert.Equal(t, 86012, result.(RevenueRuleResult).Id)
+	assert.EqualValues(t, 86012, result.(RevenueRuleResult).Id)
 
 	departureCityId = uint64(34)
 	params = RevenueRule{
@@ -84,7 +84,7 @@ func TestRevenueData(t *testing.T) {
 		ArrivalCityId:   &arrivalCityId,
 	}
 	result = frule.GetResult(params)
-	assert.Equal(t, 86013, result.(RevenueRuleResult).Id)
+	assert.EqualValues(t, 86013, result.(RevenueRuleResult).Id)
 
 	departureCityId = uint64(34)
 	params = RevenueRule{
@@ -95,7 +95,7 @@ func TestRevenueData(t *testing.T) {
 	}
 	result = frule.GetResult(params)
 	//fmt.Printf("%+v", result)
-	assert.Equal(t, 86682, result.(RevenueRuleResult).Id)
+	assert.EqualValues(t, 86682, result.(RevenueRuleResult).Id)
 	assert.EqualValues(t, 30000, result.(RevenueRuleResult).Revenue.Full.Ticket.Amount)
 	assert.EqualValues(t, 30000, result.(RevenueRuleResult).Revenue.Child.Ticket.Amount)
 	assert.EqualValues(t, 0, result.(RevenueRuleResult).Revenue.Infant.Ticket.Amount)

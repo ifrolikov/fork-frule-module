@@ -52,7 +52,7 @@ func TestServiceChargeData(t *testing.T) {
 		TestOfferPrice:         base.Money{Amount: 6000},
 	}
 	result := frule.GetResult(params)
-	assert.Equal(t, 74, result.(ServiceChargeRuleResult).Id)
+	assert.EqualValues(t, 74, result.(ServiceChargeRuleResult).Id)
 
 	partner = "new_tt"
 	connectionGroup = "galileo"
@@ -70,7 +70,7 @@ func TestServiceChargeData(t *testing.T) {
 		ArrivalCityId:   &arrivalCityId,
 	}
 	result = frule.GetResult(params)
-	assert.Equal(t, 4179, result.(ServiceChargeRuleResult).Id)
+	assert.EqualValues(t, 4179, result.(ServiceChargeRuleResult).Id)
 
 	departureCityId = uint64(34)
 	params = ServiceChargeRule{
@@ -82,7 +82,7 @@ func TestServiceChargeData(t *testing.T) {
 		ArrivalCityId:   &arrivalCityId,
 	}
 	result = frule.GetResult(params)
-	assert.Equal(t, 4179, result.(ServiceChargeRuleResult).Id)
+	assert.EqualValues(t, 4179, result.(ServiceChargeRuleResult).Id)
 
 	departureCityId = uint64(34)
 	params = ServiceChargeRule{
@@ -93,5 +93,5 @@ func TestServiceChargeData(t *testing.T) {
 	}
 	result = frule.GetResult(params)
 	//fmt.Printf("%+v", result)
-	assert.Equal(t, 4179, result.(ServiceChargeRuleResult).Id)
+	assert.EqualValues(t, 4179, result.(ServiceChargeRuleResult).Id)
 }
