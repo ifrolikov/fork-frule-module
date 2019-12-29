@@ -15,7 +15,7 @@ type CardInPnrRule struct {
 	repo            *frule_module.Repository
 }
 
-func NewCardInPnrRuleFRule(ctx context.Context, config *repository.Config) (*CardInPnrRule, error) {
+func NewCardInPnrFRule(ctx context.Context, config *repository.Config) (*CardInPnrRule, error) {
 	repo, err := frule_module.NewFRuleRepository(
 		ctx,
 		&fruleStorageContainer{},
