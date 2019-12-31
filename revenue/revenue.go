@@ -21,7 +21,7 @@ type RevenueRule struct {
 	DaysToDepartureMin     *int64  `json:"days_to_departure_min"`
 	DaysToDepartureMax     *int64  `json:"days_to_departure_max"`
 	FareType               *string `json:"tariff"`
-	ABVariant              *string `json:"ab_variant"`
+	ABVariant              interface{} `json:"ab_variant"`
 	DepartureCountryId     *uint64 `json:"departure_country_id"`
 	ArrivalCountryId       *uint64 `json:"arrival_country_id"`
 	DepartureCityId        *uint64 `json:"departure_city_id"`
