@@ -13,7 +13,7 @@ func TestConnectionResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	fareFRule, err := NewConnectionRuleFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/connection.json")})
+	fareFRule, err := NewConnectionFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/connection.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, fareFRule)

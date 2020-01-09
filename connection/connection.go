@@ -18,7 +18,7 @@ type ConnectionRule struct {
 	repo            *frule_module.Repository
 }
 
-func NewConnectionRuleFRule(ctx context.Context, config *repository.Config) (*ConnectionRule, error) {
+func NewConnectionFRule(ctx context.Context, config *repository.Config) (*ConnectionRule, error) {
 	repo, err := frule_module.NewFRuleRepository(
 		ctx,
 		&fruleStorageContainer{},
