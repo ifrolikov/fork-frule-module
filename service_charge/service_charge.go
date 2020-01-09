@@ -1095,7 +1095,7 @@ func parseMoneySpec(spec *string) base.Money {
 	parsedData := moneySpec.FindStringSubmatch(*spec)
 
 	if len(parsedData) == 3 {
-		amount, err := strconv.ParseFloat(parsedData[1], 10)
+		amount, err := strconv.ParseFloat(parsedData[1], 64)
 		if err != nil {
 			log.Logger.Error().Stack().Err(err).Msg("parsing money")
 		}

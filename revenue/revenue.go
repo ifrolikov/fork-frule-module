@@ -2,6 +2,7 @@ package revenue
 
 import (
 	"context"
+	"math"
 	"reflect"
 	"regexp"
 	"stash.tutu.ru/avia-search-common/contracts/base"
@@ -13,7 +14,7 @@ import (
 )
 
 type RevenueRule struct {
-	Id                     int32     `json:"id"`
+	Id                     int32   `json:"id"`
 	CarrierId              *int64  `json:"carrier_id"`
 	Partner                *string `json:"partner"`
 	ConnectionGroup        *string `json:"connection_group"`
@@ -106,7 +107,7 @@ func NewRevenueFRule(ctx context.Context, config *repository.Config) (*RevenueRu
 	return &RevenueRule{repo: repo}, nil
 }
 
-var moneySpec = regexp.MustCompile("([0-9]+)([A-Z]+)")
+var moneySpec = regexp.MustCompile(`([0-9\.]+)([A-Z]+)`)
 
 func parseMoneySpec(spec *string) base.Money {
 	if spec == nil {
@@ -121,12 +122,12 @@ func parseMoneySpec(spec *string) base.Money {
 	parsedData := moneySpec.FindStringSubmatch(*spec)
 
 	if len(parsedData) == 3 {
-		amount, err := strconv.ParseInt(parsedData[1], 10, 64)
+		amount, err := strconv.ParseFloat(parsedData[1], 64)
 		if err != nil {
 			log.Logger.Error().Stack().Err(err).Msg("parsing money")
 		}
 		return base.Money{
-			Amount: amount * 100, // TODO вынести defaultFraction
+			Amount: int64(math.Round(amount * 100)), // TODO вынести defaultFraction
 			Currency: &base.Currency{ // TODO: load from DB by code
 				Code:     parsedData[2],
 				Fraction: 100,
