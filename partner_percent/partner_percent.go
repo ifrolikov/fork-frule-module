@@ -8,7 +8,7 @@ import (
 )
 
 type PartnerPercentRule struct {
-	Id                 int     `json:"id"`
+	Id                 int32   `json:"id"`
 	CarrierId          *int64  `json:"carrier_id"`
 	Partner            *string `json:"partner"`
 	ConnectionGroup    *string `json:"connection_group"`
@@ -18,6 +18,11 @@ type PartnerPercentRule struct {
 	FareType           *string `json:"fare_type"`
 	Result             float64 `json:"result"`
 	repo               *frule_module.Repository
+}
+
+type PartnerPercentResult struct {
+	Id      int32
+	Percent float64
 }
 
 func NewPartnerPercentFRule(ctx context.Context, config *repository.Config) (*PartnerPercentRule, error) {
@@ -32,7 +37,10 @@ func NewPartnerPercentFRule(ctx context.Context, config *repository.Config) (*Pa
 }
 
 func (rule *PartnerPercentRule) GetResultValue(testRule interface{}) interface{} {
-	return rule.Result
+	return PartnerPercentResult{
+		Id:      rule.Id,
+		Percent: rule.Result,
+	}
 }
 
 var comparisonOrder = frule_module.ComparisonOrder{
@@ -71,7 +79,7 @@ func (rule *PartnerPercentRule) GetStrategyKeys() []string {
 }
 
 func (rule *PartnerPercentRule) GetDefaultValue() interface{} {
-	return 0.0
+	return PartnerPercentResult{}
 }
 
 func (rule *PartnerPercentRule) GetDataStorage() *frule_module.RankedFRuleStorage {
