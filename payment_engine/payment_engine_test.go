@@ -3,6 +3,7 @@ package payment_engine
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
+	"stash.tutu.ru/avia-search-common/contracts/pricing"
 	frule_module "stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/avia-search-common/utils/system"
@@ -22,7 +23,7 @@ func TestPaymentEngineResult(t *testing.T) {
 	partner := "new_tt"
 	connectionGroup := "galileo"
 	carrierId := int64(73)
-	paymentMethod := "cardonline"
+	paymentMethod := pricing.PAYMENT_METHOD_CARDONLINE
 
 	res1 := "work_avia"
 	res2 := "ntt_avia"
@@ -45,7 +46,7 @@ func TestPaymentEngineResult(t *testing.T) {
 	partner = "fake"
 	connectionGroup = "fake_api"
 	carrierId = int64(73)
-	paymentMethod = "cardonline"
+	paymentMethod = pricing.PAYMENT_METHOD_CARDONLINE
 
 	assert.Equal(
 		t,

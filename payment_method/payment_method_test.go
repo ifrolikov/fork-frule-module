@@ -3,6 +3,7 @@ package payment_method
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
+	"stash.tutu.ru/avia-search-common/contracts/pricing"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/avia-search-common/utils/system"
@@ -41,14 +42,14 @@ func TestPaymentMethodResult(t *testing.T) {
 	carrierId := int64(73)
 	autoticketing := false
 
-	assert.Equal(t, []string{"cardonline", "apple_pay"}, frule.GetResult(PaymentMethodRule{Partner: &partner, CarrierId: &carrierId, ConnectionGroup: &connectionGroup, Autoticketing: &autoticketing, TestDaysTillDeparture: 4}))
+	assert.Equal(t, []string{pricing.PAYMENT_METHOD_CARDONLINE, pricing.PAYMENT_METHOD_APPLE_PAY}, frule.GetResult(PaymentMethodRule{Partner: &partner, CarrierId: &carrierId, ConnectionGroup: &connectionGroup, Autoticketing: &autoticketing, TestDaysTillDeparture: 4}))
 
 	partner = "fake"
 	connectionGroup = "fake"
 	carrierId = int64(73)
 	autoticketing = false
 
-	assert.Equal(t, []string{"cardonline", "apple_pay"}, frule.GetResult(PaymentMethodRule{Partner: &partner, CarrierId: &carrierId, ConnectionGroup: &connectionGroup, Autoticketing: &autoticketing, TestDaysTillDeparture: 4}))
+	assert.Equal(t, []string{pricing.PAYMENT_METHOD_CARDONLINE, pricing.PAYMENT_METHOD_APPLE_PAY}, frule.GetResult(PaymentMethodRule{Partner: &partner, CarrierId: &carrierId, ConnectionGroup: &connectionGroup, Autoticketing: &autoticketing, TestDaysTillDeparture: 4}))
 
 	partner = "new_tt"
 	connectionGroup = "sirena_direct_ut"

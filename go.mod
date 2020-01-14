@@ -11,3 +11,5 @@ require (
 	stash.tutu.ru/avia-search-common/utils v0.2.2
 	stash.tutu.ru/golang/log v0.0.0-20190925120345-16f0e05f99a0
 )
+
+replace stash.tutu.ru/avia-search-common/contracts => ../../../stash.tutu.ru/avia-search-common/contracts
