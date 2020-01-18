@@ -67,12 +67,18 @@ func TestRevenueData(t *testing.T) {
 		ConnectionGroup: &connectionGroup,
 		CarrierId:       &carrierId,
 		FareType:        &fareType,
-		TestOfferPrice:  base.Money{Amount: 7000},
+		TestOfferPrice:  base.Money{Amount: 700000, Currency: &base.Currency{Code: "RUR", Fraction: 100}},
 		DepartureCityId: &departureCityId,
 		ArrivalCityId:   &arrivalCityId,
 	}
 	result = frule.GetResult(params)
 	assert.EqualValues(t, 86012, result.(RevenueRuleResult).Id)
+	assert.EqualValues(t, 21000, result.(RevenueRuleResult).Revenue.Full.Ticket.Amount)
+	assert.EqualValues(t, 20000, result.(RevenueRuleResult).Revenue.Full.Segment.Amount)
+	assert.EqualValues(t, -14000, result.(RevenueRuleResult).Revenue.Child.Ticket.Amount)
+	assert.EqualValues(t, 10000, result.(RevenueRuleResult).Revenue.Child.Segment.Amount)
+	assert.EqualValues(t, 5000, result.(RevenueRuleResult).Revenue.Infant.Ticket.Amount)
+	assert.EqualValues(t, 1000, result.(RevenueRuleResult).Revenue.Infant.Segment.Amount)
 
 	departureCityId = uint64(34)
 	params = RevenueRule{

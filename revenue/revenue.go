@@ -2,6 +2,7 @@ package revenue
 
 import (
 	"context"
+	"github.com/pkg/errors"
 	"math"
 	"reflect"
 	"regexp"
@@ -12,203 +13,6 @@ import (
 	"strconv"
 	"time"
 )
-
-type RevenueRule struct {
-	Id                     int32   `json:"id"`
-	CarrierId              *int64  `json:"carrier_id"`
-	Partner                *string `json:"partner"`
-	ConnectionGroup        *string `json:"connection_group"`
-	TicketingConnection    *string `json:"ticketing_connection"`
-	DaysToDepartureMin     *int64  `json:"days_to_departure_min"`
-	DaysToDepartureMax     *int64  `json:"days_to_departure_max"`
-	FareType               *string `json:"tariff"`
-	ABVariant              interface{} `json:"ab_variant"`
-	DepartureCountryId     *uint64 `json:"departure_country_id"`
-	ArrivalCountryId       *uint64 `json:"arrival_country_id"`
-	DepartureCityId        *uint64 `json:"departure_city_id"`
-	ArrivalCityId          *uint64 `json:"arrival_city_id"`
-	Revenue                *string `json:"result_revenue"`
-	RevenueParsed          *Revenue
-	Margin                 *string `json:"result_margin"`
-	MarginParsed           *Margin
-	TestOfferPrice         base.Money
-	TestOfferPurchaseDate  time.Time
-	TestOfferDepartureDate time.Time
-	repo                   *frule_module.Repository
-}
-
-type Revenue struct {
-	Full   []ConditionRevenueResult `json:"full"`
-	Child  []ConditionRevenueResult `json:"child"`
-	Infant []ConditionRevenueResult `json:"infant"`
-}
-
-type Conditions struct {
-	PriceRange        *string `json:"price_range"`
-	DepartureCronSpec *string `json:"departure_cron_spec"`
-	PurchaseCronSpec  *string `json:"purchase_cron_spec"`
-}
-
-type Result struct {
-	Ticket        *string `json:"ticket"`
-	TicketParsed  base.Money
-	Segment       *string `json:"segment"`
-	SegmentParsed base.Money
-}
-
-type ConditionRevenueResult struct {
-	Conditions Conditions `json:"conditions"`
-	Result     Result     `json:"result"`
-}
-
-type ConditionMarginResult struct {
-	Conditions   Conditions `json:"conditions"`
-	Result       string     `json:"result"`
-	ResultParsed base.Money
-}
-
-type Margin struct {
-	Full   []ConditionMarginResult `json:"full"`
-	Child  []ConditionMarginResult `json:"child"`
-	Infant []ConditionMarginResult `json:"infant"`
-}
-
-type RevenueRuleResult struct {
-	Id      int32
-	Revenue struct {
-		Full struct {
-			Ticket  base.Money
-			Segment base.Money
-		}
-		Child struct {
-			Ticket  base.Money
-			Segment base.Money
-		}
-		Infant struct {
-			Ticket  base.Money
-			Segment base.Money
-		}
-	}
-	Margin struct {
-		Full   base.Money
-		Child  base.Money
-		Infant base.Money
-	}
-}
-
-func NewRevenueFRule(ctx context.Context, config *repository.Config) (*RevenueRule, error) {
-	repo, err := frule_module.NewFRuleRepository(
-		ctx,
-		&fruleStorageContainer{},
-		&importer{repository.BasicImporter{Config: config}})
-	if err != nil {
-		return nil, err
-	}
-	return &RevenueRule{repo: repo}, nil
-}
-
-var moneySpec = regexp.MustCompile(`([0-9\.]+)([A-Z]+)`)
-
-func parseMoneySpec(spec *string) base.Money {
-	if spec == nil {
-		return base.Money{
-			Currency: &base.Currency{
-				Code:     "RUB",
-				Fraction: 100,
-			},
-		}
-	}
-
-	parsedData := moneySpec.FindStringSubmatch(*spec)
-
-	if len(parsedData) == 3 {
-		amount, err := strconv.ParseFloat(parsedData[1], 64)
-		if err != nil {
-			log.Logger.Error().Stack().Err(err).Msg("parsing money")
-		}
-		return base.Money{
-			Amount: int64(math.Round(amount * 100)), // TODO вынести defaultFraction
-			Currency: &base.Currency{ // TODO: load from DB by code
-				Code:     parsedData[2],
-				Fraction: 100,
-			},
-		}
-	} else {
-		return base.Money{
-			Currency: &base.Currency{ // TODO нужна factory для Currency??
-				Code:     "RUB",
-				Fraction: 100,
-			},
-		}
-	}
-}
-
-func selectRevenueRow(choices []ConditionRevenueResult, testRule RevenueRule) Result {
-	for _, choice := range choices {
-		if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
-			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) {
-			return choice.Result
-		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
-			choice.Conditions.PurchaseCronSpec == nil {
-			return choice.Result
-		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) &&
-			choice.Conditions.DepartureCronSpec == nil {
-			return choice.Result
-		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			choice.Conditions.DepartureCronSpec == nil && choice.Conditions.PurchaseCronSpec == nil {
-			return choice.Result
-		}
-	}
-	return Result{}
-}
-
-func selectMarginRow(choices []ConditionMarginResult, testRule RevenueRule) base.Money {
-	for _, choice := range choices {
-		if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
-			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) {
-			return choice.ResultParsed
-		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
-			choice.Conditions.PurchaseCronSpec == nil {
-			return choice.ResultParsed
-		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) &&
-			choice.Conditions.DepartureCronSpec == nil {
-			return choice.ResultParsed
-		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
-			choice.Conditions.DepartureCronSpec == nil && choice.Conditions.PurchaseCronSpec == nil {
-			return choice.ResultParsed
-		}
-	}
-	return base.Money{Amount: 0, Currency: &base.Currency{Fraction: 100, Code: "RUB"}}
-}
-
-func (rule *RevenueRule) GetResultValue(testRule interface{}) interface{} {
-	result := RevenueRuleResult{
-		Id: rule.Id,
-	}
-	if rule.RevenueParsed != nil {
-		fullResult := selectRevenueRow(rule.RevenueParsed.Full, testRule.(RevenueRule))
-		result.Revenue.Full.Ticket = fullResult.TicketParsed
-		result.Revenue.Full.Segment = fullResult.SegmentParsed
-		childResult := selectRevenueRow(rule.RevenueParsed.Child, testRule.(RevenueRule))
-		result.Revenue.Child.Ticket = childResult.TicketParsed
-		result.Revenue.Child.Segment = childResult.SegmentParsed
-		infantResult := selectRevenueRow(rule.RevenueParsed.Infant, testRule.(RevenueRule))
-		result.Revenue.Infant.Ticket = infantResult.TicketParsed
-		result.Revenue.Infant.Segment = infantResult.SegmentParsed
-	}
-	if rule.MarginParsed != nil {
-		result.Margin.Full = selectMarginRow(rule.MarginParsed.Full, testRule.(RevenueRule))
-		result.Margin.Child = selectMarginRow(rule.MarginParsed.Child, testRule.(RevenueRule))
-		result.Margin.Infant = selectMarginRow(rule.MarginParsed.Infant, testRule.(RevenueRule))
-	}
-	return result
-}
 
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{
@@ -1217,6 +1021,230 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner"},
 }
 
+var strategyKeys = []string{
+	"partner",
+	"connection_group",
+	"ticketing_connection",
+	"carrier_id",
+	"tariff",
+	"ab_variant",
+	"departure_city_id",
+	"arrival_city_id",
+	"departure_country_id",
+	"arrival_country_id",
+	"days_to_departure_min",
+	"days_to_departure_max",
+}
+
+type RevenueRule struct {
+	Id                     int32       `json:"id"`
+	CarrierId              *int64      `json:"carrier_id"`
+	Partner                *string     `json:"partner"`
+	ConnectionGroup        *string     `json:"connection_group"`
+	TicketingConnection    *string     `json:"ticketing_connection"`
+	DaysToDepartureMin     *int64      `json:"days_to_departure_min"`
+	DaysToDepartureMax     *int64      `json:"days_to_departure_max"`
+	FareType               *string     `json:"tariff"`
+	ABVariant              interface{} `json:"ab_variant"`
+	DepartureCountryId     *uint64     `json:"departure_country_id"`
+	ArrivalCountryId       *uint64     `json:"arrival_country_id"`
+	DepartureCityId        *uint64     `json:"departure_city_id"`
+	ArrivalCityId          *uint64     `json:"arrival_city_id"`
+	Revenue                *string     `json:"result_revenue"`
+	RevenueParsed          *Revenue
+	Margin                 *string `json:"result_margin"`
+	MarginParsed           *Margin
+	TestOfferPrice         base.Money
+	TestOfferPurchaseDate  time.Time
+	TestOfferDepartureDate time.Time
+	repo                   *frule_module.Repository
+}
+
+type Revenue struct {
+	Full   []ConditionRevenueResult `json:"full"`
+	Child  []ConditionRevenueResult `json:"child"`
+	Infant []ConditionRevenueResult `json:"infant"`
+}
+
+type ConditionRevenueResult struct {
+	Conditions Conditions `json:"conditions"`
+	Result     Result     `json:"result"`
+}
+
+type Conditions struct {
+	PriceRange        *string `json:"price_range"`
+	DepartureCronSpec *string `json:"departure_cron_spec"`
+	PurchaseCronSpec  *string `json:"purchase_cron_spec"`
+}
+
+type Result struct {
+	Ticket        *string `json:"ticket"`
+	TicketParsed  MoneyParsed
+	Segment       *string `json:"segment"`
+	SegmentParsed MoneyParsed
+}
+
+type MoneyParsed struct {
+	Money   base.Money
+	Percent float64
+}
+
+type Margin struct {
+	Full   []ConditionMarginResult `json:"full"`
+	Child  []ConditionMarginResult `json:"child"`
+	Infant []ConditionMarginResult `json:"infant"`
+}
+
+type ConditionMarginResult struct {
+	Conditions   Conditions `json:"conditions"`
+	Result       string     `json:"result"`
+	ResultParsed base.Money
+}
+
+type RevenueRuleResult struct {
+	Id      int32
+	Revenue struct {
+		Full struct {
+			Ticket  base.Money
+			Segment base.Money
+		}
+		Child struct {
+			Ticket  base.Money
+			Segment base.Money
+		}
+		Infant struct {
+			Ticket  base.Money
+			Segment base.Money
+		}
+	}
+	Margin struct {
+		Full   base.Money
+		Child  base.Money
+		Infant base.Money
+	}
+}
+
+func NewRevenueFRule(ctx context.Context, config *repository.Config) (*RevenueRule, error) {
+	repo, err := frule_module.NewFRuleRepository(
+		ctx,
+		&fruleStorageContainer{},
+		&importer{repository.BasicImporter{Config: config}})
+	if err != nil {
+		return nil, err
+	}
+	return &RevenueRule{repo: repo}, nil
+}
+
+var moneyAmountSpec = regexp.MustCompile(`([0-9\.]+)([A-Z]+)`)
+var moneyPercentSpec = regexp.MustCompile(`([\-0-9\.]+)\%`)
+
+func parseMoneySpec(spec *string) MoneyParsed {
+	if spec != nil {
+		if parsedData := moneyAmountSpec.FindStringSubmatch(*spec); len(parsedData) == 3 {
+			amount, err := strconv.ParseFloat(parsedData[1], 64)
+			if err != nil {
+				log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse money %s", *spec)).Msg("parsing revenue amount")
+			}
+			return MoneyParsed{
+				Money: base.Money{
+					Amount:   int64(math.Round(amount * 100)),
+					Currency: &base.Currency{Code: parsedData[2], Fraction: 100},
+				},
+			}
+		} else if parsedData := moneyPercentSpec.FindStringSubmatch(*spec); len(parsedData) == 2 {
+			percent, err := strconv.ParseFloat(parsedData[1], 64)
+			if err != nil {
+				log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse money %s", *spec)).Msg("parsing revenue percent")
+			}
+			return MoneyParsed{
+				Money:   *base.CreateZeroRubMoney(),
+				Percent: percent,
+			}
+		}
+	}
+	return MoneyParsed{Money: *base.CreateZeroRubMoney()}
+}
+
+func selectRevenueRow(choices []ConditionRevenueResult, testRule RevenueRule) Result {
+	for _, choice := range choices {
+		if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
+			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) {
+			return choice.Result
+		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
+			choice.Conditions.PurchaseCronSpec == nil {
+			return choice.Result
+		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) &&
+			choice.Conditions.DepartureCronSpec == nil {
+			return choice.Result
+		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			choice.Conditions.DepartureCronSpec == nil && choice.Conditions.PurchaseCronSpec == nil {
+			return choice.Result
+		}
+	}
+	return Result{}
+}
+
+func selectMarginRow(choices []ConditionMarginResult, testRule RevenueRule) base.Money {
+	for _, choice := range choices {
+		if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
+			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) {
+			return choice.ResultParsed
+		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			frule_module.CronSpec(choice.Conditions.DepartureCronSpec, testRule.TestOfferDepartureDate) &&
+			choice.Conditions.PurchaseCronSpec == nil {
+			return choice.ResultParsed
+		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			frule_module.CronSpec(choice.Conditions.PurchaseCronSpec, testRule.TestOfferPurchaseDate) &&
+			choice.Conditions.DepartureCronSpec == nil {
+			return choice.ResultParsed
+		} else if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) &&
+			choice.Conditions.DepartureCronSpec == nil && choice.Conditions.PurchaseCronSpec == nil {
+			return choice.ResultParsed
+		}
+	}
+	return base.Money{Amount: 0, Currency: &base.Currency{Fraction: 100, Code: "RUB"}}
+}
+
+func (rule *RevenueRule) GetResultValue(testRule interface{}) interface{} {
+	result := RevenueRuleResult{
+		Id: rule.Id,
+	}
+	if rule.RevenueParsed != nil {
+		revenueParams := testRule.(RevenueRule)
+		fullResult := selectRevenueRow(rule.RevenueParsed.Full, revenueParams)
+		result.Revenue.Full.Ticket = rule.CalculateRevenue(fullResult.TicketParsed, revenueParams.TestOfferPrice)
+		result.Revenue.Full.Segment = rule.CalculateRevenue(fullResult.SegmentParsed, revenueParams.TestOfferPrice)
+
+		childResult := selectRevenueRow(rule.RevenueParsed.Child, revenueParams)
+		result.Revenue.Child.Ticket = rule.CalculateRevenue(childResult.TicketParsed, revenueParams.TestOfferPrice)
+		result.Revenue.Child.Segment = rule.CalculateRevenue(childResult.SegmentParsed, revenueParams.TestOfferPrice)
+
+		infantResult := selectRevenueRow(rule.RevenueParsed.Infant, revenueParams)
+		result.Revenue.Infant.Ticket = rule.CalculateRevenue(infantResult.TicketParsed, revenueParams.TestOfferPrice)
+		result.Revenue.Infant.Segment = rule.CalculateRevenue(infantResult.SegmentParsed, revenueParams.TestOfferPrice)
+	}
+	if rule.MarginParsed != nil {
+		result.Margin.Full = selectMarginRow(rule.MarginParsed.Full, testRule.(RevenueRule))
+		result.Margin.Child = selectMarginRow(rule.MarginParsed.Child, testRule.(RevenueRule))
+		result.Margin.Infant = selectMarginRow(rule.MarginParsed.Infant, testRule.(RevenueRule))
+	}
+	return result
+}
+
+func (rule *RevenueRule) CalculateRevenue(moneyParsed MoneyParsed, price base.Money) base.Money {
+	if moneyParsed.Percent != 0 && price.Validate() {
+		money := price.Clone()
+		money.MultiplyFloat64(moneyParsed.Percent / 100)
+		return *money
+	} else {
+		return moneyParsed.Money
+	}
+}
+
 func (rule *RevenueRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	return comparisonOrder
 }
@@ -1241,32 +1269,11 @@ func (rule *RevenueRule) GetComparisonOperators() frule_module.ComparisonOperato
 	return comparisonOperators
 }
 
-var strategyKeys = []string{
-	"partner",
-	"connection_group",
-	"ticketing_connection",
-	"carrier_id",
-	"tariff",
-	"ab_variant",
-	"departure_city_id",
-	"arrival_city_id",
-	"departure_country_id",
-	"arrival_country_id",
-	"days_to_departure_min",
-	"days_to_departure_max",
-}
-
 func (rule *RevenueRule) GetStrategyKeys() []string {
 	return strategyKeys
 }
 
 func (rule *RevenueRule) GetDefaultValue() interface{} {
-	zeroRub := base.Money{
-		Currency: &base.Currency{
-			Fraction: 100,
-			Code:     "RUB",
-		},
-	}
 	return RevenueRuleResult{
 		Id: -1,
 		Revenue: struct {
@@ -1287,22 +1294,22 @@ func (rule *RevenueRule) GetDefaultValue() interface{} {
 				Ticket  base.Money
 				Segment base.Money
 			}{
-				Ticket:  zeroRub,
-				Segment: zeroRub,
+				Ticket:  *base.CreateZeroRubMoney(),
+				Segment: *base.CreateZeroRubMoney(),
 			},
 			Child: struct {
 				Ticket  base.Money
 				Segment base.Money
 			}{
-				Ticket:  zeroRub,
-				Segment: zeroRub,
+				Ticket:  *base.CreateZeroRubMoney(),
+				Segment: *base.CreateZeroRubMoney(),
 			},
 			Infant: struct {
 				Ticket  base.Money
 				Segment base.Money
 			}{
-				Ticket:  zeroRub,
-				Segment: zeroRub,
+				Ticket:  *base.CreateZeroRubMoney(),
+				Segment: *base.CreateZeroRubMoney(),
 			},
 		},
 		Margin: struct {
@@ -1310,9 +1317,9 @@ func (rule *RevenueRule) GetDefaultValue() interface{} {
 			Child  base.Money
 			Infant base.Money
 		}{
-			Full:   zeroRub,
-			Child:  zeroRub,
-			Infant: zeroRub,
+			Full:   *base.CreateZeroRubMoney(),
+			Child:  *base.CreateZeroRubMoney(),
+			Infant: *base.CreateZeroRubMoney(),
 		},
 	}
 }
