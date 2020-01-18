@@ -1237,7 +1237,7 @@ func (rule *RevenueRule) GetResultValue(testRule interface{}) interface{} {
 
 func (rule *RevenueRule) CalculateRevenue(moneyParsed MoneyParsed, price base.Money) base.Money {
 	if moneyParsed.Percent != 0 && price.Validate() {
-		money := price.Clone()
+		money := base.CloneMoney(&price)
 		money.MultiplyFloat64(moneyParsed.Percent / 100)
 		return *money
 	} else {
