@@ -146,6 +146,7 @@ github.com/opentracing/opentracing-go v1.0.2/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFSt
 github.com/openzipkin/zipkin-go v0.1.6/go.mod h1:QgAqvLzwWbR/WpD4A3cGpPtJrZXNIiJc5AZX7/PBEpw=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
 github.com/pkg/errors v0.8.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
+github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
@@ -363,6 +364,7 @@ honnef.co/go/tools v0.0.0-20190523083050-ea95bdfd59fc/go.mod h1:rf3lG4BRIbNafJWh
 honnef.co/go/tools v0.0.1-2019.2.3/go.mod h1:a3bituU0lyd329TUQxRnasdCoJDkEUEAqEt0JzvZhAg=
 rsc.io/binaryregexp v0.2.0/go.mod h1:qTv7/COck+e2FymRvadv62gMdZztPaShugOCi3I+8D8=
 stash.tutu.ru/avia-search-common/code-name v0.1.1/go.mod h1:ATHweWDfBx4HBEBs3u+0CD5uipNwm3Axmr2+gXYEKnE=
+stash.tutu.ru/avia-search-common/contracts v0.0.0-20200122134312-09b96a8b69da/go.mod h1:c+lv2UnbtHDtkoKYF/uvjpTnleQzK0myp8uYUDIyGJM=
 stash.tutu.ru/avia-search-common/contracts v0.2.1 h1:6Ydt1S0fbu+fLC6SDZV3Nh0NwZgYdHeot2kDsEoS4mU=
 stash.tutu.ru/avia-search-common/contracts v0.2.1/go.mod h1:a+lKATuqln+7QEsGrRbPSebmrbLaSOD7qcwLFdASb0U=
 stash.tutu.ru/avia-search-common/contracts v0.7.0 h1:Hdn+2Re6xgHgJOMp0Sl39gaj6k4tMjv1D1EEAY+/mvg=
@@ -371,7 +373,10 @@ stash.tutu.ru/avia-search-common/contracts v0.7.1/go.mod h1:c+lv2UnbtHDtkoKYF/uv
 stash.tutu.ru/avia-search-common/contracts v1.0.0/go.mod h1:c+lv2UnbtHDtkoKYF/uvjpTnleQzK0myp8uYUDIyGJM=
 stash.tutu.ru/avia-search-common/contracts v1.1.0 h1:89Xbl8kz31QcFw4b9g76XtUEZtAhfcIrpvHaLxSRi9E=
 stash.tutu.ru/avia-search-common/contracts v1.1.0/go.mod h1:c+lv2UnbtHDtkoKYF/uvjpTnleQzK0myp8uYUDIyGJM=
+stash.tutu.ru/avia-search-common/contracts v2.0.0+incompatible h1:Q+cNXcQZZKfKHj6n0Aodpi1wYnbhW/t3xcctGWruxVk=
+stash.tutu.ru/avia-search-common/contracts v2.0.0+incompatible/go.mod h1:c+lv2UnbtHDtkoKYF/uvjpTnleQzK0myp8uYUDIyGJM=
 stash.tutu.ru/avia-search-common/currency-repository v0.0.0-20190924155332-be4304e286d9/go.mod h1:TuGDcC/pmQzt+JaekAyEtjqNf+oQ4Wv2I63IEMYVk0o=
+stash.tutu.ru/avia-search-common/currency-repository v0.1.0/go.mod h1:TMEeETfOL48MDwM3vm1Lz0lNHnXQFGaz1MAvOOyB8Es=
 stash.tutu.ru/avia-search-common/repository v0.1.0 h1:/yGimwDReDu6XR55POSTpgT1JRythm8ZRnwW/htrGDE=
 stash.tutu.ru/avia-search-common/repository v0.1.0/go.mod h1:r4iRi/AniGYjHotkvTzvXTrm7wE/fXfNPVjeTrvx2Og=
 stash.tutu.ru/avia-search-common/repository v0.1.1/go.mod h1:RxCxKeK36EqulGyxL2sKm7Y/ElwcB9+iy6D4XeSVTgw=
@@ -382,10 +387,13 @@ stash.tutu.ru/avia-search-common/utils v0.1.0/go.mod h1:S4Uz/FD/1gtsOj10Adkeo8v1
 stash.tutu.ru/avia-search-common/utils v0.2.0/go.mod h1:plvZ+sq9np8v2ftgJ6xpOyH/DyoR+1ABmgxa3mGBrC0=
 stash.tutu.ru/avia-search-common/utils v0.2.2 h1:VzYUxQ/PJnBLkXnzoi2lfqQ7PT0v8YufcSB/IYvqLf0=
 stash.tutu.ru/avia-search-common/utils v0.2.2/go.mod h1:857ZVbdJHC34DfHVTq3ShXrSphxMCsQW8W6YmcANE1w=
+stash.tutu.ru/avia-search-common/utils v1.0.0 h1:jKJjih3hokoKNHqdjMS52gE/AGkdGRQPHfhmo9BoZSo=
+stash.tutu.ru/avia-search-common/utils v1.0.0/go.mod h1:ZWegy1q5GTIqXxzzy00KS13q8YDCQAezppAeTkQN9aA=
 stash.tutu.ru/aviasearch/domain v0.2.0 h1:SwmjPrevvHnfGQHhu9/F0pIXVdo/7OsIIOY6/g88YH0=
 stash.tutu.ru/aviasearch/domain v0.2.0/go.mod h1:GKFoKLrlrxlDe5Wh1AORN8vO80n5CRt0SMVqHhR15fw=
 stash.tutu.ru/aviasearch/domain v0.2.2/go.mod h1:q7nSW/hDmj/sDrK8xEap/KAr2lqSbhu8TnKeI7fKcr8=
 stash.tutu.ru/aviasearch/domain v0.2.3/go.mod h1:p8as9g+kusaQXPVLUbmJsEmYg1HrLpziqjeWX0pt4no=
+stash.tutu.ru/aviasearch/domain v0.3.1/go.mod h1:EZyWBaNbdnLpHBXjmIfi/F1BZh8E31Ao070LsKmH9Ws=
 stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938 h1:a9tR6opQoGCDkzqZxY4/y0LAvQuV2ytf1ow12uQWYpY=
 stash.tutu.ru/golang/envs v0.0.0-20190703103004-3903dd149938/go.mod h1:cIaYZxccbvj5U0fdFr2aK5V4HwmveQ1m2gqOosAHtJo=
 stash.tutu.ru/golang/envs v0.0.0-20190916141851-23a48261f2d7 h1:9HPfTcMZuzHvkOGAjmstjM+wBTja+KCFI9QVjEZ/ZUI=

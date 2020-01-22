@@ -13,7 +13,7 @@ func TestCardInPnrResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	fareFRule, err := NewCardInPnrRuleFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/card_in_pnr.json")})
+	fareFRule, err := NewCardInPnrFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/card_in_pnr.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, fareFRule)

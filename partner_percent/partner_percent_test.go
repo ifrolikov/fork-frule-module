@@ -52,7 +52,7 @@ func TestPartnerPercentResult(t *testing.T) {
 		DateOfPurchaseFrom: &dateOfPurchaseFrom,
 		DateOfPurchaseTo:   &dateOfPurchaseTo,
 		FareType:           &fareType,
-	}))
+	}).(PartnerPercentResult).Percent)
 
 	fareType = "test"
 	assert.NotEqual(t, 0.1, frule.GetResult(PartnerPercentRule{
@@ -62,19 +62,19 @@ func TestPartnerPercentResult(t *testing.T) {
 		DateOfPurchaseFrom: &dateOfPurchaseFrom,
 		DateOfPurchaseTo:   &dateOfPurchaseTo,
 		FareType:           &fareType,
-	}))
+	}).(PartnerPercentResult).Percent)
 
-	assert.Equal(t, partnerPercentFRule.GetDefaultValue(), frule.GetResult(PartnerPercentRule{
+	assert.EqualValues(t, partnerPercentFRule.GetDefaultValue(), frule.GetResult(PartnerPercentRule{
 		Partner:            &partner,
 		DateOfPurchaseFrom: &dateOfPurchaseFrom,
 		DateOfPurchaseTo:   &dateOfPurchaseTo,
 	}))
 	dateOfPurchaseToAlternative := time.Date(2016, 11, 3, 0, 0, 0, 0, time.UTC).Format("2006-01-02 15:04:05")
-	assert.Equal(t, float64(1), frule.GetResult(PartnerPercentRule{
+	assert.Equal(t, 1.0, frule.GetResult(PartnerPercentRule{
 		Partner:            &partner,
 		DateOfPurchaseFrom: &dateOfPurchaseFrom,
 		DateOfPurchaseTo:   &dateOfPurchaseToAlternative,
-	}))
+	}).(PartnerPercentResult).Percent)
 
 	assert.Equal(t, partnerPercentFRule.GetDefaultValue(), frule.GetResult(PartnerPercentRule{Partner: &partner}))
 
@@ -86,5 +86,5 @@ func TestPartnerPercentResult(t *testing.T) {
 		CarrierId:          &carrierId,
 		DateOfPurchaseFrom: &dateOfPurchaseFrom,
 		DateOfPurchaseTo:   &dateOfPurchaseTo,
-	}))
+	}).(PartnerPercentResult).Percent)
 }

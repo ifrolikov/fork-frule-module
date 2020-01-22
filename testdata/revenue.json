@@ -27,7 +27,7 @@
       "arrival_country_id": null,
       "departure_city_id": 21,
       "arrival_city_id": null,
-      "result_revenue": "{\"full\":[{\"conditions\":{\"price_range\":\"0-\",\"departure_cron_spec\":null,\"purchase_cron_spec\":null},\"result\":{\"ticket\":\"-2%\",\"segment\":\"0RUR\"}}],\"child\":[{\"conditions\":{\"price_range\":\"0-\",\"departure_cron_spec\":null,\"purchase_cron_spec\":null},\"result\":{\"ticket\":\"-2%\",\"segment\":\"0RUR\"}}],\"infant\":[{\"conditions\":{\"price_range\":\"0-\",\"departure_cron_spec\":null,\"purchase_cron_spec\":null},\"result\":{\"ticket\":\"0RUR\",\"segment\":\"0RUR\"}}]}",
+      "result_revenue": "{\"full\":[{\"conditions\":{\"price_range\":\"0-\",\"departure_cron_spec\":null,\"purchase_cron_spec\":null},\"result\":{\"ticket\":\"3%\",\"segment\":\"200RUR\"}}],\"child\":[{\"conditions\":{\"price_range\":\"0-\",\"departure_cron_spec\":null,\"purchase_cron_spec\":null},\"result\":{\"ticket\":\"-2%\",\"segment\":\"100RUR\"}}],\"infant\":[{\"conditions\":{\"price_range\":\"0-\",\"departure_cron_spec\":null,\"purchase_cron_spec\":null},\"result\":{\"ticket\":\"50RUR\",\"segment\":\"10RUR\"}}]}",
       "result_margin": "[]"
     },
     {
