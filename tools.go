@@ -3,7 +3,7 @@ package frule_module
 import (
 	"github.com/robfig/cron"
 	"reflect"
-	"stash.tutu.ru/avia-search-common/contracts/base"
+	"stash.tutu.ru/avia-search-common/contracts/v2/base"
 	"strconv"
 	"strings"
 	"time"

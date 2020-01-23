@@ -1,7 +1,7 @@
 package frule_module
 
 import (
-	"stash.tutu.ru/avia-search-common/contracts/base"
+	"stash.tutu.ru/avia-search-common/contracts/v2/base"
 	"testing"
 	"time"
 )

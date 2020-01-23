@@ -6,7 +6,7 @@ import (
 	"math"
 	"reflect"
 	"regexp"
-	"stash.tutu.ru/avia-search-common/contracts/base"
+	"stash.tutu.ru/avia-search-common/contracts/v2/base"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/golang/log"
