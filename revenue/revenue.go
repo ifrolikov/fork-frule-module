@@ -1258,10 +1258,10 @@ var comparisonOperators = frule_module.ComparisonOperators{
 		return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
 	},
 	"days_to_departure_min": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
 	},
 	"days_to_departure_max": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
 	},
 }
 
