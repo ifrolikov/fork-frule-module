@@ -1,0 +1,130 @@
+[
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+    {
+      "id": 7,
+      "carrier_id": null,
+      "departure_country_id": 7,
+      "departure_city_id": null,
+      "arrival_country_id": 72,
+      "arrival_city_id": null,
+      "start_date": "2015-11-23",
+      "finish_date": "2016-12-31",
+      "connection_group": null,
+      "lang": "rus",
+      "result": [
+        {
+          "type": "yellow",
+          "title": "Прямых рейсов в Египет нет",
+          "content": "<p>Продажа туров и прямые рейсы в Египет временно приостановлены согласно указу Президента РФ &laquo;Об отдельных мерах по обеспечению национальной безопасности Российской Федерации и защите граждан РФ от преступных и иных противоправных действий&raquo;.</p>",
+          "name": "egypt_2015"
+        }
+      ]
+    }
+  ],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+    {
+      "id": 102,
+      "carrier_id": null,
+      "departure_country_id": 97,
+      "departure_city_id": null,
+      "arrival_country_id": null,
+      "arrival_city_id": null,
+      "start_date": null,
+      "finish_date": null,
+      "connection_group": null,
+      "lang": "rus",
+      "result": [
+        {
+          "type": "yellow",
+          "title": "Изменения в авиасообщении с Китаем",
+          "content": "<p>Часть рейсов в Китай и из Китая отменена в связи с эпидемиологической обстановкой. В аэропортах введены дополнительные процедуры безопасности - рекомендуем приезжать заранее.</p>",
+          "name": "RU_CHINA_ALLERT"
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "id": 2,
+      "carrier_id": null,
+      "departure_country_id": null,
+      "departure_city_id": null,
+      "arrival_country_id": 200,
+      "arrival_city_id": null,
+      "start_date": null,
+      "finish_date": null,
+      "connection_group": null,
+      "lang": "rus",
+      "result": [
+        {
+          "type": "yellow",
+          "title": "Ограничение въезда на Украину",
+          "content": "<p style=\"margin: 5px 0 0 1px;\">Для граждан РФ действуют особые правила въезда на Украину. Узнайте подробнее о требованиях&nbsp;<a href=\"https://www.tutu.ru/2read/general_info/ukraine_rules/\" target=\"_blank\" title=\"в статье\">в статье&nbsp;</a>.</p>",
+          "name": "UA_restriction_warning"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "carrier_id": null,
+      "departure_country_id": null,
+      "departure_city_id": null,
+      "arrival_country_id": 200,
+      "arrival_city_id": null,
+      "start_date": null,
+      "finish_date": null,
+      "connection_group": null,
+      "lang": "eng",
+      "result": [
+        {
+          "type": "yellow",
+          "title": "Restriction of entry to Ukraine",
+          "content": "<p style=\"margin: 5px 0px 0px 1px;\">Ukraine has a special entry regime for Russian citizens. Read more in this&nbsp;<a href=\"https://www.tutu.ru/2read/general_info/ukraine_rules/\" title=\"article\">article</a>&nbsp;.</p>",
+          "name": "EN_UA_restriction_warning"
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "carrier_id": null,
+      "departure_country_id": null,
+      "departure_city_id": null,
+      "arrival_country_id": 97,
+      "arrival_city_id": null,
+      "start_date": null,
+      "finish_date": null,
+      "connection_group": null,
+      "lang": "rus",
+      "result": [
+        {
+          "type": "yellow",
+          "title": "Изменения в авиасообщении с Китаем",
+          "content": "<p>Часть рейсов в Китай и из Китая отменена в связи с эпидемиологической обстановкой. В аэропортах введены дополнительные процедуры безопасности - рекомендуем приезжать заранее.</p>",
+          "name": "RU_CHINA_ALLERT"
+        }
+      ]
+    }
+  ],
+  [],
+  [],
+  []
+]
