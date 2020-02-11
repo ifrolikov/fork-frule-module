@@ -17,10 +17,10 @@ type Warning struct {
 type WarningRule struct {
 	Id                 int        `json:"id"`
 	CarrierId          *int64     `json:"carrier_id"`
-	DepartureCountryId *uint64    `json:"departure_country_id"`
-	DepartureCityId    *uint64    `json:"departure_city_id"`
-	ArrivalCountryId   *uint64    `json:"arrival_country_id"`
-	ArrivalCityId      *uint64    `json:"arrival_city_id"`
+	DepartureCountryId *int64     `json:"departure_country_id"`
+	DepartureCityId    *int64     `json:"departure_city_id"`
+	ArrivalCountryId   *int64     `json:"arrival_country_id"`
+	ArrivalCityId      *int64     `json:"arrival_city_id"`
 	StartDate          *string    `json:"start_date"`
 	ParsedStartDate    *time.Time
 	FinishDate         *string    `json:"finish_date"`
