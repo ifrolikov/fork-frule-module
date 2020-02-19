@@ -18,6 +18,7 @@ type FareRule struct {
 	DepartureCountryId *uint64 `json:"departure_country_id"`
 	ArrivalCountryId   *uint64 `json:"arrival_country_id"`
 	FareSpec           *string `json:"fare_spec"`
+	FareAccessGroup    *string `json:"fare_access_group"`
 	Result             string  `json:"result"`
 	repo               *frule_module.Repository
 }
@@ -38,23 +39,41 @@ func (rule *FareRule) GetResultValue(interface{}) interface{} {
 }
 
 var comparisonOrder = frule_module.ComparisonOrder{
+	[]string{"departure_city_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_city_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "arrival_city_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_city_id", "arrival_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_city_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "arrival_country_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_city_id", "arrival_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_country_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_city_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_country_id", "arrival_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_country_id", "arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "arrival_country_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_country_id", "arrival_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_city_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"arrival_city_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"arrival_city_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"departure_country_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"arrival_country_id", "partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"arrival_country_id", "partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"arrival_country_id", "partner", "carrier_id", "fare_spec"},
+	[]string{"partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"partner", "connection_group", "carrier_id", "fare_spec"},
+	[]string{"partner", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"partner", "carrier_id", "fare_spec"},
 }
 
@@ -85,6 +104,7 @@ var strategyKeys = []string{
 	"arrival_city_id",
 	"departure_city_id",
 	"fare_spec",
+	"fare_access_group",
 }
 
 func (rule *FareRule) GetStrategyKeys() []string {
