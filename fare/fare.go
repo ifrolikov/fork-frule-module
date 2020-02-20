@@ -8,6 +8,10 @@ import (
 	"stash.tutu.ru/avia-search-common/repository"
 )
 
+//дефолтное значение позволяет работать по единому сценарию как в случае присутствия пользователя в какой-либо группе доступа,
+//так и в том случае, если он не состоит ни в одной группе доступа
+const DEFAULT_FARE_ACCESS_GROUP = "__default_fare_access_group__"
+
 type FareRule struct {
 	Id                 int     `json:"id"`
 	Partner            *string `json:"partner"`
