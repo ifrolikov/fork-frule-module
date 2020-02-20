@@ -20,10 +20,10 @@ func TestFareStorage(t *testing.T) {
 
 	dataStorage := fareFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
-	assert.Len(t, (*dataStorage)[0], 1)
-	assert.Len(t, (*dataStorage)[16], 3)
+	assert.Len(t, (*dataStorage)[1], 1)
+	assert.Len(t, (*dataStorage)[33], 3)
 
-	assert.Equal(t, 17, dataStorage.GetMaxRank())
+	assert.Equal(t, 35, dataStorage.GetMaxRank())
 }
 
 func TestFareResult(t *testing.T) {
@@ -42,8 +42,10 @@ func TestFareResult(t *testing.T) {
 	departureCityId := uint64(491)
 	arrivalCityId := uint64(75)
 	fareSpec := "TEST"
+	fareAccessGroup := "test_access_group"
 
-	assert.Equal(t, "closed", frule.GetResult(FareRule{Partner: &partner, CarrierId: &carrierId, FareSpec: &fareSpec}))
+	assert.Equal(t, "closed", frule.GetResult(FareRule{Partner: &partner, CarrierId: &carrierId, FareSpec: &fareSpec, FareAccessGroup: nil}))
+	assert.Equal(t, "", frule.GetResult(FareRule{Partner: &partner, CarrierId: &carrierId, FareSpec: &fareSpec, FareAccessGroup: &fareAccessGroup}))
 
 	assert.Equal(t, fareFRule.GetDefaultValue(), frule.GetResult(FareRule{Partner: &partner, CarrierId: &carrierId}))
 
