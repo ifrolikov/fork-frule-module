@@ -27,34 +27,34 @@ func TestAirlineRestrictionStorage(t *testing.T) {
 	assert.Equal(t, 3, dataStorage.GetMaxRank())
 }
 
-func TestAirlineResult(t *testing.T) {
+func TestAirlineRestrictionResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineFRule, err := NewAirlineFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline.json")})
+	airlineRestrictionFRule, err := NewAirlineRestrictionFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restriction.json")})
 	assert.Nil(t, err)
 
-	frule := frule_module.NewFRule(ctx, airlineFRule)
+	frule := frule_module.NewFRule(ctx, airlineRestrictionFRule)
 	assert.NotNil(t, frule)
 
 	partner := "new_tt"
-	assert.False(t, frule.GetResult(AirlineRule{Partner: &partner}).(bool))
+	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner}).(bool))
 
 	connectionGroup := "galileo"
 	carrierId := int64(8)
-	assert.True(t, frule.GetResult(AirlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
 
 	partner = "new_tt"
 	connectionGroup = "galileo"
 	carrierId = int64(7)
-	assert.False(t, frule.GetResult(AirlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
 
 	partner = "new_tt"
 	connectionGroup = "sabre"
 	carrierId = int64(1111)
-	assert.True(t, frule.GetResult(AirlineRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
 
 	partner = "unknown"
-	assert.Equal(t, airlineFRule.GetDefaultValue(), frule.GetResult(AirlineRule{Partner: &partner}).(bool))
+	assert.Equal(t, airlineRestrictionFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{Partner: &partner}).(bool))
 }
 
