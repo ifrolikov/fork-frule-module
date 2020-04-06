@@ -40,19 +40,19 @@ func TestAirlineRestrictionResult(t *testing.T) {
 	partner := "new_tt"
 	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner}).(bool))
 
-	connectionGroup := "galileo"
-	carrierId := int64(8)
-	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+	gds := "galileo"
+	validatingCarrierId := int64(8)
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, ValidatingCarrierId: &validatingCarrierId}).(bool))
 
 	partner = "new_tt"
-	connectionGroup = "galileo"
-	carrierId = int64(7)
-	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+	gds = "galileo"
+	validatingCarrierId = int64(7)
+	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, ValidatingCarrierId: &validatingCarrierId}).(bool))
 
 	partner = "new_tt"
-	connectionGroup = "sabre"
-	carrierId = int64(1111)
-	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, ConnectionGroup: &connectionGroup, CarrierId: &carrierId}).(bool))
+	gds = "sabre"
+	validatingCarrierId = int64(1111)
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, ValidatingCarrierId: &validatingCarrierId}).(bool))
 
 	partner = "unknown"
 	assert.Equal(t, airlineRestrictionFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{Partner: &partner}).(bool))
