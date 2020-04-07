@@ -21,27 +21,24 @@
       "id": 815,
       "purchase_date_from": "1971-11-23",
       "purchase_date_to": "2571-11-23",
-      "validating_carrier_id": 6,
-      "marketing_carrier_id": 6,
-      "operating_carrier_id": 6,
+      "purchase_period_from": 3,
+      "purchase_period_to": 20,
+      "validating_carrier_id": 8,
+      "marketing_carrier_id": 7,
+      "operating_carrier_id": 5,
       "partner": "new_tt",
-      "gds": "galileo",
+      "gds": "sabre",
       "departure_country_id": 7,
       "departure_city_id": 491,
       "arrival_country_id": 7,
       "arrival_city_id": 10105,
-      "result": true
+      "result": false
     },
     {
       "id": 816,
       "purchase_date_from": "1971-11-23",
       "purchase_date_to": "2571-11-23",
-      "validating_carrier_id": 6,
-      "marketing_carrier_id": 6,
-      "operating_carrier_id": 6,
-      "arrival_country_id": 7,
-      "arrival_city_id": 10105,
-      "result": false
+      "result": true
     }
   ],
   [
@@ -49,11 +46,15 @@
       "id": 817,
       "purchase_date_from": "1971-11-23",
       "purchase_date_to": "2571-11-23",
-      "purchase_period_from": 3,
-      "purchase_period_to": 20,
-      "validating_carrier_id": 6,
-      "marketing_carrier_id": 6,
-      "operating_carrier_id": 6,
+      "validating_carrier_id": 8,
+      "marketing_carrier_id": 7,
+      "operating_carrier_id": 5,
+      "partner": "new_tt",
+      "gds": "galileo",
+      "departure_country_id": 7,
+      "departure_city_id": 491,
+      "arrival_country_id": 7,
+      "arrival_city_id": 10105,
       "result": true
     }
   ],
@@ -63,10 +64,11 @@
       "id": 818,
       "purchase_date_from": "1971-11-23",
       "purchase_date_to": "2571-11-23",
-      "departure_country_id": 7,
-      "departure_city_id": 491,
-      "arrival_country_id": 7,
-      "arrival_city_id": 10105,
+      "validating_carrier_id": 8,
+      "marketing_carrier_id": 7,
+      "operating_carrier_id": 5,
+      "partner": "new_tt",
+      "gds": "galileo",
       "result": false
     }
   ]

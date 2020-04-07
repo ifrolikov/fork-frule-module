@@ -8,10 +8,10 @@ import (
 
 type AirlineRestrictionsRule struct {
 	Id                       int     `json:"id"`
-	PurchaseDateFrom         string `json:"purchase_date_from"`
-	PurchaseDateTo           string `json:"purchase_date_to"`
-	PurchasePeriodFrom       int `json:"purchase_period_from"`
-	PurchasePeriodTo         int `json:"purchase_period_to"`
+	PurchaseDateFrom         *string `json:"purchase_date_from"`
+	PurchaseDateTo           *string `json:"purchase_date_to"`
+	PurchasePeriodFrom       *int64 `json:"purchase_period_from"`
+	PurchasePeriodTo         *int64 `json:"purchase_period_to"`
 	ValidatingCarrierId      *int64  `json:"validating_carrier_id"`
 	MarketingCarrierId       *int64  `json:"marketing_carrier_id"`
 	OperatingCarrierId       *int64  `json:"operating_carrier_id"`

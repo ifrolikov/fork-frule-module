@@ -37,12 +37,36 @@ func TestAirlineRestrictionResult(t *testing.T) {
 	frule := frule_module.NewFRule(ctx, airlineRestrictionFRule)
 	assert.NotNil(t, frule)
 
-	partner := "new_tt"
-	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner}).(bool))
+	purchaseDateFrom := "2020-11-23"
+	purchaseDateTo := "2025-11-23"
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{PurchaseDateFrom: &purchaseDateFrom, PurchaseDateTo: &purchaseDateTo}).(bool))
 
+	partner := "new_tt"
 	gds := "galileo"
-	validatingCarrierId := int64(8)
-	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, ValidatingCarrierId: &validatingCarrierId}).(bool))
+	validatingCarrierId := int64(6)
+	marketingCarrierId := int64(6)
+	operatingCarrierId := int64(6)
+	departureCountryId := uint64(7)
+	departureCityId := uint64(491)
+	arrivalCountryId := uint64(7)
+	arrivalCityId := uint64(10105)
+	purchasePeriodFrom := int64(3)
+	purchasePeriodTo := int64(20)
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{
+		PurchaseDateFrom: &purchaseDateFrom,
+		PurchaseDateTo: &purchaseDateTo,
+		Partner: &partner,
+		Gds: &gds,
+		ValidatingCarrierId: &validatingCarrierId,
+		MarketingCarrierId: &marketingCarrierId,
+		OperatingCarrierId: &operatingCarrierId,
+		DepartureCountryId: &departureCountryId,
+		DepartureCityId: &departureCityId,
+		ArrivalCountryId: &arrivalCountryId,
+		ArrivalCityId: &arrivalCityId,
+		PurchasePeriodFrom: &purchasePeriodFrom,
+		PurchasePeriodTo: &purchasePeriodTo,
+	}).(bool))
 
 	partner = "new_tt"
 	gds = "galileo"
@@ -54,7 +78,7 @@ func TestAirlineRestrictionResult(t *testing.T) {
 	validatingCarrierId = int64(1111)
 	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, ValidatingCarrierId: &validatingCarrierId}).(bool))
 
-	partner = "unknown"
-	assert.Equal(t, airlineRestrictionFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{Partner: &partner}).(bool))
+	purchaseDateFrom = "1970-11-23"
+	assert.Equal(t, airlineRestrictionFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{PurchaseDateFrom: &purchaseDateFrom}).(bool))
 }
 
