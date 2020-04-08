@@ -36,8 +36,8 @@ func TestWarningData(t *testing.T) {
 	frule := frule_module.NewFRule(ctx, warningFRule)
 	assert.NotNil(t, frule)
 
-	var departureCountryId uint64 = 7
-	var arrivalCountryId uint64 = 72
+	var departureCountryId int64 = 7
+	var arrivalCountryId int64 = 72
 	departureDate, _ := time.Parse("2006-01-02", "2016-01-01")
 	lang := "rus"
 	ruleResult := frule.GetResult(WarningRule{
