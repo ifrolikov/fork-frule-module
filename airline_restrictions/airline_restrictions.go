@@ -626,10 +626,10 @@ func (rule *AirlineRestrictionsRule) GetComparisonOrder() frule_module.Compariso
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"date_of_purchase_from": func(a, b reflect.Value) bool {
+	"purchase_date_from": func(a, b reflect.Value) bool {
 		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
 	},
-	"date_of_purchase_to": func(a, b reflect.Value) bool {
+	"purchase_date_to": func(a, b reflect.Value) bool {
 		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
 	},
 	"purchase_period_from": func(a, b reflect.Value) bool {
