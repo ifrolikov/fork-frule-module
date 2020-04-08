@@ -7,6 +7,7 @@ import (
 "stash.tutu.ru/avia-search-common/repository"
 "stash.tutu.ru/avia-search-common/utils/system"
 "testing"
+	"time"
 )
 
 func TestAirlineRestrictionStorage(t *testing.T) {
@@ -37,8 +38,9 @@ func TestAirlineRestrictionResult(t *testing.T) {
 	frule := frule_module.NewFRule(ctx, airlineRestrictionFRule)
 	assert.NotNil(t, frule)
 
-	purchaseDateFrom := "2020-11-23"
-	purchaseDateTo := "2025-11-23"
+	currentTime := time.Now().Format("2006-01-02")
+	purchaseDateFrom := currentTime
+	purchaseDateTo := currentTime
 	assert.True(t, frule.GetResult(AirlineRestrictionsRule{PurchaseDateFrom: &purchaseDateFrom, PurchaseDateTo: &purchaseDateTo}).(bool))
 
 	partner := "new_tt"
@@ -50,8 +52,8 @@ func TestAirlineRestrictionResult(t *testing.T) {
 	departureCityId := uint64(491)
 	arrivalCountryId := uint64(7)
 	arrivalCityId := uint64(10105)
-	purchasePeriodFrom := int64(3)
-	purchasePeriodTo := int64(20)
+	purchasePeriodFrom := int64(5)
+	purchasePeriodTo := int64(5)
 	assert.True(t, frule.GetResult(AirlineRestrictionsRule{
 		PurchaseDateFrom: &purchaseDateFrom,
 		PurchaseDateTo: &purchaseDateTo,

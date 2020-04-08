@@ -2,7 +2,8 @@ package airline_restrictions
 
 import (
 "context"
-"stash.tutu.ru/avia-search-common/frule-module"
+	"reflect"
+	"stash.tutu.ru/avia-search-common/frule-module"
 "stash.tutu.ru/avia-search-common/repository"
 )
 
@@ -624,7 +625,20 @@ func (rule *AirlineRestrictionsRule) GetComparisonOrder() frule_module.Compariso
 	return comparisonOrder
 }
 
-var comparisonOperators = frule_module.ComparisonOperators{}
+var comparisonOperators = frule_module.ComparisonOperators{
+	"date_of_purchase_from": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	},
+	"date_of_purchase_to": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	},
+	"purchase_period_from": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+	},
+	"purchase_period_to": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+	},
+}
 
 func (rule *AirlineRestrictionsRule) GetComparisonOperators() frule_module.ComparisonOperators {
 	return comparisonOperators
