@@ -10,16 +10,16 @@ import (
 	"time"
 )
 
-func TestAirlineRestrictionStorage(t *testing.T) {
+func TestAirlineRestrictionsStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineRestrictionFRule, err := NewAirlineRestrictionFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restriction.json")})
+	airlineRestrictionsFRule, err := NewAirlineRestrictionsFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restriction.json")})
 	assert.Nil(t, err)
 
-	assert.Implements(t, (*frule_module.FRuler)(nil), airlineRestrictionFRule)
+	assert.Implements(t, (*frule_module.FRuler)(nil), airlineRestrictionsFRule)
 
-	dataStorage := airlineRestrictionFRule.GetDataStorage()
+	dataStorage := airlineRestrictionsFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
 	assert.Len(t, (*dataStorage)[0], 3)
@@ -28,14 +28,14 @@ func TestAirlineRestrictionStorage(t *testing.T) {
 	assert.Equal(t, 3, dataStorage.GetMaxRank())
 }
 
-func TestAirlineRestrictionResult(t *testing.T) {
+func TestAirlineRestrictionsResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineRestrictionFRule, err := NewAirlineRestrictionFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restriction.json")})
+	airlineRestrictionsFRule, err := NewAirlineRestrictionsFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restriction.json")})
 	assert.Nil(t, err)
 
-	frule := frule_module.NewFRule(ctx, airlineRestrictionFRule)
+	frule := frule_module.NewFRule(ctx, airlineRestrictionsFRule)
 	assert.NotNil(t, frule)
 
 	currentTime := time.Now().Format("2006-01-02")
@@ -45,7 +45,7 @@ func TestAirlineRestrictionResult(t *testing.T) {
 
 	partner := "new_tt"
 	gds := "galileo"
-	validatingCarrierId := int64(6)
+	platingCarrierId := int64(6)
 	marketingCarrierId := int64(6)
 	operatingCarrierId := int64(6)
 	departureCountryId := uint64(7)
@@ -55,32 +55,32 @@ func TestAirlineRestrictionResult(t *testing.T) {
 	purchasePeriodFrom := int64(5)
 	purchasePeriodTo := int64(5)
 	assert.True(t, frule.GetResult(AirlineRestrictionsRule{
-		PurchaseDateFrom: &purchaseDateFrom,
-		PurchaseDateTo: &purchaseDateTo,
-		Partner: &partner,
-		Gds: &gds,
-		ValidatingCarrierId: &validatingCarrierId,
+		PurchaseDateFrom:   &purchaseDateFrom,
+		PurchaseDateTo:     &purchaseDateTo,
+		Partner:            &partner,
+		Gds:                &gds,
+		PlatingCarrierId:   &platingCarrierId,
 		MarketingCarrierId: &marketingCarrierId,
 		OperatingCarrierId: &operatingCarrierId,
 		DepartureCountryId: &departureCountryId,
-		DepartureCityId: &departureCityId,
-		ArrivalCountryId: &arrivalCountryId,
-		ArrivalCityId: &arrivalCityId,
+		DepartureCityId:    &departureCityId,
+		ArrivalCountryId:   &arrivalCountryId,
+		ArrivalCityId:      &arrivalCityId,
 		PurchasePeriodFrom: &purchasePeriodFrom,
-		PurchasePeriodTo: &purchasePeriodTo,
+		PurchasePeriodTo:   &purchasePeriodTo,
 	}).(bool))
 
 	partner = "new_tt"
 	gds = "galileo"
-	validatingCarrierId = int64(7)
-	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, ValidatingCarrierId: &validatingCarrierId}).(bool))
+	platingCarrierId = int64(7)
+	assert.False(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, PlatingCarrierId: &platingCarrierId}).(bool))
 
 	partner = "new_tt"
 	gds = "sabre"
-	validatingCarrierId = int64(1111)
-	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, ValidatingCarrierId: &validatingCarrierId}).(bool))
+	platingCarrierId = int64(1111)
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{Partner: &partner, Gds: &gds, PlatingCarrierId: &platingCarrierId}).(bool))
 
 	purchaseDateFrom = "1970-11-23"
-	assert.Equal(t, airlineRestrictionFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{PurchaseDateFrom: &purchaseDateFrom}).(bool))
+	assert.Equal(t, airlineRestrictionsFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{PurchaseDateFrom: &purchaseDateFrom}).(bool))
 }
 

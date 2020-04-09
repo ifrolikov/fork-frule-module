@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const NotSpecified = "__NOT_SPECIFIED__"
+const NOT_SPECIFIED = "__NOT_SPECIFIED__"
 
 type ComparisonOrder [][]string
 
@@ -117,10 +117,10 @@ func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 		result += hashField + "=>" + hashPart + "|"
 	}
 
-	if result == "" {
-		result = NotSpecified
+	if result != "" {
+		return result
 	}
-	return result
+	return  NOT_SPECIFIED
 }
 
 func (f *FRule) buildIndex() error {
@@ -157,7 +157,7 @@ func (f *FRule) buildIndex() error {
 func (f *FRule) findRanks(testRule interface{}) []int {
 	var result []int
 	registryHash := f.createRuleHash(f.primaryKeys, testRule)
-	if registryHash == NotSpecified {
+	if registryHash == NOT_SPECIFIED {
 		for rank := range f.index {
 			result = append(result, rank)
 		}

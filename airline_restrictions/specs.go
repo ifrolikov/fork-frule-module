@@ -7,10 +7,10 @@ import (
 )
 
 type Specs struct {
-	DataURI            string         `envconfig:"FRULE_AIRLINE_RESTRICTION_REPOSITORY_DATA_URI" required:"true"`
-	StatusURI          *string        `envconfig:"FRULE_AIRLINE_RESTRICTION_REPOSITORY_STATUS_URI"`
-	UpdatePeriod       *time.Duration `envconfig:"FRULE_AIRLINE_RESTRICTION_REPOSITORY_UPDATE_PERIOD"`
-	InsecureSkipVerify bool           `envconfig:"FRULE_AIRLINE_RESTRICTION_REPOSITORY_INSECURE_SKIP_VERIFY" default:"false"`
+	DataURI            string         `envconfig:"FRULE_AIRLINE_RESTRICTIONS_REPOSITORY_DATA_URI" required:"true"`
+	StatusURI          *string        `envconfig:"FRULE_AIRLINE_RESTRICTIONS_REPOSITORY_STATUS_URI"`
+	UpdatePeriod       *time.Duration `envconfig:"FRULE_AIRLINE_RESTRICTIONS_REPOSITORY_UPDATE_PERIOD"`
+	InsecureSkipVerify bool           `envconfig:"FRULE_AIRLINE_RESTRICTIONS_REPOSITORY_INSECURE_SKIP_VERIFY" default:"false"`
 }
 
 func GetConfigFromEnv() (*repository.Config, error) {

@@ -10,7 +10,7 @@ type fruleStorageContainer struct {
 
 func (container *fruleStorageContainer) Update(data interface{}) {
 	rankedFRuleStorage := frule_module.NewRankedFRuleStorage()
-	for rank, ruleSet := range data.(airlineRestrictionRuleRankedList) {
+	for rank, ruleSet := range data.(airlineRestrictionsRuleRankedList) {
 		frulerList := make([]frule_module.FRuler, 0, len(ruleSet))
 		for _, frule := range ruleSet {
 			frulerList = append(frulerList, frule)
