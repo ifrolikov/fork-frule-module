@@ -14,7 +14,7 @@ func TestAirlineRestrictionsStorage(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineRestrictionsFRule, err := NewAirlineRestrictionsFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restriction.json")})
+	airlineRestrictionsFRule, err := NewAirlineRestrictionsFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restrictions.json")})
 	assert.Nil(t, err)
 
 	assert.Implements(t, (*frule_module.FRuler)(nil), airlineRestrictionsFRule)
@@ -25,14 +25,14 @@ func TestAirlineRestrictionsStorage(t *testing.T) {
 	assert.Len(t, (*dataStorage)[0], 3)
 	assert.Len(t, (*dataStorage)[3], 1)
 
-	assert.Equal(t, 3, dataStorage.GetMaxRank())
+	assert.Equal(t, 455, dataStorage.GetMaxRank())
 }
 
 func TestAirlineRestrictionsResult(t *testing.T) {
 	ctx := context.Background()
 	defer ctx.Done()
 
-	airlineRestrictionsFRule, err := NewAirlineRestrictionsFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restriction.json")})
+	airlineRestrictionsFRule, err := NewAirlineRestrictionsFRule(ctx, &repository.Config{DataURI: system.GetFilePath("../testdata/airline_restrictions.json")})
 	assert.Nil(t, err)
 
 	frule := frule_module.NewFRule(ctx, airlineRestrictionsFRule)
