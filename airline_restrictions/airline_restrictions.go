@@ -22,8 +22,8 @@ type AirlineRestrictionsRule struct {
 	DepartureCityId    *uint64 `json:"departure_city_id"`
 	ArrivalCountryId   *uint64 `json:"arrival_country_id"`
 	ArrivalCityId      *uint64 `json:"arrival_city_id"`
-	Result                   bool    `json:"result"`
-	repo                     *frule_module.Repository
+	Result             bool    `json:"result"`
+	repo               *frule_module.Repository
 }
 
 func NewAirlineRestrictionsFRule(ctx context.Context, config *repository.Config) (*AirlineRestrictionsRule, error) {
@@ -42,7 +42,9 @@ func (rule *AirlineRestrictionsRule) GetResultValue(testRule interface{}) interf
 }
 
 var comparisonOrder = frule_module.ComparisonOrder{
+	//пирамида 576 строк это 8 блоков (разные сочетания по перевозчикам) по 72 строки (самый нижкий базовый блок)
 
+	// все перевозчики 'plating_carrier_id', 'marketing_carrier_id', 'operating_carrier_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -133,96 +135,98 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "operating_carrier_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "operating_carrier_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	//сочетание только 'plating_carrier_id', 'marketing_carrier_id'
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "arrival_country_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "departure_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "departure_city_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "arrival_city_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "departure_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "departure_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "departure_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "departure_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "departure_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "departure_country_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "arrival_country_id"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id", "purchase_period_from", "purchase_period_to"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id", "purchase_period_from", "purchase_period_to"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id", "purchase_period_from", "purchase_period_to"},
 
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "plating_carrier_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "plating_carrier_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "plating_carrier_id"},
-	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "plating_carrier_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "marketing_carrier_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "marketing_carrier_id"},
+	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "marketing_carrier_id"},
 
+	//сочетание только 'plating_carrier_id', 'operating_carrier_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -313,6 +317,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "operating_carrier_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id", "operating_carrier_id"},
 
+	//сочетание только 'marketing_carrier_id', 'operating_carrier_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -403,6 +408,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "operating_carrier_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id", "operating_carrier_id"},
 
+	// только plating_carrier_id
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -493,6 +499,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "plating_carrier_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "plating_carrier_id"},
 
+	// только operating_carrier_id
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -583,6 +590,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "operating_carrier_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "operating_carrier_id"},
 
+	//только marketing_carrier_id
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -673,6 +681,8 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "marketing_carrier_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "marketing_carrier_id"},
 
+	// без перевозчиков, 72 строки (базовая пирамида, к ней выше добавляются перевозчики и их сочетания)
+	//добавляем сочетание 'departure_country_id', 'departure_city_id', 'arrival_country_id', 'arrival_city_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -683,6 +693,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
 
+	//добавляем сочетание 'departure_country_id', 'departure_city_id', 'arrival_country_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "departure_city_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
@@ -693,6 +704,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "departure_city_id", "arrival_country_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "departure_country_id", "departure_city_id", "arrival_country_id"},
 
+	//добавляем сочетание 'departure_country_id', 'arrival_country_id', 'arrival_city_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -703,6 +715,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "arrival_country_id", "arrival_city_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "departure_country_id", "arrival_country_id", "arrival_city_id"},
 
+	//добавляем сочетание 'departure_country_id', 'arrival_country_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
@@ -713,6 +726,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "arrival_country_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "departure_country_id", "arrival_country_id"},
 
+	//добавляем сочетание 'departure_country_id', 'departure_city_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "departure_city_id", "purchase_period_from", "purchase_period_to"},
@@ -723,6 +737,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "departure_city_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "departure_country_id", "departure_city_id"},
 
+	//добавляем сочетание 'arrival_country_id', 'arrival_city_id'
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "arrival_country_id", "arrival_city_id", "purchase_period_from", "purchase_period_to"},
@@ -733,6 +748,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "arrival_country_id", "arrival_city_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "arrival_country_id", "arrival_city_id"},
 
+	//добавляем только departure_country_id
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "departure_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "departure_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id", "purchase_period_from", "purchase_period_to"},
@@ -743,6 +759,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "departure_country_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "departure_country_id"},
 
+	//добавляем только arrival_country_id
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "arrival_country_id", "purchase_period_from", "purchase_period_to"},
@@ -753,6 +770,7 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "arrival_country_id"},
 	[]string{"purchase_date_from", "purchase_date_to", "arrival_country_id"},
 
+	//условный интуитивно понятный базовый блок правил 8 строк
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "gds", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "partner", "purchase_period_from", "purchase_period_to"},
 	[]string{"purchase_date_from", "purchase_date_to", "gds", "purchase_period_from", "purchase_period_to"},
