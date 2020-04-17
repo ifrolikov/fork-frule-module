@@ -2,6 +2,7 @@ package warning
 
 import (
 	"context"
+	"reflect"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"time"
@@ -15,20 +16,22 @@ type Warning struct {
 }
 
 type WarningRule struct {
-	Id                 int        `json:"id"`
-	CarrierId          *int64     `json:"carrier_id"`
-	DepartureCountryId *int64     `json:"departure_country_id"`
-	DepartureCityId    *int64     `json:"departure_city_id"`
-	ArrivalCountryId   *int64     `json:"arrival_country_id"`
-	ArrivalCityId      *int64     `json:"arrival_city_id"`
-	StartDate          *string    `json:"start_date"`
-	ParsedStartDate    *time.Time
-	FinishDate         *string    `json:"finish_date"`
-	ParsedFinishDate   *time.Time
-	ConnectionGroup    *string    `json:"connection_group"`
-	Lang               *string    `json:"lang"`
-	Result             []Warning  `json:"result"`
-	repo               *frule_module.Repository
+	Id                      int        `json:"id"`
+	CarrierId               *int64     `json:"carrier_id"`
+	DepartureCountryId      *int64     `json:"departure_country_id"`
+	DepartureCityId         *int64     `json:"departure_city_id"`
+	ArrivalCountryId        *int64     `json:"arrival_country_id"`
+	ArrivalCityId           *int64     `json:"arrival_city_id"`
+	DepartureDateFrom       *string    `json:"departure_date_from"`
+	DepartureDateTo         *string    `json:"departure_date_to"`
+	StartDate               *string    `json:"start_date"`
+	ParsedStartDate         *time.Time
+	FinishDate              *string    `json:"finish_date"`
+	ParsedFinishDate        *time.Time
+	ConnectionGroup         *string    `json:"connection_group"`
+	Lang                    *string    `json:"lang"`
+	Result                  []Warning  `json:"result"`
+	repo                    *frule_module.Repository
 }
 
 type RuleResult struct {
@@ -74,6 +77,9 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"lang", "carrier_id", "departure_country_id", "arrival_country_id", "arrival_city_id"},
 	[]string{"lang", "carrier_id", "departure_country_id", "departure_city_id"},
 	[]string{"lang", "carrier_id", "arrival_country_id", "arrival_city_id"},
+	[]string{"lang", "carrier_id", "departure_date_from", "departure_date_to"},
+	[]string{"lang", "carrier_id", "departure_date_to"},
+	[]string{"lang", "carrier_id", "departure_date_from"},
 	[]string{"lang", "departure_country_id", "arrival_country_id", "departure_city_id"},
 	[]string{"lang", "departure_country_id", "arrival_country_id", "arrival_city_id"},
 	[]string{"lang", "connection_group", "carrier_id", "departure_country_id", "arrival_country_id"},
@@ -99,13 +105,30 @@ func (rule *WarningRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	return comparisonOrder
 }
 
-var comparisonOperators= frule_module.ComparisonOperators{}
+var comparisonOperators = frule_module.ComparisonOperators{
+	"departure_date_from": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(string) < b.Elem().Interface().(string)
+	},
+	"departure_date_to": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	},
+}
 
 func (rule *WarningRule) GetComparisonOperators() frule_module.ComparisonOperators {
 	return comparisonOperators
 }
 
-var strategyKeys = []string{"lang", "carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "connection_group"}
+var strategyKeys = []string{
+	"lang",
+	"carrier_id",
+	"departure_date_from",
+	"departure_date_to",
+	"departure_country_id",
+	"departure_city_id",
+	"arrival_country_id",
+	"arrival_city_id",
+	"connection_group",
+}
 
 func (rule *WarningRule) GetStrategyKeys() []string {
 	return strategyKeys
