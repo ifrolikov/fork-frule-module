@@ -157,15 +157,9 @@ func (f *FRule) buildIndex() error {
 func (f *FRule) findRanks(testRule interface{}) []int {
 	var result []int
 	registryHash := f.createRuleHash(f.primaryKeys, testRule)
-	if registryHash == NOT_SPECIFIED {
-		for rank := range f.index {
+	if indexes, ok := f.registry[registryHash]; ok {
+		for _, rank := range indexes {
 			result = append(result, rank)
-		}
-	} else {
-		if indexes, ok := f.registry[registryHash]; ok {
-			for _, rank := range indexes {
-				result = append(result, rank)
-			}
 		}
 	}
 	sort.Ints(result)
