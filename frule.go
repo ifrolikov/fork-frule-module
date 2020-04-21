@@ -128,7 +128,7 @@ func (f *FRule) buildIndex() error {
 			rankIndexedKeys := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 			indexHash := f.createRuleHash(rankIndexedKeys, rowData)
 			// indexHash будет пустой строкой в случае пустого rankIndexedKeys
-			// это происходит, когда на некоторых уровнях GetComparisonOrder нет ни одного f.indexedKeys
+			// это происходит, когда на некоторых уровнях (rank) GetComparisonOrder нет ни одного f.indexedKeys
 			// все записи с этого уровня попадут в index[rank][""]
 			if index[rank] == nil {
 				index[rank] = make(map[string][]FRuler)
@@ -137,8 +137,8 @@ func (f *FRule) buildIndex() error {
 
 			registryHash := f.createRuleHash(f.primaryKeys, rowData)
 			// registryHash будет пустой строкой в случае пустого f.primaryKeys
-			// это происходит, когда нет полей, которые встречались бы на каждом уровне GetComparisonOrder
-			// все rank попдат в один элемент регистра - registry[""]
+			// это происходит, когда нет полей, которые встречались бы на каждом уровне (rank) GetComparisonOrder
+			// все rank попадут в один элемент регистра registry[""]
 			if registry[registryHash] == nil {
 				registry[registryHash] = make(map[int]int)
 			}
