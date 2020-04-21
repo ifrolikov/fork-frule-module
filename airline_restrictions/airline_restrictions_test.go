@@ -1,12 +1,12 @@
 package airline_restrictions
 
 import (
-"context"
-"github.com/stretchr/testify/assert"
-"stash.tutu.ru/avia-search-common/frule-module"
-"stash.tutu.ru/avia-search-common/repository"
-"stash.tutu.ru/avia-search-common/utils/system"
-"testing"
+	"context"
+	"github.com/stretchr/testify/assert"
+	"stash.tutu.ru/avia-search-common/frule-module"
+	"stash.tutu.ru/avia-search-common/repository"
+	"stash.tutu.ru/avia-search-common/utils/system"
+	"testing"
 	"time"
 )
 
@@ -42,9 +42,9 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 
 	//общее разрешающее правило
 	currentTime := time.Now().Format("2006-01-02")
-	purchaseDateFrom := currentTime
-	purchaseDateTo := currentTime
-	assert.True(t, frule.GetResult(AirlineRestrictionsRule{PurchaseDateFrom: &purchaseDateFrom, PurchaseDateTo: &purchaseDateTo}).(bool))
+	departureDateFrom := currentTime
+	departureDateTo := currentTime
+	assert.True(t, frule.GetResult(AirlineRestrictionsRule{DepartureDateFrom: &departureDateFrom, DepartureDateTo: &departureDateTo}).(bool))
 
 	partner := "new_tt"
 	gds := "galileo"
@@ -55,22 +55,22 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 	departureCityId := uint64(467)
 	arrivalCountryId := uint64(7)
 	arrivalCityId := uint64(491)
-	purchasePeriodFrom := int64(5)
-	purchasePeriodTo := int64(5)
+	departurePeriodFrom := int64(5)
+	departurePeriodTo := int64(5)
 	assert.False(t, frule.GetResult(AirlineRestrictionsRule{
-		PurchaseDateFrom:   &purchaseDateFrom,
-		PurchaseDateTo:     &purchaseDateTo,
-		Partner:            &partner,
-		Gds:                &gds,
-		PlatingCarrierId:   &platingCarrierId,
-		MarketingCarrierId: &marketingCarrierId,
-		OperatingCarrierId: &operatingCarrierId,
-		DepartureCountryId: &departureCountryId,
-		DepartureCityId:    &departureCityId,
-		ArrivalCountryId:   &arrivalCountryId,
-		ArrivalCityId:      &arrivalCityId,
-		PurchasePeriodFrom: &purchasePeriodFrom,
-		PurchasePeriodTo:   &purchasePeriodTo,
+		DepartureDateFrom:   &departureDateFrom,
+		DepartureDateTo:     &departureDateTo,
+		Partner:             &partner,
+		Gds:                 &gds,
+		PlatingCarrierId:    &platingCarrierId,
+		MarketingCarrierId:  &marketingCarrierId,
+		OperatingCarrierId:  &operatingCarrierId,
+		DepartureCountryId:  &departureCountryId,
+		DepartureCityId:     &departureCityId,
+		ArrivalCountryId:    &arrivalCountryId,
+		ArrivalCityId:       &arrivalCityId,
+		DeparturePeriodFrom: &departurePeriodFrom,
+		DeparturePeriodTo:   &departurePeriodTo,
 	}).(bool))
 
 	partner = "new_tt"
@@ -82,22 +82,22 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 	departureCityId = uint64(467)
 	arrivalCountryId = uint64(7)
 	arrivalCityId = uint64(491)
-	purchasePeriodFrom = int64(5)
-	purchasePeriodTo = int64(5)
+	departurePeriodFrom = int64(5)
+	departurePeriodTo = int64(5)
 	assert.True(t, frule.GetResult(AirlineRestrictionsRule{
-		PurchaseDateFrom:   &purchaseDateFrom,
-		PurchaseDateTo:     &purchaseDateTo,
-		Partner:            &partner,
-		Gds:                &gds,
-		PlatingCarrierId:   &platingCarrierId,
-		MarketingCarrierId: &marketingCarrierId,
-		OperatingCarrierId: &operatingCarrierId,
-		DepartureCountryId: &departureCountryId,
-		DepartureCityId:    &departureCityId,
-		ArrivalCountryId:   &arrivalCountryId,
-		ArrivalCityId:      &arrivalCityId,
-		PurchasePeriodFrom: &purchasePeriodFrom,
-		PurchasePeriodTo:   &purchasePeriodTo,
+		DepartureDateFrom:   &departureDateFrom,
+		DepartureDateTo:     &departureDateTo,
+		Partner:             &partner,
+		Gds:                 &gds,
+		PlatingCarrierId:    &platingCarrierId,
+		MarketingCarrierId:  &marketingCarrierId,
+		OperatingCarrierId:  &operatingCarrierId,
+		DepartureCountryId:  &departureCountryId,
+		DepartureCityId:     &departureCityId,
+		ArrivalCountryId:    &arrivalCountryId,
+		ArrivalCityId:       &arrivalCityId,
+		DeparturePeriodFrom: &departurePeriodFrom,
+		DeparturePeriodTo:   &departurePeriodTo,
 	}).(bool))
 
 	// проверка что нельзя S7 из sabre раньше чем через 2 недели
@@ -110,25 +110,24 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 	departureCityId = uint64(467)
 	arrivalCountryId = uint64(7)
 	arrivalCityId = uint64(491)
-	purchasePeriodFrom = int64(5)
-	purchasePeriodTo = int64(5)
+	departurePeriodFrom = int64(5)
+	departurePeriodTo = int64(5)
 	assert.False(t, frule.GetResult(AirlineRestrictionsRule{
-		PurchaseDateFrom:   &purchaseDateFrom,
-		PurchaseDateTo:     &purchaseDateTo,
-		Partner:            &partner,
-		Gds:                &gds,
-		PlatingCarrierId:   &platingCarrierId,
-		MarketingCarrierId: &marketingCarrierId,
-		OperatingCarrierId: &operatingCarrierId,
-		DepartureCountryId: &departureCountryId,
-		DepartureCityId:    &departureCityId,
-		ArrivalCountryId:   &arrivalCountryId,
-		ArrivalCityId:      &arrivalCityId,
-		PurchasePeriodFrom: &purchasePeriodFrom,
-		PurchasePeriodTo:   &purchasePeriodTo,
+		DepartureDateFrom:   &departureDateFrom,
+		DepartureDateTo:     &departureDateTo,
+		Partner:             &partner,
+		Gds:                 &gds,
+		PlatingCarrierId:    &platingCarrierId,
+		MarketingCarrierId:  &marketingCarrierId,
+		OperatingCarrierId:  &operatingCarrierId,
+		DepartureCountryId:  &departureCountryId,
+		DepartureCityId:     &departureCityId,
+		ArrivalCountryId:    &arrivalCountryId,
+		ArrivalCityId:       &arrivalCityId,
+		DeparturePeriodFrom: &departurePeriodFrom,
+		DeparturePeriodTo:   &departurePeriodTo,
 	}).(bool))
 
-	purchaseDateFrom = "1970-11-23"
-	assert.Equal(t, airlineRestrictionsFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{PurchaseDateFrom: &purchaseDateFrom}).(bool))
+	departureDateFrom = "1970-11-23"
+	assert.Equal(t, airlineRestrictionsFRule.GetDefaultValue(), frule.GetResult(AirlineRestrictionsRule{DepartureDateFrom: &departureDateFrom}).(bool))
 }
-

@@ -1,9 +1,9 @@
 package airline_restrictions
 
 import (
-"github.com/kelseyhightower/envconfig"
-"stash.tutu.ru/avia-search-common/repository"
-"time"
+	"github.com/kelseyhightower/envconfig"
+	"stash.tutu.ru/avia-search-common/repository"
+	"time"
 )
 
 type Specs struct {
@@ -30,4 +30,3 @@ func (s *Specs) toConfig() *repository.Config {
 		InsecureSkipVerify: s.InsecureSkipVerify,
 	}
 }
-

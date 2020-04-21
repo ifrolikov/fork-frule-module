@@ -1,7 +1,7 @@
 package airline_restrictions
 
 import (
-"stash.tutu.ru/avia-search-common/frule-module"
+	"stash.tutu.ru/avia-search-common/frule-module"
 )
 
 type fruleStorageContainer struct {
@@ -23,4 +23,3 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 func (container *fruleStorageContainer) GetRankedStorage() *frule_module.RankedFRuleStorage {
 	return container.rankedStorage
 }
-
