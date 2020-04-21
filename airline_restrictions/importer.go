@@ -1,9 +1,9 @@
 package airline_restrictions
 
 import (
-"errors"
-"fmt"
-"stash.tutu.ru/avia-search-common/repository"
+	"errors"
+	"fmt"
+	"stash.tutu.ru/avia-search-common/repository"
 )
 
 type airlineRestrictionsRuleRankedList [][]*AirlineRestrictionsRule

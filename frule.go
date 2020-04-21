@@ -11,8 +11,6 @@ import (
 	"time"
 )
 
-const NOT_SPECIFIED = "__NOT_SPECIFIED__"
-
 type ComparisonOrder [][]string
 
 type ComparisonFunction func(a, b reflect.Value) bool
@@ -117,10 +115,7 @@ func (f *FRule) createRuleHash(hashFields []string, rule interface{}) string {
 		result += hashField + "=>" + hashPart + "|"
 	}
 
-	if result != "" {
-		return result
-	}
-	return  NOT_SPECIFIED
+	return result
 }
 
 func (f *FRule) buildIndex() error {
@@ -130,21 +125,24 @@ func (f *FRule) buildIndex() error {
 
 	for rank, rulesData := range *rulesSets {
 		for _, rowData := range rulesData {
-			hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
-			hash := f.createRuleHash(hashFields, rowData)
-			if hash != "" {
-				if index[rank] == nil {
-					index[rank] = make(map[string][]FRuler)
-				}
-				index[rank][hash] = append(index[rank][hash], rowData)
+			rankIndexedKeys := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
+			indexHash := f.createRuleHash(rankIndexedKeys, rowData)
+			// indexHash будет пустой строкой в случае пустого rankIndexedKeys
+			// это происходит, когда на некоторых уровнях (rank) GetComparisonOrder нет ни одного f.indexedKeys
+			// все записи с этого уровня попадут в index[rank][""]
+			if index[rank] == nil {
+				index[rank] = make(map[string][]FRuler)
 			}
+			index[rank][indexHash] = append(index[rank][indexHash], rowData)
+
 			registryHash := f.createRuleHash(f.primaryKeys, rowData)
-			if registryHash != "" {
-				if registry[registryHash] == nil {
-					registry[registryHash] = make(map[int]int)
-				}
-				registry[registryHash][rank] = rank
+			// registryHash будет пустой строкой в случае пустого f.primaryKeys
+			// это происходит, когда нет полей, которые встречались бы на каждом уровне (rank) GetComparisonOrder
+			// все rank попадут в один элемент регистра registry[""]
+			if registry[registryHash] == nil {
+				registry[registryHash] = make(map[int]int)
 			}
+			registry[registryHash][rank] = rank
 		}
 	}
 	f.mutex.Lock()
@@ -157,15 +155,9 @@ func (f *FRule) buildIndex() error {
 func (f *FRule) findRanks(testRule interface{}) []int {
 	var result []int
 	registryHash := f.createRuleHash(f.primaryKeys, testRule)
-	if registryHash == NOT_SPECIFIED {
-		for rank := range f.index {
+	if indexes, ok := f.registry[registryHash]; ok {
+		for _, rank := range indexes {
 			result = append(result, rank)
-		}
-	} else {
-		if indexes, ok := f.registry[registryHash]; ok {
-			for _, rank := range indexes {
-				result = append(result, rank)
-			}
 		}
 	}
 	sort.Ints(result)
