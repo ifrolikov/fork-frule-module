@@ -1225,6 +1225,7 @@ var strategyKeys = []string{
 	"departure_date_to",
 	"partner",
 	"gds",
+	"connection_group",
 	"plating_carrier_id",
 	"marketing_carrier_id",
 	"operating_carrier_id",
@@ -1233,7 +1234,8 @@ var strategyKeys = []string{
 	"arrival_country_id",
 	"arrival_city_id",
 	"departure_period_from",
-	"departure_period_to"}
+	"departure_period_to",
+}
 
 func (rule *AirlineRestrictionsRule) GetStrategyKeys() []string {
 	return strategyKeys
