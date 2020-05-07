@@ -22,12 +22,12 @@ func TestAirlineRestrictionsStorage(t *testing.T) {
 	dataStorage := airlineRestrictionsFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
-	assert.Len(t, (*dataStorage)[0], 2)
-	assert.Len(t, (*dataStorage)[66], 1)
-	assert.Len(t, (*dataStorage)[535], 1)
-	assert.Len(t, (*dataStorage)[575], 1)
+	assert.Len(t, (*dataStorage)[1], 2)
+	assert.Len(t, (*dataStorage)[133], 1)
+	assert.Len(t, (*dataStorage)[1151], 1)
+	assert.Len(t, (*dataStorage)[1071], 1)
 
-	assert.Equal(t, 575, dataStorage.GetMaxRank())
+	assert.Equal(t, 1151, dataStorage.GetMaxRank())
 }
 
 func TestAirlineRestrictionsResult(t *testing.T) {
@@ -48,6 +48,7 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 
 	partner := "new_tt"
 	gds := "galileo"
+	connectionGroup := "galileo"
 	platingCarrierId := int64(1106)
 	marketingCarrierId := int64(1062)
 	operatingCarrierId := int64(1062)
@@ -62,6 +63,7 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 		DepartureDateTo:     &departureDateTo,
 		Partner:             &partner,
 		Gds:                 &gds,
+		ConnectionGroup:     &connectionGroup,
 		PlatingCarrierId:    &platingCarrierId,
 		MarketingCarrierId:  &marketingCarrierId,
 		OperatingCarrierId:  &operatingCarrierId,
@@ -75,6 +77,7 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 
 	partner = "new_tt"
 	gds = "galileo"
+	connectionGroup = "galileo"
 	platingCarrierId = int64(1062)
 	marketingCarrierId = int64(6)
 	operatingCarrierId = int64(6)
@@ -89,6 +92,7 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 		DepartureDateTo:     &departureDateTo,
 		Partner:             &partner,
 		Gds:                 &gds,
+		ConnectionGroup:     &connectionGroup,
 		PlatingCarrierId:    &platingCarrierId,
 		MarketingCarrierId:  &marketingCarrierId,
 		OperatingCarrierId:  &operatingCarrierId,
@@ -103,6 +107,7 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 	// проверка что нельзя S7 из sabre раньше чем через 2 недели
 	partner = "new_tt"
 	gds = "sabre"
+	connectionGroup = "sabre"
 	platingCarrierId = int64(1106)
 	marketingCarrierId = int64(1106)
 	operatingCarrierId = int64(1106)
@@ -117,6 +122,7 @@ func TestAirlineRestrictionsResult(t *testing.T) {
 		DepartureDateTo:     &departureDateTo,
 		Partner:             &partner,
 		Gds:                 &gds,
+		ConnectionGroup:     &connectionGroup,
 		PlatingCarrierId:    &platingCarrierId,
 		MarketingCarrierId:  &marketingCarrierId,
 		OperatingCarrierId:  &operatingCarrierId,
