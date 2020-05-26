@@ -1019,8 +1019,23 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner"},
 }
 
+var strategyKeys = []string{
+	"partner",
+	"connection_group",
+	"ticketing_connection",
+	"carrier_id",
+	"tariff",
+	"ab_variant",
+	"departure_city_id",
+	"arrival_city_id",
+	"departure_country_id",
+	"arrival_country_id",
+	"days_to_departure_min",
+	"days_to_departure_max",
+}
+
 type ServiceChargeRule struct {
-	Id                  int32         `json:"id"`
+	Id                  int32       `json:"id"`
 	CarrierId           *int64      `json:"carrier_id"`
 	Partner             *string     `json:"partner"`
 	ConnectionGroup     *string     `json:"connection_group"`
@@ -1159,21 +1174,6 @@ var comparisonOperators = frule_module.ComparisonOperators{
 
 func (rule *ServiceChargeRule) GetComparisonOperators() frule_module.ComparisonOperators {
 	return comparisonOperators
-}
-
-var strategyKeys = []string{
-	"partner",
-	"connection_group",
-	"ticketing_connection",
-	"carrier_id",
-	"tariff",
-	"ab_variant",
-	"departure_city_id",
-	"arrival_city_id",
-	"departure_country_id",
-	"arrival_country_id",
-	"days_to_departure_min",
-	"days_to_departure_max",
 }
 
 func (rule *ServiceChargeRule) GetStrategyKeys() []string {

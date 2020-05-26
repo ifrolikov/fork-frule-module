@@ -7,6 +7,7 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/robfig/cron v1.2.0
 	github.com/stretchr/testify v1.4.0
+	golang.org/x/tools v0.0.0-20191018000036-341939e08647
 	stash.tutu.ru/avia-search-common/contracts/v2 v2.0.1
 	stash.tutu.ru/avia-search-common/repository v0.1.2
 	stash.tutu.ru/avia-search-common/utils v1.0.2
