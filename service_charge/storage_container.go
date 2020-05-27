@@ -21,13 +21,13 @@ func (container *fruleStorageContainer) Update(data interface{}) {
 					log.Logger.Error().Stack().Err(err).Msg("Unmarshal margin")
 				}
 				for idx := range marginParsed.Full {
-					marginParsed.Full[idx].ResultParsed = parseMoneySpec(&marginParsed.Full[idx].Result)
+					marginParsed.Full[idx].ResultParsed = parseMoneySpec(marginParsed.Full[idx].Result)
 				}
 				for idx := range marginParsed.Child {
-					marginParsed.Child[idx].ResultParsed = parseMoneySpec(&marginParsed.Child[idx].Result)
+					marginParsed.Child[idx].ResultParsed = parseMoneySpec(marginParsed.Child[idx].Result)
 				}
 				for idx := range marginParsed.Infant {
-					marginParsed.Infant[idx].ResultParsed = parseMoneySpec(&marginParsed.Infant[idx].Result)
+					marginParsed.Infant[idx].ResultParsed = parseMoneySpec(marginParsed.Infant[idx].Result)
 				}
 				frule.MarginParsed = &marginParsed
 			}
