@@ -1098,13 +1098,20 @@ func NewServiceChargeFRule(ctx context.Context, config *repository.Config) (*Ser
 	return &ServiceChargeRule{repo: repo}, nil
 }
 
-// парсинг строки вида:
-// 583.44RUR+2.1%<1000.12RUR, где 583.44RUR - абсолютное значение; 2.1%<1000.12RUR - процент от тарифа, но не более 1000.12RUR
-// возможные варианты:
-// 583.44RUR
-// 0RUR+2.1%
-// 0RUR+2.1%<1000.12RUR
-// 583.44RUR+2.1%
+/*
+парсинг строки вида:
+583.44RUR+2.1%<1000.12RUR, где 583.44RUR - абсолютное значение; 2.1%<1000.12RUR - процент от тарифа, но не более 1000.12RUR
+число и RUR в начале строки - обязательные
+если нужно указать просто 2% от тарифа, то 0RUR+2%
+
+примеры:
+0RUR
+583RUR
+583.44RUR
+0RUR+2.1%
+0RUR+2.1%<1000.12RUR
+583.44RUR+2.1%
+*/
 var moneySpec = regexp.MustCompile(`^([0-9\.]+)([A-Z]{3})\+?([0-9\.]*)%?<?([0-9\.]*)([A-Z]{0,3})$`)
 
 func parseMoneySpec(spec *string) MoneyParsed {
