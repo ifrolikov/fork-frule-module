@@ -1098,25 +1098,35 @@ func NewServiceChargeFRule(ctx context.Context, config *repository.Config) (*Ser
 	return &ServiceChargeRule{repo: repo}, nil
 }
 
+/* определение строки, которая начинается на число% */
+var startFromPercentSpec = regexp.MustCompile(`^([0-9\.]+)%`)
+
 /*
 парсинг строки вида:
-583.44RUR+2.1%<1000.12RUR, где 583.44RUR - абсолютное значение; 2.1%<1000.12RUR - процент от тарифа, но не более 1000.12RUR
-число и RUR в начале строки - обязательные
-если нужно указать просто 2% от тарифа, то 0RUR+2%
+583.44RUR+2.1%<1000.12RUR, где 583.44RUR - абсолютное значение, 2.1%<1000.12RUR - процент от тарифа, но не более 1000.12RUR
 
 примеры:
 0RUR
 583RUR
 583.44RUR
-0RUR+2.1%
-0RUR+2.1%<1000.12RUR
+2.1%
+2.1%<1000.12RUR
 583.44RUR+2.1%
+583.44RUR+2.1%<1000.12
+583.44RUR+2.1%<1000.12RUR
 */
 var moneySpec = regexp.MustCompile(`^([0-9\.]+)([A-Z]{3})\+?([0-9\.]*)%?<?([0-9\.]*)([A-Z]{0,3})$`)
 
 func parseMoneySpec(spec *string) MoneyParsed {
 	moneyParsed := MoneyParsed{}
 	if spec != nil {
+		specString := *spec
+
+		// костылек - если в начале строки указывается % от тарифа, то для совпадения с основным регулярным выражением добавим 0RUR
+		if percentParsedData := startFromPercentSpec.FindStringSubmatch(specString); len(percentParsedData) > 0 {
+			specString = "0RUB+" + specString
+		}
+
 		/**
 		Парсинг строки вида 583.44RUR+2.1%<1000.12RUR:
 		Full match	583.44RUR+2.1%<1000.12RUR
@@ -1126,12 +1136,12 @@ func parseMoneySpec(spec *string) MoneyParsed {
 		Group 4.	1000.12
 		Group 5.	RUR
 		*/
-		parsedData := moneySpec.FindStringSubmatch(*spec)
+		parsedData := moneySpec.FindStringSubmatch(specString)
 		if len(parsedData) > 0 {
 			if parsedData[1] != "" {
 				amount, err := strconv.ParseFloat(parsedData[1], 64)
 				if err != nil {
-					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", *spec)).Msg("parsing service charge amount")
+					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge amount")
 				}
 				moneyParsed.Money = &base.Money{
 					Amount:   int64(math.Round(amount * 100)),
@@ -1141,7 +1151,7 @@ func parseMoneySpec(spec *string) MoneyParsed {
 			if parsedData[3] != "" {
 				percent, err := strconv.ParseFloat(parsedData[3], 64)
 				if err != nil {
-					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", *spec)).Msg("parsing service charge percent")
+					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge percent")
 				}
 				if percent > 0 {
 					moneyParsed.Percent = percent
@@ -1150,7 +1160,7 @@ func parseMoneySpec(spec *string) MoneyParsed {
 			if parsedData[4] != "" {
 				amount, err := strconv.ParseFloat(parsedData[4], 64)
 				if err != nil {
-					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", *spec)).Msg("parsing service charge limit")
+					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge limit")
 				}
 				moneyParsed.Limit = &base.Money{
 					Amount:   int64(math.Round(amount * 100)),
@@ -1158,7 +1168,7 @@ func parseMoneySpec(spec *string) MoneyParsed {
 				}
 			}
 		} else {
-			log.Logger.Error().Stack().Err(fmt.Errorf("cannot parse string %s", *spec)).Msg("parsing service charge")
+			log.Logger.Error().Stack().Err(fmt.Errorf("cannot parse string %s", specString)).Msg("parsing service charge")
 		}
 	}
 	return moneyParsed
