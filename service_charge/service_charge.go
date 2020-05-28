@@ -1170,6 +1170,8 @@ func parseMoneySpec(spec *string) MoneyParsed {
 			} else {
 				log.Logger.Error().Stack().Err(fmt.Errorf("cannot parse string %s", specString)).Msg("parsing service charge")
 			}
+		} else {
+			log.Logger.Error().Stack().Err(errors.New("spec string is empty")).Msg("parsing service charge")
 		}
 	}
 	return moneyParsed
