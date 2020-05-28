@@ -81,6 +81,10 @@ func timeMatchCronSpec(spec string, testTime time.Time) (bool, error) {
 }
 
 func PriceRange(rangeSpec *string, testPrice base.Money) bool {
+	var fraction int64 = 100
+	if testPrice.Currency != nil && testPrice.Currency.Fraction != 0 {
+		fraction = testPrice.Currency.Fraction
+	}
 	if rangeSpec == nil {
 		return false
 	}
@@ -90,7 +94,7 @@ func PriceRange(rangeSpec *string, testPrice base.Money) bool {
 		if err != nil {
 			return false
 		}
-		return int64(value)*100 <= testPrice.Amount
+		return int64(value)*fraction <= testPrice.Amount
 	} else {
 		lvalue, err := strconv.Atoi(rangeParts[0])
 		if err != nil {
@@ -100,7 +104,7 @@ func PriceRange(rangeSpec *string, testPrice base.Money) bool {
 		if err != nil {
 			return false
 		}
-		return int64(lvalue)*100 <= testPrice.Amount && testPrice.Amount < int64(rvalue)*100
+		return int64(lvalue)*fraction <= testPrice.Amount && testPrice.Amount < int64(rvalue)*fraction
 	}
 
 }

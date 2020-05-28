@@ -2,6 +2,8 @@ package service_charge
 
 import (
 	"context"
+	"fmt"
+	"github.com/pkg/errors"
 	"math"
 	"reflect"
 	"regexp"
@@ -1019,8 +1021,23 @@ var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner"},
 }
 
+var strategyKeys = []string{
+	"partner",
+	"connection_group",
+	"ticketing_connection",
+	"carrier_id",
+	"tariff",
+	"ab_variant",
+	"departure_city_id",
+	"arrival_city_id",
+	"departure_country_id",
+	"arrival_country_id",
+	"days_to_departure_min",
+	"days_to_departure_max",
+}
+
 type ServiceChargeRule struct {
-	Id                  int32         `json:"id"`
+	Id                  int32       `json:"id"`
 	CarrierId           *int64      `json:"carrier_id"`
 	Partner             *string     `json:"partner"`
 	ConnectionGroup     *string     `json:"connection_group"`
@@ -1043,15 +1060,16 @@ type Conditions struct {
 	PriceRange *string `json:"price_range"`
 }
 
-type Result struct {
-	Ticket  *string `json:"ticket"`
-	Segment *string `json:"segment"`
+type MoneyParsed struct {
+	Percent float64
+	Limit   *base.Money
+	Money   *base.Money
 }
 
 type ConditionMarginResult struct {
 	Conditions   Conditions `json:"conditions"`
-	Result       string     `json:"result"`
-	ResultParsed base.Money
+	Result       *string    `json:"result"`
+	ResultParsed MoneyParsed
 }
 
 type Margin struct {
@@ -1080,49 +1098,123 @@ func NewServiceChargeFRule(ctx context.Context, config *repository.Config) (*Ser
 	return &ServiceChargeRule{repo: repo}, nil
 }
 
-var moneySpec = regexp.MustCompile(`([0-9\.]+)([A-Z]+)`)
+/* определение строки, которая начинается на число% */
+var startFromPercentSpec = regexp.MustCompile(`^([0-9\.]+)%`)
 
-func parseMoneySpec(spec *string) base.Money {
-	if spec == nil {
-		return base.Money{
-			Currency: &base.Currency{
-				Code:     "RUB",
-				Fraction: 100,
-			},
+/*
+парсинг строки вида:
+583.44RUB+2.1%<1000.12RUB, где 583.44RUB - абсолютное значение, 2.1%<1000.12RUB - процент от тарифа, но не более 1000.12RUB
+
+примеры:
+0RUB
+583RUB
+583.44RUB
+2.1%
+2.1%<1000.12RUB
+583.44RUB+2.1%
+583.44RUB+2.1%<1000.12
+583.44RUB+2.1%<1000.12RUB
+*/
+var moneySpec = regexp.MustCompile(`^([0-9\.]+)([A-Z]{3})\+?([0-9\.]*)%?<?([0-9\.]*)([A-Z]{0,3})$`)
+
+func parseMoneySpec(spec *string) MoneyParsed {
+	moneyParsed := MoneyParsed{}
+	if spec != nil {
+		specString := *spec
+		if specString != "" {
+			// костылек - если в начале строки указывается % от тарифа, то для совпадения с основным регулярным выражением добавим 0RUB
+			if percentParsedData := startFromPercentSpec.FindStringSubmatch(specString); len(percentParsedData) > 0 {
+				specString = "0RUB+" + specString
+			}
+
+			/**
+			Парсинг строки вида 583.44RUB+2.1%<1000.12RUB:
+			Full match	583.44RUB+2.1%<1000.12RUB
+			Group 1.	583.44
+			Group 2.	RUB
+			Group 3.	2.1
+			Group 4.	1000.12
+			Group 5.	RUB
+			*/
+			parsedData := moneySpec.FindStringSubmatch(specString)
+			if len(parsedData) == 6 {
+				if parsedData[1] != "" {
+					amount, err := strconv.ParseFloat(parsedData[1], 64)
+					if err != nil {
+						log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge amount")
+					}
+					moneyParsed.Money = &base.Money{
+						Amount:   int64(math.Round(amount * 100)),
+						Currency: &base.Currency{Code: fixCurrencyCode(parsedData[2]), Fraction: 100},
+					}
+				}
+				if parsedData[3] != "" {
+					percent, err := strconv.ParseFloat(parsedData[3], 64)
+					if err != nil {
+						log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge percent")
+					}
+					if percent > 0 {
+						moneyParsed.Percent = percent
+					}
+				}
+				if parsedData[4] != "" {
+					amount, err := strconv.ParseFloat(parsedData[4], 64)
+					if err != nil {
+						log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge limit")
+					}
+					moneyParsed.Limit = &base.Money{
+						Amount:   int64(math.Round(amount * 100)),
+						Currency: &base.Currency{Code: fixCurrencyCode(parsedData[5]), Fraction: 100},
+					}
+				}
+			} else {
+				log.Logger.Error().Stack().Err(fmt.Errorf("cannot parse string %s", specString)).Msg("parsing service charge")
+			}
+		} else {
+			log.Logger.Error().Stack().Err(errors.New("spec string is empty")).Msg("parsing service charge")
 		}
 	}
-
-	parsedData := moneySpec.FindStringSubmatch(*spec)
-
-	if len(parsedData) == 3 {
-		amount, err := strconv.ParseFloat(parsedData[1], 64)
-		if err != nil {
-			log.Logger.Error().Stack().Err(err).Msg("parsing money")
-		}
-		return base.Money{
-			Amount: int64(math.Round(amount * 100)), // TODO вынести defaultFraction
-			Currency: &base.Currency{ // TODO: load from DB by code
-				Code:     parsedData[2],
-				Fraction: 100,
-			},
-		}
-	} else {
-		return base.Money{
-			Currency: &base.Currency{ // TODO нужна factory для Currency??
-				Code:     "RUB",
-				Fraction: 100,
-			},
-		}
-	}
+	return moneyParsed
 }
 
-func selectMarginRow(choices []ConditionMarginResult, testRule ServiceChargeRule) base.Money {
+func fixCurrencyCode(code string) string {
+	if code == "" || code == "RUR" {
+		return "RUB"
+	}
+	return code
+}
+
+func findPricingRangeValue(choices []ConditionMarginResult, testRule ServiceChargeRule) MoneyParsed {
 	for _, choice := range choices {
 		if frule_module.PriceRange(choice.Conditions.PriceRange, testRule.TestOfferPrice) {
 			return choice.ResultParsed
 		}
 	}
-	return base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
+	return MoneyParsed{}
+}
+
+func calculateServiceCharge(moneyParsed MoneyParsed, price base.Money) base.Money {
+	money := base.CreateZeroRubMoney()
+	if moneyParsed.Money != nil {
+		err := money.Add(moneyParsed.Money)
+		if err != nil {
+			log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *moneyParsed.Money)).Msg("calculate service charge")
+		}
+	}
+	if moneyParsed.Percent != 0 && price.Validate() {
+		tariffAddition := base.CloneMoney(&price)
+		tariffAddition.MultiplyFloat64(moneyParsed.Percent / 100)
+		if moneyParsed.Limit != nil {
+			if moreThanLimit, _ := tariffAddition.More(moneyParsed.Limit); moreThanLimit {
+				tariffAddition.Copy(moneyParsed.Limit)
+			}
+		}
+		err := money.Add(tariffAddition)
+		if err != nil {
+			log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *tariffAddition)).Msg("calculate service charge")
+		}
+	}
+	return *money
 }
 
 func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} {
@@ -1130,9 +1222,22 @@ func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} 
 		Id: rule.Id,
 	}
 	if rule.MarginParsed != nil {
-		result.Margin.Full = selectMarginRow(rule.MarginParsed.Full, testRule.(ServiceChargeRule))
-		result.Margin.Child = selectMarginRow(rule.MarginParsed.Child, testRule.(ServiceChargeRule))
-		result.Margin.Infant = selectMarginRow(rule.MarginParsed.Infant, testRule.(ServiceChargeRule))
+		serviceChargeParams := testRule.(ServiceChargeRule)
+
+		result.Margin.Full = calculateServiceCharge(
+			findPricingRangeValue(rule.MarginParsed.Full, serviceChargeParams),
+			serviceChargeParams.TestOfferPrice,
+		)
+
+		result.Margin.Child = calculateServiceCharge(
+			findPricingRangeValue(rule.MarginParsed.Child, serviceChargeParams),
+			serviceChargeParams.TestOfferPrice,
+		)
+
+		result.Margin.Infant = calculateServiceCharge(
+			findPricingRangeValue(rule.MarginParsed.Infant, serviceChargeParams),
+			serviceChargeParams.TestOfferPrice,
+		)
 	}
 	return result
 }
@@ -1161,32 +1266,11 @@ func (rule *ServiceChargeRule) GetComparisonOperators() frule_module.ComparisonO
 	return comparisonOperators
 }
 
-var strategyKeys = []string{
-	"partner",
-	"connection_group",
-	"ticketing_connection",
-	"carrier_id",
-	"tariff",
-	"ab_variant",
-	"departure_city_id",
-	"arrival_city_id",
-	"departure_country_id",
-	"arrival_country_id",
-	"days_to_departure_min",
-	"days_to_departure_max",
-}
-
 func (rule *ServiceChargeRule) GetStrategyKeys() []string {
 	return strategyKeys
 }
 
 func (rule *ServiceChargeRule) GetDefaultValue() interface{} {
-	zeroRub := base.Money{
-		Currency: &base.Currency{
-			Fraction: 100,
-			Code:     "RUB",
-		},
-	}
 	return ServiceChargeRuleResult{
 		Id: -1,
 		Margin: struct {
@@ -1194,9 +1278,9 @@ func (rule *ServiceChargeRule) GetDefaultValue() interface{} {
 			Child  base.Money
 			Infant base.Money
 		}{
-			Full:   zeroRub,
-			Child:  zeroRub,
-			Infant: zeroRub,
+			Full:   *base.CreateZeroRubMoney(),
+			Child:  *base.CreateZeroRubMoney(),
+			Infant: *base.CreateZeroRubMoney(),
 		},
 	}
 }
