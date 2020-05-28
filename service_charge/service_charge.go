@@ -1121,54 +1121,55 @@ func parseMoneySpec(spec *string) MoneyParsed {
 	moneyParsed := MoneyParsed{}
 	if spec != nil {
 		specString := *spec
+		if specString != "" {
+			// костылек - если в начале строки указывается % от тарифа, то для совпадения с основным регулярным выражением добавим 0RUR
+			if percentParsedData := startFromPercentSpec.FindStringSubmatch(specString); len(percentParsedData) > 0 {
+				specString = "0RUB+" + specString
+			}
 
-		// костылек - если в начале строки указывается % от тарифа, то для совпадения с основным регулярным выражением добавим 0RUR
-		if percentParsedData := startFromPercentSpec.FindStringSubmatch(specString); len(percentParsedData) > 0 {
-			specString = "0RUB+" + specString
-		}
-
-		/**
-		Парсинг строки вида 583.44RUR+2.1%<1000.12RUR:
-		Full match	583.44RUR+2.1%<1000.12RUR
-		Group 1.	583.44
-		Group 2.	RUR
-		Group 3.	2.1
-		Group 4.	1000.12
-		Group 5.	RUR
-		*/
-		parsedData := moneySpec.FindStringSubmatch(specString)
-		if len(parsedData) > 0 {
-			if parsedData[1] != "" {
-				amount, err := strconv.ParseFloat(parsedData[1], 64)
-				if err != nil {
-					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge amount")
+			/**
+			Парсинг строки вида 583.44RUR+2.1%<1000.12RUR:
+			Full match	583.44RUR+2.1%<1000.12RUR
+			Group 1.	583.44
+			Group 2.	RUR
+			Group 3.	2.1
+			Group 4.	1000.12
+			Group 5.	RUR
+			*/
+			parsedData := moneySpec.FindStringSubmatch(specString)
+			if len(parsedData) > 0 {
+				if parsedData[1] != "" {
+					amount, err := strconv.ParseFloat(parsedData[1], 64)
+					if err != nil {
+						log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge amount")
+					}
+					moneyParsed.Money = &base.Money{
+						Amount:   int64(math.Round(amount * 100)),
+						Currency: &base.Currency{Code: fixCurrencyCode(parsedData[2]), Fraction: 100},
+					}
 				}
-				moneyParsed.Money = &base.Money{
-					Amount:   int64(math.Round(amount * 100)),
-					Currency: &base.Currency{Code: fixCurrencyCode(parsedData[2]), Fraction: 100},
+				if parsedData[3] != "" {
+					percent, err := strconv.ParseFloat(parsedData[3], 64)
+					if err != nil {
+						log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge percent")
+					}
+					if percent > 0 {
+						moneyParsed.Percent = percent
+					}
 				}
+				if parsedData[4] != "" {
+					amount, err := strconv.ParseFloat(parsedData[4], 64)
+					if err != nil {
+						log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge limit")
+					}
+					moneyParsed.Limit = &base.Money{
+						Amount:   int64(math.Round(amount * 100)),
+						Currency: &base.Currency{Code: fixCurrencyCode(parsedData[5]), Fraction: 100},
+					}
+				}
+			} else {
+				log.Logger.Error().Stack().Err(fmt.Errorf("cannot parse string %s", specString)).Msg("parsing service charge")
 			}
-			if parsedData[3] != "" {
-				percent, err := strconv.ParseFloat(parsedData[3], 64)
-				if err != nil {
-					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge percent")
-				}
-				if percent > 0 {
-					moneyParsed.Percent = percent
-				}
-			}
-			if parsedData[4] != "" {
-				amount, err := strconv.ParseFloat(parsedData[4], 64)
-				if err != nil {
-					log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot parse string %s", specString)).Msg("parsing service charge limit")
-				}
-				moneyParsed.Limit = &base.Money{
-					Amount:   int64(math.Round(amount * 100)),
-					Currency: &base.Currency{Code: fixCurrencyCode(parsedData[5]), Fraction: 100},
-				}
-			}
-		} else {
-			log.Logger.Error().Stack().Err(fmt.Errorf("cannot parse string %s", specString)).Msg("parsing service charge")
 		}
 	}
 	return moneyParsed
