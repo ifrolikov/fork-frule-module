@@ -2,7 +2,6 @@ package service_charge
 
 import (
 	"context"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/contracts/v2/base"
 	"stash.tutu.ru/avia-search-common/frule-module"
@@ -131,8 +130,8 @@ func TestServiceChargeComplexFormat(t *testing.T) {
 		TestOfferPrice:  base.Money{Amount: 60000, Currency: &base.Currency{Code: "RUB", Fraction: 100}},
 	}
 	result := frule.GetResult(params)
-	fmt.Printf("1 %+v", result)
-	fmt.Println()
+/*	fmt.Printf("1 %+v", result)
+	fmt.Println()*/
 	assert.EqualValues(t, 87, result.(ServiceChargeRuleResult).Id)
 	assert.Equal(t, base.Money{Amount: 18840, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	assert.Equal(t, base.Money{Amount: 18840, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)

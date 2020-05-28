@@ -1103,17 +1103,17 @@ var startFromPercentSpec = regexp.MustCompile(`^([0-9\.]+)%`)
 
 /*
 парсинг строки вида:
-583.44RUR+2.1%<1000.12RUR, где 583.44RUR - абсолютное значение, 2.1%<1000.12RUR - процент от тарифа, но не более 1000.12RUR
+583.44RUB+2.1%<1000.12RUB, где 583.44RUB - абсолютное значение, 2.1%<1000.12RUB - процент от тарифа, но не более 1000.12RUB
 
 примеры:
-0RUR
-583RUR
-583.44RUR
+0RUB
+583RUB
+583.44RUB
 2.1%
-2.1%<1000.12RUR
-583.44RUR+2.1%
-583.44RUR+2.1%<1000.12
-583.44RUR+2.1%<1000.12RUR
+2.1%<1000.12RUB
+583.44RUB+2.1%
+583.44RUB+2.1%<1000.12
+583.44RUB+2.1%<1000.12RUB
 */
 var moneySpec = regexp.MustCompile(`^([0-9\.]+)([A-Z]{3})\+?([0-9\.]*)%?<?([0-9\.]*)([A-Z]{0,3})$`)
 
@@ -1122,22 +1122,22 @@ func parseMoneySpec(spec *string) MoneyParsed {
 	if spec != nil {
 		specString := *spec
 		if specString != "" {
-			// костылек - если в начале строки указывается % от тарифа, то для совпадения с основным регулярным выражением добавим 0RUR
+			// костылек - если в начале строки указывается % от тарифа, то для совпадения с основным регулярным выражением добавим 0RUB
 			if percentParsedData := startFromPercentSpec.FindStringSubmatch(specString); len(percentParsedData) > 0 {
 				specString = "0RUB+" + specString
 			}
 
 			/**
-			Парсинг строки вида 583.44RUR+2.1%<1000.12RUR:
-			Full match	583.44RUR+2.1%<1000.12RUR
+			Парсинг строки вида 583.44RUB+2.1%<1000.12RUB:
+			Full match	583.44RUB+2.1%<1000.12RUB
 			Group 1.	583.44
-			Group 2.	RUR
+			Group 2.	RUB
 			Group 3.	2.1
 			Group 4.	1000.12
-			Group 5.	RUR
+			Group 5.	RUB
 			*/
 			parsedData := moneySpec.FindStringSubmatch(specString)
-			if len(parsedData) > 0 {
+			if len(parsedData) == 6 {
 				if parsedData[1] != "" {
 					amount, err := strconv.ParseFloat(parsedData[1], 64)
 					if err != nil {
