@@ -1195,7 +1195,7 @@ func calculateServiceCharge(moneyParsed MoneyParsed, price base.Money) base.Mone
 	if moneyParsed.Money != nil {
 		err := money.Add(moneyParsed.Money)
 		if err != nil {
-			log.Logger.Error().Stack().Err(fmt.Errorf("cannot add amount %v", *moneyParsed.Money)).Msg("calculate service charge")
+			log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *moneyParsed.Money)).Msg("calculate service charge")
 		}
 	}
 	if moneyParsed.Percent != 0 && price.Validate() {
@@ -1208,7 +1208,7 @@ func calculateServiceCharge(moneyParsed MoneyParsed, price base.Money) base.Mone
 		}
 		err := money.Add(tariffAddition)
 		if err != nil {
-			log.Logger.Error().Stack().Err(fmt.Errorf("cannot add amount %v", *tariffAddition)).Msg("calculate service charge")
+			log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *tariffAddition)).Msg("calculate service charge")
 		}
 	}
 	return *money
@@ -1221,14 +1221,20 @@ func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} 
 	if rule.MarginParsed != nil {
 		serviceChargeParams := testRule.(ServiceChargeRule)
 
-		fullResult := findPricingRangeValue(rule.MarginParsed.Full, serviceChargeParams)
-		result.Margin.Full = calculateServiceCharge(fullResult, serviceChargeParams.TestOfferPrice)
+		result.Margin.Full = calculateServiceCharge(
+			findPricingRangeValue(rule.MarginParsed.Full, serviceChargeParams),
+			serviceChargeParams.TestOfferPrice,
+		)
 
-		childResult := findPricingRangeValue(rule.MarginParsed.Child, serviceChargeParams)
-		result.Margin.Child = calculateServiceCharge(childResult, serviceChargeParams.TestOfferPrice)
+		result.Margin.Child = calculateServiceCharge(
+			findPricingRangeValue(rule.MarginParsed.Child, serviceChargeParams),
+			serviceChargeParams.TestOfferPrice,
+		)
 
-		infantResult := findPricingRangeValue(rule.MarginParsed.Infant, serviceChargeParams)
-		result.Margin.Infant = calculateServiceCharge(infantResult, serviceChargeParams.TestOfferPrice)
+		result.Margin.Infant = calculateServiceCharge(
+			findPricingRangeValue(rule.MarginParsed.Infant, serviceChargeParams),
+			serviceChargeParams.TestOfferPrice,
+		)
 	}
 	return result
 }
