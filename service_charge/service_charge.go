@@ -1038,6 +1038,7 @@ var strategyKeys = []string{
 
 type ServiceChargeRule struct {
 	Id                  int32       `json:"id"`
+	Version             int32       `json:"version"`
 	CarrierId           *int64      `json:"carrier_id"`
 	Partner             *string     `json:"partner"`
 	ConnectionGroup     *string     `json:"connection_group"`
@@ -1079,8 +1080,9 @@ type Margin struct {
 }
 
 type ServiceChargeRuleResult struct {
-	Id     int32
-	Margin struct {
+	Id      int32
+	Version int32
+	Margin  struct {
 		Full   base.Money
 		Child  base.Money
 		Infant base.Money
@@ -1219,7 +1221,8 @@ func calculateServiceCharge(moneyParsed MoneyParsed, price base.Money) base.Mone
 
 func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} {
 	result := ServiceChargeRuleResult{
-		Id: rule.Id,
+		Id:      rule.Id,
+		Version: rule.Version,
 	}
 	if rule.MarginParsed != nil {
 		serviceChargeParams := testRule.(ServiceChargeRule)
@@ -1273,6 +1276,7 @@ func (rule *ServiceChargeRule) GetStrategyKeys() []string {
 func (rule *ServiceChargeRule) GetDefaultValue() interface{} {
 	return ServiceChargeRuleResult{
 		Id: -1,
+		Version: -1,
 		Margin: struct {
 			Full   base.Money
 			Child  base.Money
