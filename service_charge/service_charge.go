@@ -1054,6 +1054,7 @@ type ServiceChargeRule struct {
 	Margin              *string     `json:"result_margin"`
 	MarginParsed        *Margin
 	TestOfferPrice      base.Money
+	CurrencyConvertor   base.CurrencyConvertor
 	repo                *frule_module.Repository
 }
 
@@ -1195,28 +1196,61 @@ func findPricingRangeValue(choices []ConditionMarginResult, testRule ServiceChar
 	return MoneyParsed{}
 }
 
-func calculateServiceCharge(moneyParsed MoneyParsed, price base.Money) base.Money {
-	money := base.CreateZeroRubMoney()
-	if moneyParsed.Money != nil {
-		err := money.Add(moneyParsed.Money)
-		if err != nil {
-			log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *moneyParsed.Money)).Msg("calculate service charge")
+func calculatePassengerServiceCharge(moneyParsed MoneyParsed, price base.Money, currencyConvertor base.CurrencyConvertor) base.Money {
+	var passengerServiceCharge *base.Money
+
+	if price.Validate() {
+		passengerServiceCharge = base.CloneMoney(&price)
+		passengerServiceCharge.Amount = 0
+	} else {
+		if moneyParsed.Money != nil {
+			passengerServiceCharge = base.CloneMoney(moneyParsed.Money)
+			passengerServiceCharge.Amount = 0
+		} else {
+			passengerServiceCharge = base.CreateZeroRubMoney()
 		}
 	}
+
+	if moneyParsed.Money != nil {
+		if currencyConvertor != nil {
+			if err := passengerServiceCharge.ConvertAndAdd(currencyConvertor, moneyParsed.Money); err != nil {
+				log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *moneyParsed.Money)).Msg("calculate service charge")
+			}
+		} else {
+			if err := passengerServiceCharge.Add(moneyParsed.Money); err != nil {
+				log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *moneyParsed.Money)).Msg("calculate service charge")
+			}
+		}
+	}
+
 	if moneyParsed.Percent != 0 && price.Validate() {
 		tariffAddition := base.CloneMoney(&price)
 		tariffAddition.MultiplyFloat64(moneyParsed.Percent / 100)
+
 		if moneyParsed.Limit != nil {
-			if moreThanLimit, _ := tariffAddition.More(moneyParsed.Limit); moreThanLimit {
-				tariffAddition.Copy(moneyParsed.Limit)
+			if currencyConvertor != nil {
+				if moreThanLimit, _ := tariffAddition.ConvertAndCompare(currencyConvertor, moneyParsed.Limit); moreThanLimit == 1 {
+					tariffAddition.Copy(moneyParsed.Limit)
+				}
+			} else {
+				if moreThanLimit, _ := tariffAddition.More(moneyParsed.Limit); moreThanLimit {
+					tariffAddition.Copy(moneyParsed.Limit)
+				}
 			}
 		}
-		err := money.Add(tariffAddition)
-		if err != nil {
-			log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *tariffAddition)).Msg("calculate service charge")
+
+		if currencyConvertor != nil {
+			if err := passengerServiceCharge.ConvertAndAdd(currencyConvertor, tariffAddition); err != nil {
+				log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *tariffAddition)).Msg("calculate service charge")
+			}
+		} else {
+			if err := passengerServiceCharge.Add(tariffAddition); err != nil {
+				log.Logger.Error().Stack().Err(errors.Wrapf(err, "cannot add amount %v", *tariffAddition)).Msg("calculate service charge")
+			}
 		}
 	}
-	return *money
+
+	return *passengerServiceCharge
 }
 
 func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} {
@@ -1227,19 +1261,22 @@ func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} 
 	if rule.MarginParsed != nil {
 		serviceChargeParams := testRule.(ServiceChargeRule)
 
-		result.Margin.Full = calculateServiceCharge(
+		result.Margin.Full = calculatePassengerServiceCharge(
 			findPricingRangeValue(rule.MarginParsed.Full, serviceChargeParams),
 			serviceChargeParams.TestOfferPrice,
+			serviceChargeParams.CurrencyConvertor,
 		)
 
-		result.Margin.Child = calculateServiceCharge(
+		result.Margin.Child = calculatePassengerServiceCharge(
 			findPricingRangeValue(rule.MarginParsed.Child, serviceChargeParams),
 			serviceChargeParams.TestOfferPrice,
+			serviceChargeParams.CurrencyConvertor,
 		)
 
-		result.Margin.Infant = calculateServiceCharge(
+		result.Margin.Infant = calculatePassengerServiceCharge(
 			findPricingRangeValue(rule.MarginParsed.Infant, serviceChargeParams),
 			serviceChargeParams.TestOfferPrice,
+			serviceChargeParams.CurrencyConvertor,
 		)
 	}
 	return result
@@ -1275,7 +1312,7 @@ func (rule *ServiceChargeRule) GetStrategyKeys() []string {
 
 func (rule *ServiceChargeRule) GetDefaultValue() interface{} {
 	return ServiceChargeRuleResult{
-		Id: -1,
+		Id:      -1,
 		Version: -1,
 		Margin: struct {
 			Full   base.Money
