@@ -23,9 +23,10 @@ func TestServiceChargeStorage(t *testing.T) {
 	assert.NotNil(t, dataStorage)
 
 	assert.Len(t, (*dataStorage)[0], 0)
-	assert.Len(t, (*dataStorage)[26], 3)
+	assert.Len(t, (*dataStorage)[52], 2)
 
-	assert.Equal(t, 242, dataStorage.GetMaxRank())
+	assert.Equal(t, 81, len(*dataStorage))
+	assert.Equal(t, 80, dataStorage.GetMaxRank())
 }
 
 func TestServiceChargeSimpleFormat(t *testing.T) {
@@ -38,72 +39,68 @@ func TestServiceChargeSimpleFormat(t *testing.T) {
 	frule := frule_module.NewFRule(ctx, serviceChargeRule)
 	assert.NotNil(t, frule)
 
-	partner := "nba"
-	connectionGroup := "nba"
-	carrierId := int64(1062)
-	departureCityId := uint64(29)
-	arrivalCityId := uint64(491)
+	//обычный кейс
+	suId := int64(1062)
+	russiaId := uint64(7)
 	params := ServiceChargeRule{
-		Partner:         &partner,
-		ConnectionGroup: &connectionGroup,
-		CarrierId:       &carrierId,
-		DepartureCityId: &departureCityId,
-		ArrivalCityId:   &arrivalCityId,
-		TestOfferPrice:  base.Money{Amount: 60000},
+		CarrierId:              &suId,
+		DepartureCountryId:     &russiaId,
+		ArrivalCountryId:       &russiaId,
+		TestOfferPrice:         base.Money{Amount: 6000},
 	}
 	result := frule.GetResult(params)
-	assert.EqualValues(t, 74, result.(ServiceChargeRuleResult).Id)
-	assert.Equal(t, base.Money{Amount: 21137, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
-	assert.Equal(t, base.Money{Amount: 21137, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
+	assert.EqualValues(t, 3, result.(ServiceChargeRuleResult).Id)
+	assert.Equal(t, base.Money{Amount: 10000, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 8000, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
 
-	partner = "new_tt"
-	connectionGroup = "galileo"
-	carrierId = int64(1062)
-	departureCityId = uint64(21)
-	arrivalCityId = uint64(100)
+	//субсидированный тариф перебивает предыдущий кейс, хотя остальные параметры те же
+	subsidyFare := "subsidy"
 	params = ServiceChargeRule{
-		Partner:         &partner,
-		ConnectionGroup: &connectionGroup,
-		CarrierId:       &carrierId,
-		DepartureCityId: &departureCityId,
-		ArrivalCityId:   &arrivalCityId,
-		TestOfferPrice:  base.Money{Amount: 700000},
+		CarrierId:          &suId,
+		FareType:           &subsidyFare,
+		TestOfferPrice:     base.Money{Amount: 7000},
+		DepartureCountryId: &russiaId,
+		ArrivalCountryId:   &russiaId,
 	}
 	result = frule.GetResult(params)
-	assert.EqualValues(t, 2000, result.(ServiceChargeRuleResult).Id)
-	assert.Equal(t, base.Money{Amount: 49428, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
-	assert.Equal(t, base.Money{Amount: 49428, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
-	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
-
-	departureCityId = uint64(34)
-	params = ServiceChargeRule{
-		Partner:         &partner,
-		ConnectionGroup: &connectionGroup,
-		CarrierId:       &carrierId,
-		DepartureCityId: &departureCityId,
-		ArrivalCityId:   &arrivalCityId,
-		TestOfferPrice:  base.Money{Amount: 1000000},
-	}
-	result = frule.GetResult(params)
-	assert.EqualValues(t, 2000, result.(ServiceChargeRuleResult).Id)
-	assert.Equal(t, base.Money{Amount: 58344, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
-	assert.Equal(t, base.Money{Amount: 58344, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
-	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
-
-	departureCityId = uint64(34)
-	fareType := "subsidy"
-	params = ServiceChargeRule{
-		Partner:         &partner,
-		ConnectionGroup: &connectionGroup,
-		CarrierId:       &carrierId,
-		FareType:        &fareType,
-	}
-	result = frule.GetResult(params)
-	assert.EqualValues(t, 4179, result.(ServiceChargeRuleResult).Id)
+	assert.EqualValues(t, 2, result.(ServiceChargeRuleResult).Id)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
+
+	//субсидированный тариф с измененными дургими параметрами перебивает первый кейс
+	notRussiaId := uint64(34)
+	params = ServiceChargeRule{
+		CarrierId:          &suId,
+		FareType:           &subsidyFare,
+		DepartureCountryId: &notRussiaId,
+		ArrivalCountryId:   &notRussiaId,
+	}
+	result = frule.GetResult(params)
+	assert.EqualValues(t, 2, result.(ServiceChargeRuleResult).Id)
+
+	//дефолтный вариант, попадающий в последнюю строку пирамиды
+	params = ServiceChargeRule{
+		CarrierId:          &suId,
+		DepartureCountryId: &notRussiaId,
+		ArrivalCountryId:   &notRussiaId,
+	}
+	result = frule.GetResult(params)
+	assert.EqualValues(t, 1, result.(ServiceChargeRuleResult).Id)
+	assert.Equal(t, base.Money{Amount: 20000, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 20000, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
+	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
+
+	//еще один дефолтный вариант, попадающий в последнюю строку пирамиды
+	notSuId := int64(10)
+	params = ServiceChargeRule{
+		CarrierId:          &notSuId,
+		DepartureCountryId: &russiaId,
+		ArrivalCountryId:   &russiaId,
+	}
+	result = frule.GetResult(params)
+	assert.EqualValues(t, 1, result.(ServiceChargeRuleResult).Id)
 }
 
 func TestServiceChargeComplexFormat(t *testing.T) {
@@ -116,31 +113,24 @@ func TestServiceChargeComplexFormat(t *testing.T) {
 	frule := frule_module.NewFRule(ctx, serviceChargeRule)
 	assert.NotNil(t, frule)
 
-	partner := "nba"
-	connectionGroup := "nba"
-	carrierId := int64(1011)
-	departureCityId := uint64(39)
-	arrivalCityId := uint64(491)
+	carrierId := int64(1111)
+	russiaId := uint64(7)
 	params := ServiceChargeRule{
-		Partner:         &partner,
-		ConnectionGroup: &connectionGroup,
-		CarrierId:       &carrierId,
-		DepartureCityId: &departureCityId,
-		ArrivalCityId:   &arrivalCityId,
-		TestOfferPrice:  base.Money{Amount: 60000, Currency: &base.Currency{Code: "RUB", Fraction: 100}},
+		CarrierId:          &carrierId,
+		DepartureCountryId: &russiaId,
+		ArrivalCountryId:   &russiaId,
+		TestOfferPrice:     base.Money{Amount: 60000, Currency: &base.Currency{Code: "RUB", Fraction: 100}},
 	}
 	result := frule.GetResult(params)
-/*	fmt.Printf("1 %+v", result)
-	fmt.Println()*/
-	assert.EqualValues(t, 87, result.(ServiceChargeRuleResult).Id)
-	assert.Equal(t, base.Money{Amount: 18840, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.EqualValues(t, 4, result.(ServiceChargeRuleResult).Id)
+	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	assert.Equal(t, base.Money{Amount: 18840, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
 
 	params.TestOfferPrice = base.Money{Amount: 167500, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 387.7RUR+2.3% = 38770 + 167500/100*2,3 = 38770 + 3852,5 = 42622,5
-	assert.Equal(t, base.Money{Amount: 42623, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 387.7RUR+2.1% = 38770 + 167500/100*2,1 = 38770 + 3517,5 = 42287,5
 	assert.Equal(t, base.Money{Amount: 42288, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
@@ -148,7 +138,7 @@ func TestServiceChargeComplexFormat(t *testing.T) {
 	params.TestOfferPrice = base.Money{Amount: 234300, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 461.13RUR+2.3%<50.1RUR = 46113 + 234300/100*2,3<5010 = 46113 + 5010 = 51123
-	assert.Equal(t, base.Money{Amount: 51123, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 461.13RUR+2.1%<50.1RUR = 46113 + 234300/100*2,1<5010 = 46113 + 4920,3 = 51033,3
 	assert.Equal(t, base.Money{Amount: 51033, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
@@ -156,7 +146,7 @@ func TestServiceChargeComplexFormat(t *testing.T) {
 	params.TestOfferPrice = base.Money{Amount: 315721, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 0RUR+2.3%<67 = 315721/100*2,3<6700 = 6700
-	assert.Equal(t, base.Money{Amount: 6700, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 0RUR+2.1%<67 = 315721/100*2,1<6700 = 6630,141
 	assert.Equal(t, base.Money{Amount: 6630, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
@@ -164,7 +154,7 @@ func TestServiceChargeComplexFormat(t *testing.T) {
 	params.TestOfferPrice = base.Money{Amount: 415722, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 0RUR+2.3% = 415722/100*2,3 = 9561,606
-	assert.Equal(t, base.Money{Amount: 9562, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 0RUR+2.1% = 415722/100*2,1 = 8730,162
 	assert.Equal(t, base.Money{Amount: 8730, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
