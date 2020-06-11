@@ -123,38 +123,60 @@ func TestServiceChargeComplexFormat(t *testing.T) {
 	}
 	result := frule.GetResult(params)
 	assert.EqualValues(t, 4, result.(ServiceChargeRuleResult).Id)
-	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	/**
+	 * Фиксированная наценка
+	 */
+	assert.Equal(t, base.Money{Amount: 18840, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	assert.Equal(t, base.Money{Amount: 18840, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
 
+	/*
+	 * К фиксированной наценке добавляется процент от тарифа и такс.
+	 * Полкопейки округляются вверх до целой по математическому округлению
+	 */
 	params.TestOfferPrice = base.Money{Amount: 167500, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 387.7RUR+2.3% = 38770 + 167500/100*2,3 = 38770 + 3852,5 = 42622,5
-	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 42623, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 387.7RUR+2.1% = 38770 + 167500/100*2,1 = 38770 + 3517,5 = 42287,5
 	assert.Equal(t, base.Money{Amount: 42288, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
 
+	/*
+	 * К фиксированной наценке добавляется процентная с ограничением.
+	 * Взрослый упирается в ограничение, для него применяется верхняя граница
+	 * Ребенок не упирается в ограничение
+	 */
 	params.TestOfferPrice = base.Money{Amount: 234300, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 461.13RUR+2.3%<50.1RUR = 46113 + 234300/100*2,3<5010 = 46113 + 5010 = 51123
-	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 51123, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 461.13RUR+2.1%<50.1RUR = 46113 + 234300/100*2,1<5010 = 46113 + 4920,3 = 51033,3
 	assert.Equal(t, base.Money{Amount: 51033, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
 
+	/*
+	 * Фиксированная наценка нулевая. К ней добавляется процентная с ограничением.
+	 * Взрослый упирается в ограничение, для него применяется верхняя граница
+	 * Ребенок не упирается в ограничение
+	 * Доли копейки округляются вниз по математическому округлению
+	 */
 	params.TestOfferPrice = base.Money{Amount: 315721, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 0RUR+2.3%<67 = 315721/100*2,3<6700 = 6700
-	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 6700, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 0RUR+2.1%<67 = 315721/100*2,1<6700 = 6630,141
 	assert.Equal(t, base.Money{Amount: 6630, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)
 
+	/*
+	 * Фиксированная наценка нулевая. К ней добавляется процентная без ограничения
+	 * Доли копейки округляются по математическому округлению, у взрослого вверх, а ребенка - вниз
+	 */
 	params.TestOfferPrice = base.Money{Amount: 415722, Currency: &base.Currency{Code: "RUB", Fraction: 100}}
 	result = frule.GetResult(params)
 	// 0RUR+2.3% = 415722/100*2,3 = 9561,606
-	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
+	assert.Equal(t, base.Money{Amount: 9562, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Full)
 	// 0RUR+2.1% = 415722/100*2,1 = 8730,162
 	assert.Equal(t, base.Money{Amount: 8730, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Child)
 	assert.Equal(t, base.Money{Amount: 0, Currency: &base.Currency{Code: "RUB", Fraction: 100}}, result.(ServiceChargeRuleResult).Margin.Infant)

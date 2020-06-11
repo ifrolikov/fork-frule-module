@@ -93,7 +93,7 @@
       "arrival_country_id": 7,
       "departure_city_id": null,
       "arrival_city_id": null,
-      "result_margin": "{\"child\":[{\"conditions\":{\"price_range\":\"0-1000\"},\"result\":\"188.4RUR\"},{\"conditions\":{\"price_range\":\"1000-2000\"},\"result\":\"387.7RUR+2.1%\"},{\"conditions\":{\"price_range\":\"2000-3000\"},\"result\":\"461.13RUR+2.1%<50.1\"},{\"conditions\":{\"price_range\":\"3000-4000\"},\"result\":\"2.1%<67RUR\"},{\"conditions\":{\"price_range\":\"4000-5000\"},\"result\":\"2.1%\"},{\"conditions\":{\"price_range\":\"5000-6000\"},\"result\":\"520.45RUR\"},{\"conditions\":{\"price_range\":\"6000-\"},\"result\":\"519.58RUR\"}]}"
+      "result_margin": "{\"child\":[{\"conditions\":{\"price_range\":\"0-1000\"},\"result\":\"188.4RUR\"},{\"conditions\":{\"price_range\":\"1000-2000\"},\"result\":\"387.7RUR+2.1%\"},{\"conditions\":{\"price_range\":\"2000-3000\"},\"result\":\"461.13RUR+2.1%<50.1\"},{\"conditions\":{\"price_range\":\"3000-4000\"},\"result\":\"2.1%<67RUR\"},{\"conditions\":{\"price_range\":\"4000-5000\"},\"result\":\"2.1%\"},{\"conditions\":{\"price_range\":\"5000-6000\"},\"result\":\"520.45RUR\"},{\"conditions\":{\"price_range\":\"6000-\"},\"result\":\"519.58RUR\"}],\"full\":[{\"conditions\":{\"price_range\":\"0-1000\"},\"result\":\"188.4RUR\"},{\"conditions\":{\"price_range\":\"1000-2000\"},\"result\":\"387.7RUR+2.3%\"},{\"conditions\":{\"price_range\":\"2000-3000\"},\"result\":\"461.13RUR+2.3%<50.1RUR\"},{\"conditions\":{\"price_range\":\"3000-4000\"},\"result\":\"0RUR+2.3%<67\"},{\"conditions\":{\"price_range\":\"4000-5000\"},\"result\":\"0RUR+2.3%R\"},{\"conditions\":{\"price_range\":\"5000-6000\"},\"result\":\"520.45RUR\"},{\"conditions\":{\"price_range\":\"6000-\"},\"result\":\"519.58RUR\"}]}"
     }
   ],
   [],
