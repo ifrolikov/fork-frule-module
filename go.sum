@@ -352,8 +352,8 @@ stash.tutu.ru/avia-search-common/code-name v0.1.1/go.mod h1:ATHweWDfBx4HBEBs3u+0
 stash.tutu.ru/avia-search-common/contracts/v2 v2.0.1/go.mod h1:8feNhwhiD0o0Nag0S8X8n3o0eTm1bL8KKC2B2Oh3bBs=
 stash.tutu.ru/avia-search-common/contracts/v2 v2.0.3 h1:GgVPtgHhnXR6xbsszQz9uigsZOLd7JEHY4Pdud3NWOg=
 stash.tutu.ru/avia-search-common/contracts/v2 v2.0.3/go.mod h1:8feNhwhiD0o0Nag0S8X8n3o0eTm1bL8KKC2B2Oh3bBs=
-stash.tutu.ru/avia-search-common/contracts/v2 v2.0.4 h1:wQQHn8WzxG3SirL+KjeyY2L+fBlUXeLzX0NR6/UDAjg=
-stash.tutu.ru/avia-search-common/contracts/v2 v2.0.4/go.mod h1:QOFfOe/A504BFCM0DJJQrCjmuH91F1xMg0wSHO0/84Y=
+stash.tutu.ru/avia-search-common/contracts/v2 v2.0.6 h1:jIDokMIee/JfLd8b2dosrtD1i7gye4eMk/23OwOSYqc=
+stash.tutu.ru/avia-search-common/contracts/v2 v2.0.6/go.mod h1:QOFfOe/A504BFCM0DJJQrCjmuH91F1xMg0wSHO0/84Y=
 stash.tutu.ru/avia-search-common/currency-repository v0.1.2/go.mod h1:dy1eq/b6kV+vMHN0VOCPqfbxjpa/asOfm+6Vrc835Ug=
 stash.tutu.ru/avia-search-common/repository v0.1.2 h1:WuhWEy8JtxacBemhg05UDtmb216iW8xfNyNLXgN4p0I=
 stash.tutu.ru/avia-search-common/repository v0.1.2/go.mod h1:RxCxKeK36EqulGyxL2sKm7Y/ElwcB9+iy6D4XeSVTgw=
