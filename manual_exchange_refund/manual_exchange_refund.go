@@ -23,7 +23,7 @@ type ManualExchangeRefundRule struct {
 	DepartureCityId          *int32                   `json:"departure_city_id"`
 	ArrivalCityId            *int32                   `json:"arrival_city_id"`
 	FlightType               *string                  `json:"flight_type"`
-	DepartureCountryId       *int32                   `json:"departure_city_id"`
+	DepartureCountryId       *int32                   `json:"departure_country_id"`
 	ArrivalCountryId         *int32                   `json:"arrival_country_id"`
 	MaxExchangeCount         *int32                   `json:"max_exchange_count"`
 	DaysAfterTariffStart     *int32                   `json:"days_after_tariff_start"`
