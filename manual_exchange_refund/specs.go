@@ -7,11 +7,12 @@ import (
 )
 
 type Specs struct {
-	DataURI            string         `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_DATA_URI" required:"true"`
-	StatusURI          *string        `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_STATUS_URI"`
-	ComparisonOrderURI *string        `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_COMPARISON_ORDER_URI"`
-	UpdatePeriod       *time.Duration `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_UPDATE_PERIOD"`
-	InsecureSkipVerify bool           `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_INSECURE_SKIP_VERIFY" default:"false"`
+	DataURI                     string         `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_DATA_URI" required:"true"`
+	StatusURI                   *string        `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_STATUS_URI"`
+	ComparisonOrderURI          *string        `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_COMPARISON_ORDER_URI"`
+	ComparisonOrderUpdatePeriod *time.Duration `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_COMPARISON_ORDER_UPDATE_PERIOD"`
+	UpdatePeriod                *time.Duration `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_UPDATE_PERIOD"`
+	InsecureSkipVerify          bool           `envconfig:"FRULE_MANUAL_EXCHANGE_REFUND_REPOSITORY_INSECURE_SKIP_VERIFY" default:"false"`
 }
 
 func GetConfigFromEnv() (*repository.Config, error) {
