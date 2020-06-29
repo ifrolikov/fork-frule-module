@@ -8,8 +8,8 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/rs/zerolog v1.15.0
 	github.com/stretchr/testify v1.5.1
-	stash.tutu.ru/avia-search-common/contracts/v2 v2.0.6
-	stash.tutu.ru/avia-search-common/repository v0.1.2
-	stash.tutu.ru/avia-search-common/utils v1.0.4
+	stash.tutu.ru/avia-search-common/contracts/v2 v2.1.0
+	stash.tutu.ru/avia-search-common/repository v0.1.4
+	stash.tutu.ru/avia-search-common/utils v1.1.0
 	stash.tutu.ru/golang/log v0.0.0-20190925120345-16f0e05f99a0
 )
