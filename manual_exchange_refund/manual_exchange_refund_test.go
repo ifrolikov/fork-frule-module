@@ -56,10 +56,10 @@ func TestManualExchangeRefundResult(t *testing.T) {
 
 	fare := "SOMEFARE"
 	passengerType := "full"
-	carrierId := int32(1062)
+	carrierId := int64(1062)
 	fruleContext := ContextExchange
 
-	assert.Equal(t, int32(1), frule.GetResult(ManualExchangeRefundRule{
+	assert.Equal(t, int64(1), frule.GetResult(ManualExchangeRefundRule{
 		CarrierId:     &carrierId,
 		Context:       &fruleContext,
 		Fare:          &fare,
@@ -67,7 +67,7 @@ func TestManualExchangeRefundResult(t *testing.T) {
 	}).(ManualExchangeRefundResult).Id)
 
 	passengerType = "child"
-	assert.Equal(t, int32(2), frule.GetResult(ManualExchangeRefundRule{
+	assert.Equal(t, int64(2), frule.GetResult(ManualExchangeRefundRule{
 		CarrierId:     &carrierId,
 		Context:       &fruleContext,
 		Fare:          &fare,
