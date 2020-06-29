@@ -11,25 +11,25 @@ import (
 )
 
 type ManualExchangeRefundRule struct {
-	Id                       int32                    `json:"id"`
+	Id                       int64                    `json:"id"`
 	ServiceClass             *string                  `json:"service_class"`
-	CarrierId                *int32                   `json:"carrier_id"`
+	CarrierId                *int64                   `json:"carrier_id"`
 	Fare                     *string                  `json:"fare"`
-	HoursBeforeDeparture     *int32                   `json:"hours_before_departure"`
+	HoursBeforeDeparture     *int64                   `json:"hours_before_departure"`
 	PenaltyStrategy          *string                  `json:"penalty_strategy"`
 	PassengerType            *string                  `json:"passenger_type"`
 	IsTransit                *bool                    `json:"is_transit"`
 	UsedType                 *string                  `json:"used_type"`
-	DepartureCityId          *int32                   `json:"departure_city_id"`
-	ArrivalCityId            *int32                   `json:"arrival_city_id"`
+	DepartureCityId          *uint64                   `json:"departure_city_id"`
+	ArrivalCityId            *uint64                   `json:"arrival_city_id"`
 	FlightType               *string                  `json:"flight_type"`
-	DepartureCountryId       *int32                   `json:"departure_country_id"`
-	ArrivalCountryId         *int32                   `json:"arrival_country_id"`
-	MaxExchangeCount         *int32                   `json:"max_exchange_count"`
-	DaysAfterTariffStart     *int32                   `json:"days_after_tariff_start"`
+	DepartureCountryId       *uint64                   `json:"departure_country_id"`
+	ArrivalCountryId         *uint64                   `json:"arrival_country_id"`
+	MaxExchangeCount         *int64                   `json:"max_exchange_count"`
+	DaysAfterTariffStart     *int64                   `json:"days_after_tariff_start"`
 	TariffStartType          *string                  `json:"tariff_start_type"`
-	SegmentNumberInRoute     *int32                   `json:"segment_number_in_route"`
-	SegmentNumberInItinerary *int32                   `json:"segment_number_in_itinerary"`
+	SegmentNumberInRoute     *int64                   `json:"segment_number_in_route"`
+	SegmentNumberInItinerary *int64                   `json:"segment_number_in_itinerary"`
 	Context                  *Context                 `json:"context"`
 	IssueDateFrom            *string                  `json:"issue_date_from"`
 	IssueDateTo              *string                  `json:"issue_date_to"`
@@ -38,7 +38,7 @@ type ManualExchangeRefundRule struct {
 	Destination              *FeeDestination          `json:"destination"`
 	ApplyStrategy            *ApplyStrategy           `json:"apply_strategy"`
 	FarePercent              *float64                 `json:"fare_percent"`
-	Amount                   *int32                   `json:"amount"`
+	Amount                   *int64                   `json:"amount"`
 	Currency                 *string                  `json:"currency"`
 	FarePercentDestination   *FarePercentDestination  `json:"fare_percent_destination"`
 	IsChangeable             *bool                    `json:"is_changeable"`
@@ -74,21 +74,18 @@ func NewManualExchangeRefundFRule(
 }
 
 func (rule *ManualExchangeRefundRule) GetResultValue(interface{}) interface{} {
+	var isAvailable = true
 	switch *rule.Context {
 	case ContextExchange:
-		if *rule.IsChangeable == false {
-			return rule.GetDefaultValue()
-		}
+		isAvailable = *rule.IsChangeable
 		break
 	case ContextRefund:
-		if *rule.IsRefundable == false {
-			return rule.GetDefaultValue()
-		}
+		isAvailable = *rule.IsRefundable
 	}
 	return NewManualExchangeRefundResult(
 		rule.Id,
-		*rule.Destination,
-		*rule.ApplyStrategy,
+		rule.Destination,
+		rule.ApplyStrategy,
 		rule.FarePercent,
 		rule.FarePercentDestination,
 		rule.Amount,
@@ -96,6 +93,7 @@ func (rule *ManualExchangeRefundRule) GetResultValue(interface{}) interface{} {
 		rule.CalculationUnit,
 		rule.Brand,
 		rule.TariffCalculateFor,
+		isAvailable,
 	)
 }
 
@@ -110,13 +108,13 @@ func (rule *ManualExchangeRefundRule) GetComparisonOrder() frule_module.Comparis
 
 var comparisonOperators = frule_module.ComparisonOperators{
 	"hours_before_departure": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int32) <= b.Elem().Interface().(int32)
+		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
 	},
 	"days_after_tariff_start": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int32) <= b.Elem().Interface().(int32)
+		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
 	},
 	"max_exchange_count": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int32) >= b.Elem().Interface().(int32)
+		return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
 	},
 	"fare": func(a, b reflect.Value) bool {
 		r, err := regexp.Compile(a.Elem().Interface().(string))
@@ -126,16 +124,16 @@ var comparisonOperators = frule_module.ComparisonOperators{
 		return r.Match([]byte(b.Elem().Interface().(string)))
 	},
 	"issue_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int32) >= b.Elem().Interface().(int32)
+		return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
 	},
 	"issue_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int32) <= b.Elem().Interface().(int32)
+		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
 	},
 	"departure_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int32) >= b.Elem().Interface().(int32)
+		return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
 	},
 	"departure_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int32) < b.Elem().Interface().(int32)
+		return a.Elem().Interface().(int64) < b.Elem().Interface().(int64)
 	},
 }
 
