@@ -31,10 +31,10 @@ type ManualExchangeRefundRule struct {
 	SegmentNumberInRoute     *int64                   `json:"segment_number_in_route"`
 	SegmentNumberInItinerary *int64                   `json:"segment_number_in_itinerary"`
 	Context                  *Context                 `json:"context"`
-	IssueDateFrom            *string                  `json:"issue_date_from"`
-	IssueDateTo              *string                  `json:"issue_date_to"`
-	DepartureDateFrom        *string                  `json:"departure_date_from"`
-	DepartureDateTo          *string                  `json:"departure_date_to"`
+	IssueDateFrom            *int64                  `json:"issue_date_from"`
+	IssueDateTo              *int64                  `json:"issue_date_to"`
+	DepartureDateFrom        *int64                  `json:"departure_date_from"`
+	DepartureDateTo          *int64                  `json:"departure_date_to"`
 	Destination              *FeeDestination          `json:"destination"`
 	ApplyStrategy            *ApplyStrategy           `json:"apply_strategy"`
 	FarePercent              *float64                 `json:"fare_percent"`
