@@ -31,10 +31,10 @@ type ManualExchangeRefundRule struct {
 	SegmentNumberInRoute     *int64                   `json:"segment_number_in_route"`
 	SegmentNumberInItinerary *int64                   `json:"segment_number_in_itinerary"`
 	Context                  *Context                 `json:"context"`
-	IssueDateFrom            *int64                  `json:"issue_date_from"`
-	IssueDateTo              *int64                  `json:"issue_date_to"`
-	DepartureDateFrom        *int64                  `json:"departure_date_from"`
-	DepartureDateTo          *int64                  `json:"departure_date_to"`
+	IssueDateFrom            *string                  `json:"issue_date_from"`
+	IssueDateTo              *string                  `json:"issue_date_to"`
+	DepartureDateFrom        *string                  `json:"departure_date_from"`
+	DepartureDateTo          *string                  `json:"departure_date_to"`
 	Destination              *FeeDestination          `json:"destination"`
 	ApplyStrategy            *ApplyStrategy           `json:"apply_strategy"`
 	FarePercent              *float64                 `json:"fare_percent"`
@@ -124,16 +124,16 @@ var comparisonOperators = frule_module.ComparisonOperators{
 		return r.Match([]byte(b.Elem().Interface().(string)))
 	},
 	"issue_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
+		return a.Elem().Interface().(string) >= b.Elem().Interface().(string)
 	},
 	"issue_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
 	},
 	"departure_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
+		return a.Elem().Interface().(string) >= b.Elem().Interface().(string)
 	},
 	"departure_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) < b.Elem().Interface().(int64)
+		return a.Elem().Interface().(string) < b.Elem().Interface().(string)
 	},
 }
 
