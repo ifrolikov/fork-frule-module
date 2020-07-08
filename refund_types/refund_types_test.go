@@ -62,11 +62,9 @@ func TestRefundTypesResult(t *testing.T) {
 
 	issueDate := "2020-06-02"
 
-	r1 := refundTypesFRule.GetDefaultValue()
-	r2 := frule.GetResult(RefundTypesRule{
+	assert.NotEqual(t, refundTypesFRule.GetDefaultValue(), frule.GetResult(RefundTypesRule{
 		PlatingCarrierId: &platingCarrierId,
 		IssueDateFrom: &issueDate,
 		IssueDateTo: &issueDate,
-	})
-	assert.NotEqual(t, r1, r2)
+	}))
 }
