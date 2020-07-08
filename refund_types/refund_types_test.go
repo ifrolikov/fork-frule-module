@@ -46,7 +46,7 @@ func TestRefundTypesResult(t *testing.T) {
 
 	refundTypesFRule, err := NewRefundTypesFRule(
 		ctx,
-		&repository.Config{DataURI: system.GetFilePath("../testdata/manual_exchange_refund.json")},
+		&repository.Config{DataURI: system.GetFilePath("../testdata/refund_types.json")},
 		&DummyComparisonOrderImporter{},
 	)
 	assert.Nil(t, err)
@@ -68,5 +68,5 @@ func TestRefundTypesResult(t *testing.T) {
 		IssueDateFrom: &issueDate,
 		IssueDateTo: &issueDate,
 	})
-	assert.EqualValues(t, r1, r2)
+	assert.NotEqual(t, r1, r2)
 }
