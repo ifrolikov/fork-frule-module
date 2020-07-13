@@ -20,11 +20,11 @@ type ManualExchangeRefundRule struct {
 	PassengerType            *string                  `json:"passenger_type"`
 	IsTransit                *bool                    `json:"is_transit"`
 	UsedType                 *string                  `json:"used_type"`
-	DepartureCityId          *uint64                   `json:"departure_city_id"`
-	ArrivalCityId            *uint64                   `json:"arrival_city_id"`
+	DepartureCityId          *uint64                  `json:"departure_city_id"`
+	ArrivalCityId            *uint64                  `json:"arrival_city_id"`
 	FlightType               *string                  `json:"flight_type"`
-	DepartureCountryId       *uint64                   `json:"departure_country_id"`
-	ArrivalCountryId         *uint64                   `json:"arrival_country_id"`
+	DepartureCountryId       *uint64                  `json:"departure_country_id"`
+	ArrivalCountryId         *uint64                  `json:"arrival_country_id"`
 	MaxExchangeCount         *int64                   `json:"max_exchange_count"`
 	DaysAfterTariffStart     *int64                   `json:"days_after_tariff_start"`
 	TariffStartType          *string                  `json:"tariff_start_type"`
@@ -82,6 +82,7 @@ func (rule *ManualExchangeRefundRule) GetResultValue(interface{}) interface{} {
 	case ContextRefund:
 		isAvailable = *rule.IsRefundable
 	}
+
 	return NewManualExchangeRefundResult(
 		rule.Id,
 		rule.Destination,
@@ -94,6 +95,7 @@ func (rule *ManualExchangeRefundRule) GetResultValue(interface{}) interface{} {
 		rule.Brand,
 		rule.TariffCalculateFor,
 		isAvailable,
+		rule.HoursBeforeDeparture,
 	)
 }
 
