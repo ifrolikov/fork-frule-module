@@ -13,6 +13,7 @@ type ManualExchangeRefundResult struct {
 	Brand                   *string
 	TariffCalculationSource *TariffCalculationSource
 	IsAvailable             bool
+	HoursBeforeDeparture    *int64
 }
 
 func NewManualExchangeRefundResult(
@@ -27,6 +28,7 @@ func NewManualExchangeRefundResult(
 	brand *string,
 	tariffCalculationSource *TariffCalculationSource,
 	isAvailable bool,
+	HoursBeforeDeparture *int64,
 ) ManualExchangeRefundResult {
 	return ManualExchangeRefundResult{
 		IsFound:                 true,
@@ -41,5 +43,6 @@ func NewManualExchangeRefundResult(
 		Brand:                   brand,
 		TariffCalculationSource: tariffCalculationSource,
 		IsAvailable:             isAvailable,
+		HoursBeforeDeparture:    HoursBeforeDeparture,
 	}
 }
