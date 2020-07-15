@@ -92,17 +92,25 @@ func TestComparisonOrderImporter(t *testing.T) {
 		},
 		&comparisonOrderContainer{defaultComparisonOrder},
 	)
-
+	// Тут отдаст дефолтную и не запустит апдейтер
 	result, err = comparisonOrderImporter.getComparisonOrder(log.Logger)
 	assert.Equal(t, defaultComparisonOrder, result)
 	assert.Nil(t, err)
 
+	// Тут отдаст дефолтную и запустит апдейтер
 	time.Sleep(110*time.Millisecond)
 	result, err = comparisonOrderImporter.getComparisonOrder(log.Logger)
 	assert.Equal(t, defaultComparisonOrder, result)
 	assert.Nil(t, err)
 
-	time.Sleep(110*time.Millisecond)
+	// Тут отдаст дефолтную т к апдейт еще идет
+	time.Sleep(50*time.Millisecond)
+	result, err = comparisonOrderImporter.getComparisonOrder(log.Logger)
+	assert.Equal(t, defaultComparisonOrder, result)
+	assert.Nil(t, err)
+
+	// Тут отдаст новую - апдейт уже закончился
+	time.Sleep(60*time.Millisecond)
 	result, err = comparisonOrderImporter.getComparisonOrder(log.Logger)
 	assert.Equal(t, comparisonOrderFromUpdater, result)
 	assert.Nil(t, err)
