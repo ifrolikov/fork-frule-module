@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/rs/zerolog"
 	"reflect"
+	"stash.tutu.ru/avia-search-common/contracts/v2/gateSearch"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/golang/log"
@@ -97,7 +98,7 @@ func (rule *RefundTypesRule) GetStrategyKeys() []string {
 }
 
 func (rule *RefundTypesRule) GetDefaultValue() interface{} {
-	return "money"
+	return gateSearch.RefundType_money.String()
 }
 
 func (rule *RefundTypesRule) GetDataStorage() *frule_module.RankedFRuleStorage {
