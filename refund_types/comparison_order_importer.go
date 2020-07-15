@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+// Описание импортера, в котором логика по импорту, сам никуда не ходит
+
 type ComparisonOrderImporterInterface interface {
 	getComparisonOrder(logger zerolog.Logger) (frule_module.ComparisonOrder, error)
 }
@@ -22,15 +24,67 @@ type comparisonOrderContainer struct {
 }
 
 type ComparisonOrderImporter struct {
-	apiUrl                   string
 	updateDuration           time.Duration
-	client                   *http.Client
-	mtx                      *sync.Mutex
 	lastUpdateTime           *time.Time
 	comparisonOrderContainer *comparisonOrderContainer
+	updater                  ComparisonOrderUpdaterInterface
 }
 
-func NewComparisonOrderImporter(apiUrl string, updateDuration time.Duration) *ComparisonOrderImporter {
+func NewComparisonOrderImporter(
+	updateDuration time.Duration,
+	updater ComparisonOrderUpdaterInterface,
+	defaultComparisonOrder *comparisonOrderContainer,
+) *ComparisonOrderImporter {
+	var lastUpdateTime *time.Time = nil
+	if defaultComparisonOrder != nil {
+		currentTime := time.Now()
+		lastUpdateTime = &currentTime
+	}
+	return &ComparisonOrderImporter{
+		updateDuration:           updateDuration,
+		comparisonOrderContainer: defaultComparisonOrder,
+		lastUpdateTime:           lastUpdateTime,
+		updater:                  updater,
+	}
+}
+
+func (importer *ComparisonOrderImporter) getComparisonOrder(logger zerolog.Logger) (frule_module.ComparisonOrder, error) {
+	if importer.comparisonOrderContainer == nil || importer.lastUpdateTime == nil {
+		container, err := importer.updater.update(logger)
+		if err != nil {
+			return nil, err
+		}
+		currentTime := time.Now()
+		importer.lastUpdateTime = &currentTime
+		importer.comparisonOrderContainer = container
+	} else {
+		if time.Since(*importer.lastUpdateTime) > importer.updateDuration {
+			currentTime := time.Now()
+			importer.lastUpdateTime = &currentTime
+			go func() {
+				container, _ := importer.updater.update(logger)
+				if container != nil {
+					importer.comparisonOrderContainer = container
+				}
+			}()
+		}
+	}
+	return importer.comparisonOrderContainer.comparisonOrder, nil
+}
+
+// Описание updater-а, который ходит в монолит
+
+type ComparisonOrderUpdaterInterface interface {
+	update(logger zerolog.Logger) (*comparisonOrderContainer, error)
+}
+
+type ComparisonOrderUpdater struct {
+	apiUrl string
+	client *http.Client
+	mtx    *sync.Mutex
+}
+
+func NewComparisonOrderUpdater(apiUrl string) *ComparisonOrderUpdater {
 	transport := &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
@@ -41,29 +95,18 @@ func NewComparisonOrderImporter(apiUrl string, updateDuration time.Duration) *Co
 	}
 
 	mtx := &sync.Mutex{}
-	return &ComparisonOrderImporter{apiUrl: apiUrl, updateDuration: updateDuration, client: client, mtx: mtx}
-}
-
-func (importer *ComparisonOrderImporter) getComparisonOrder(logger zerolog.Logger) (frule_module.ComparisonOrder, error) {
-	if importer.comparisonOrderContainer == nil || importer.lastUpdateTime == nil {
-		if err := importer.importComparisonOrder(logger); err != nil {
-			return nil, err
-		}
-	} else {
-		if time.Since(*importer.lastUpdateTime) > importer.updateDuration {
-			go func() {
-				_ = importer.importComparisonOrder(logger)
-			}()
-		}
+	return &ComparisonOrderUpdater{
+		apiUrl: apiUrl,
+		client: client,
+		mtx:    mtx,
 	}
-	return importer.comparisonOrderContainer.comparisonOrder, nil
 }
 
-func (importer *ComparisonOrderImporter) importComparisonOrder(logger zerolog.Logger) error {
-	defer importer.mtx.Unlock()
-	importer.mtx.Lock()
+func (updater *ComparisonOrderUpdater) update(logger zerolog.Logger) (*comparisonOrderContainer, error) {
+	defer updater.mtx.Unlock()
+	updater.mtx.Lock()
 
-	resp, err := importer.client.Get(importer.apiUrl)
+	resp, err := updater.client.Get(updater.apiUrl)
 	if err != nil {
 		logger.Err(err).Send()
 	}
@@ -79,20 +122,15 @@ func (importer *ComparisonOrderImporter) importComparisonOrder(logger zerolog.Lo
 			resp.StatusCode,
 			respBody))
 		logger.Err(err).Send()
-		return err
+		return nil, err
 	}
 
 	comparisonOrder := frule_module.ComparisonOrder{}
 	err = json.Unmarshal(respBody, &comparisonOrder)
 	if err != nil {
 		logger.Err(errors.Wrap(err, "Error by unmarshal response on importComparisonOrder")).Send()
-		return err
+		return nil, err
 	}
 
-	importer.comparisonOrderContainer = &comparisonOrderContainer{comparisonOrder: comparisonOrder}
-
-	currentTime := time.Now()
-	importer.lastUpdateTime = &currentTime
-
-	return nil
+	return &comparisonOrderContainer{comparisonOrder: comparisonOrder}, nil
 }
