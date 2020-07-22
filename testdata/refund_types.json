@@ -1,0 +1,17 @@
+[
+  [
+    {
+      "id": 1,
+      "plating_carrier_id": 1062,
+      "issue_date_from": "2020-06-01",
+      "issue_date_to": "2020-07-01",
+      "departure_date_from": null,
+      "departure_date_to": null,
+      "departure_country_id": null,
+      "arrival_country_id": null,
+      "departure_city_id": null,
+      "arrival_city_id": null,
+      "refund_type": "airline_voucher"
+    }
+  ]
+]

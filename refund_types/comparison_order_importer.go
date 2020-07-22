@@ -1,4 +1,4 @@
-package manual_exchange_refund
+package refund_types
 
 import (
 	"crypto/tls"
@@ -92,7 +92,7 @@ func NewComparisonOrderUpdater(apiUrl string) *ComparisonOrderUpdater {
 	}
 	client := &http.Client{
 		Transport: transport,
-		Timeout: time.Duration(5 * time.Second),
+		Timeout:   time.Duration(5 * time.Second),
 	}
 
 	mtx := &sync.Mutex{}

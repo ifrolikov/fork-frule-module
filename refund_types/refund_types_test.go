@@ -1,4 +1,4 @@
-package manual_exchange_refund
+package refund_types
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-// Тут адовый замес
+
 func TestComparisonOrderImporter(t *testing.T) {
 	updaterErr := errors.New("test")
 	defaultComparisonOrder := frule_module.ComparisonOrder{[]string{"test"}}
@@ -31,7 +31,7 @@ func TestComparisonOrderImporter(t *testing.T) {
 		time.Duration(0),
 		updaterMock,
 		nil,
-	)
+		)
 	result, err := comparisonOrderImporter.getComparisonOrder(log.Logger)
 	assert.Nil(t, result)
 	assert.Error(t, err)
@@ -97,7 +97,7 @@ func TestComparisonOrderImporter(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestManualExchangeRefundStorage(t *testing.T) {
+func TestRefundTypesStorage(t *testing.T) {
 	ctx := context.Background()
 	ctrl := gomock.NewController(t)
 	defer func() {
@@ -106,33 +106,32 @@ func TestManualExchangeRefundStorage(t *testing.T) {
 	}()
 
 	logger := log.Logger
-	logger = logger.With().Str("context.type", "manual_exchange_refund_frule").Logger()
+	logger = logger.With().Str("context.type", "refund_types_rule").Logger()
 
 	comparisonOrderImporterMock := NewMockComparisonOrderImporterInterface(ctrl)
 	comparisonOrderImporterMock.EXPECT().getComparisonOrder(logger).Return(
-		frule_module.ComparisonOrder{[]string{"carrier_id", "context", "fare", "passenger_type"}},
+		frule_module.ComparisonOrder{[]string{"plating_carrier_id", "issue_date_from", "issue_date_to"}},
 		nil,
 	).AnyTimes()
 
-	manualExchangeRefundFRule, err := NewManualExchangeRefundFRule(
+	refundTypesFRule, err := NewRefundTypesFRule(
 		ctx,
-		&repository.Config{DataURI: system.GetFilePath("../testdata/manual_exchange_refund.json")},
+		&repository.Config{DataURI: system.GetFilePath("../testdata/refund_types.json")},
 		comparisonOrderImporterMock,
 	)
 	assert.Nil(t, err)
 
-	assert.Implements(t, (*frule_module.FRuler)(nil), manualExchangeRefundFRule)
+	assert.Implements(t, (*frule_module.FRuler)(nil), refundTypesFRule)
 
-	dataStorage := manualExchangeRefundFRule.GetDataStorage()
+	dataStorage := refundTypesFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
-	assert.Len(t, (*dataStorage)[0], 2)
+	assert.Len(t, (*dataStorage)[0], 1)
 
 	assert.Equal(t, 0, dataStorage.GetMaxRank())
 }
 
-// Тут проверяется что именно импортер возвращает пирамиду фрулу
-func TestManualExchangeRefundResultWithMockedImporter(t *testing.T) {
+func TestRefundTypesResultWithMockedImporter(t *testing.T) {
 	ctx := context.Background()
 	ctrl := gomock.NewController(t)
 	defer func() {
@@ -141,48 +140,36 @@ func TestManualExchangeRefundResultWithMockedImporter(t *testing.T) {
 	}()
 
 	logger := log.Logger
-	logger = logger.With().Str("context.type", "manual_exchange_refund_frule").Logger()
+	logger = logger.With().Str("context.type", "refund_types_frule").Logger()
 
 	comparisonOrderImporterMock := NewMockComparisonOrderImporterInterface(ctrl)
 	comparisonOrderImporterMock.EXPECT().getComparisonOrder(logger).Return(
-		frule_module.ComparisonOrder{[]string{"carrier_id", "context", "fare", "passenger_type"}},
+		frule_module.ComparisonOrder{[]string{"plating_carrier_id", "issue_date_from", "issue_date_to"}},
 		nil,
 	).AnyTimes()
 
-	manualExchangeRefundFRule, err := NewManualExchangeRefundFRule(
+	refundTypesFRule, err := NewRefundTypesFRule(
 		ctx,
-		&repository.Config{DataURI: system.GetFilePath("../testdata/manual_exchange_refund.json")},
+		&repository.Config{DataURI: system.GetFilePath("../testdata/refund_types.json")},
 		comparisonOrderImporterMock,
 	)
 	assert.Nil(t, err)
 
-	frule := frule_module.NewFRule(ctx, manualExchangeRefundFRule)
+	frule := frule_module.NewFRule(ctx, refundTypesFRule)
 	assert.NotNil(t, frule)
 
-	fare := "SOMEFARE"
-	passengerType := "full"
-	carrierId := int64(1062)
-	fruleContext := ContextExchange
+	platingCarrierId := int64(1062)
 
-	assert.Equal(t, int64(1), frule.GetResult(ManualExchangeRefundRule{
-		CarrierId:     &carrierId,
-		Context:       &fruleContext,
-		Fare:          &fare,
-		PassengerType: &passengerType,
-	}).(ManualExchangeRefundResult).Id)
+	assert.EqualValues(t, refundTypesFRule.GetDefaultValue(), frule.GetResult(RefundTypesRule{
+		PlatingCarrierId: &platingCarrierId,
+	}))
 
-	passengerType = "child"
-	assert.Equal(t, int64(2), frule.GetResult(ManualExchangeRefundRule{
-		CarrierId:     &carrierId,
-		Context:       &fruleContext,
-		Fare:          &fare,
-		PassengerType: &passengerType,
-	}).(ManualExchangeRefundResult).Id)
+	issueDate := "2020-06-02"
 
-	assert.EqualValues(t, manualExchangeRefundFRule.GetDefaultValue(), frule.GetResult(ManualExchangeRefundRule{
-		CarrierId: &carrierId,
-		Context:   &fruleContext,
-		Fare:      &fare,
+	assert.NotEqual(t, refundTypesFRule.GetDefaultValue(), frule.GetResult(RefundTypesRule{
+		PlatingCarrierId: &platingCarrierId,
+		IssueDateFrom:    &issueDate,
+		IssueDateTo:      &issueDate,
 	}))
 }
 
@@ -196,37 +183,36 @@ func TestManualExchangeRefundResultWithMockedUpdater(t *testing.T) {
 	}()
 
 	logger := log.Logger
-	logger = logger.With().Str("context.type", "manual_exchange_refund_frule").Logger()
+	logger = logger.With().Str("context.type", "refund_types_frule").Logger()
 
 	comparisonOrderUpdaterMock := NewMockComparisonOrderUpdaterInterface(ctrl)
 	comparisonOrderUpdaterMock.EXPECT().update(logger).
 		Return(
-			&comparisonOrderContainer{frule_module.ComparisonOrder{[]string{"carrier_id", "context", "fare", "passenger_type"}}},
+			&comparisonOrderContainer{
+				frule_module.ComparisonOrder{
+					[]string{"plating_carrier_id", "issue_date_from", "issue_date_to"}}},
 			nil,
 		).
 		AnyTimes()
 
 	comparisonOrderImporter := NewComparisonOrderImporter(time.Duration(0), comparisonOrderUpdaterMock, nil)
 
-	manualExchangeRefundFRule, err := NewManualExchangeRefundFRule(
+	refundTypesFRule, err := NewRefundTypesFRule(
 		ctx,
-		&repository.Config{DataURI: system.GetFilePath("../testdata/manual_exchange_refund.json")},
+		&repository.Config{DataURI: system.GetFilePath("../testdata/refund_types.json")},
 		comparisonOrderImporter,
 	)
 	assert.Nil(t, err)
 
-	frule := frule_module.NewFRule(ctx, manualExchangeRefundFRule)
+	frule := frule_module.NewFRule(ctx, refundTypesFRule)
 	assert.NotNil(t, frule)
 
-	fare := "SOMEFARE"
-	passengerType := "full"
-	carrierId := int64(1062)
-	fruleContext := ContextExchange
+	platingCarrierId := int64(1062)
+	issueDate := "2020-06-02"
 
-	assert.Equal(t, int64(1), frule.GetResult(ManualExchangeRefundRule{
-		CarrierId:     &carrierId,
-		Context:       &fruleContext,
-		Fare:          &fare,
-		PassengerType: &passengerType,
-	}).(ManualExchangeRefundResult).Id)
+	assert.Equal(t, "airline_voucher", *frule.GetResult(RefundTypesRule{
+		PlatingCarrierId: &platingCarrierId,
+		IssueDateFrom:    &issueDate,
+		IssueDateTo:      &issueDate,
+	}).(*string))
 }

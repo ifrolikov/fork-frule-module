@@ -126,16 +126,16 @@ var comparisonOperators = frule_module.ComparisonOperators{
 		return r.Match([]byte(b.Elem().Interface().(string)))
 	},
 	"issue_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) >= b.Elem().Interface().(string)
-	},
-	"issue_date_to": func(a, b reflect.Value) bool {
 		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
 	},
-	"departure_date_from": func(a, b reflect.Value) bool {
+	"issue_date_to": func(a, b reflect.Value) bool {
 		return a.Elem().Interface().(string) >= b.Elem().Interface().(string)
 	},
+	"departure_date_from": func(a, b reflect.Value) bool {
+		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	},
 	"departure_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) < b.Elem().Interface().(string)
+		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
 	},
 }
 
