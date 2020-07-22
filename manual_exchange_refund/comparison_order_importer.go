@@ -92,6 +92,7 @@ func NewComparisonOrderUpdater(apiUrl string) *ComparisonOrderUpdater {
 	}
 	client := &http.Client{
 		Transport: transport,
+		Timeout: time.Duration(5 * time.Second),
 	}
 
 	mtx := &sync.Mutex{}
