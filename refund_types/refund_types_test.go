@@ -140,7 +140,7 @@ func TestRefundTypesResultWithMockedImporter(t *testing.T) {
 	}()
 
 	logger := log.Logger
-	logger = logger.With().Str("context.type", "refund_types_rule").Logger()
+	logger = logger.With().Str("context.type", "refund_types_frule").Logger()
 
 	comparisonOrderImporterMock := NewMockComparisonOrderImporterInterface(ctrl)
 	comparisonOrderImporterMock.EXPECT().getComparisonOrder(logger).Return(
@@ -183,7 +183,7 @@ func TestManualExchangeRefundResultWithMockedUpdater(t *testing.T) {
 	}()
 
 	logger := log.Logger
-	logger = logger.With().Str("context.type", "refund_types_rule").Logger()
+	logger = logger.With().Str("context.type", "refund_types_frule").Logger()
 
 	comparisonOrderUpdaterMock := NewMockComparisonOrderUpdaterInterface(ctrl)
 	comparisonOrderUpdaterMock.EXPECT().update(logger).
@@ -209,9 +209,10 @@ func TestManualExchangeRefundResultWithMockedUpdater(t *testing.T) {
 
 	platingCarrierId := int64(1062)
 	issueDate := "2020-06-02"
-	assert.Equal(t, refundTypesFRule.GetResultValue(refundTypesFRule), frule.GetResult(RefundTypesRule{
+
+	assert.Equal(t, "airline_voucher", *frule.GetResult(RefundTypesRule{
 		PlatingCarrierId: &platingCarrierId,
 		IssueDateFrom:    &issueDate,
 		IssueDateTo:      &issueDate,
-	}))
+	}).(*string))
 }
