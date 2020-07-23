@@ -6,6 +6,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/assert"
+	"stash.tutu.ru/avia-search-common/contracts/v2/gateSearch"
 	frule_module "stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/avia-search-common/utils/system"
@@ -210,9 +211,9 @@ func TestManualExchangeRefundResultWithMockedUpdater(t *testing.T) {
 	platingCarrierId := int64(1062)
 	issueDate := "2020-06-02"
 
-	assert.Equal(t, "airline_voucher", *frule.GetResult(RefundTypesRule{
+	assert.Equal(t, gateSearch.RefundType_airline_voucher, frule.GetResult(RefundTypesRule{
 		PlatingCarrierId: &platingCarrierId,
 		IssueDateFrom:    &issueDate,
 		IssueDateTo:      &issueDate,
-	}).(*string))
+	}))
 }

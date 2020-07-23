@@ -12,7 +12,7 @@ import (
 
 type RefundTypesRule struct {
 	Id                      int64   `json:"id"`
-	PlatingCarrierId        *int64   `json:"plating_carrier_id"`
+	PlatingCarrierId        *int64  `json:"plating_carrier_id"`
 	IssueDateFrom           *string `json:"issue_date_from"`
 	IssueDateTo             *string `json:"issue_date_to"`
 	DepartureDateFrom       *string `json:"departure_date_from"`
@@ -50,7 +50,7 @@ func NewRefundTypesFRule(
 }
 
 func (rule *RefundTypesRule) GetResultValue(interface{}) interface{} {
-	return rule.RefundType
+	return gateSearch.RefundType(gateSearch.RefundType_value[*rule.RefundType])
 }
 
 func (rule *RefundTypesRule) GetComparisonOrder() frule_module.ComparisonOrder {
@@ -98,7 +98,7 @@ func (rule *RefundTypesRule) GetStrategyKeys() []string {
 }
 
 func (rule *RefundTypesRule) GetDefaultValue() interface{} {
-	return gateSearch.RefundType_money.String()
+	return gateSearch.RefundType_money
 }
 
 func (rule *RefundTypesRule) GetDataStorage() *frule_module.RankedFRuleStorage {
