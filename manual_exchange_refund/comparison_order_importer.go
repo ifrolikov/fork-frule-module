@@ -110,6 +110,7 @@ func (updater *ComparisonOrderUpdater) update(logger zerolog.Logger) (*compariso
 	resp, err := updater.client.Get(updater.apiUrl)
 	if err != nil {
 		logger.Err(err).Send()
+		return nil, err
 	}
 
 	respBody, err := ioutil.ReadAll(resp.Body)
