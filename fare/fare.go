@@ -86,12 +86,15 @@ func (rule *FareRule) GetComparisonOrder() frule_module.ComparisonOrder {
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"fare_spec": func(a, b reflect.Value) bool {
-		r, err := regexp.Compile(a.Elem().Interface().(string))
-		if err != nil {
-			return false
-		}
-		return r.Match([]byte(b.Elem().Interface().(string)))
+	{
+		Field: "fare_spec",
+		Function: func(a, b reflect.Value) bool {
+			r, err := regexp.Compile(a.Elem().Interface().(string))
+			if err != nil {
+				return false
+			}
+			return r.Match([]byte(b.Elem().Interface().(string)))
+		},
 	},
 }
 

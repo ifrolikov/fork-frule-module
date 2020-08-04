@@ -1250,18 +1250,27 @@ func (rule *RevenueRule) GetComparisonOrder() frule_module.ComparisonOrder {
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"ab_variant": func(a, b reflect.Value) bool {
-		offerABCampaigns, ok := b.Elem().Interface().([]string)
-		if !ok {
-			return false
-		}
-		return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
+	{
+		Field: "days_to_departure_min",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+		},
 	},
-	"days_to_departure_min": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+	{
+		Field: "days_to_departure_max",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+		},
 	},
-	"days_to_departure_max": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+	{
+		Field: "ab_variant",
+		Function: func(a, b reflect.Value) bool {
+			offerABCampaigns, ok := b.Elem().Interface().([]string)
+			if !ok {
+				return false
+			}
+			return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
+		},
 	},
 }
 

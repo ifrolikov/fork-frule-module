@@ -16,22 +16,22 @@ type Warning struct {
 }
 
 type WarningRule struct {
-	Id                      int        `json:"id"`
-	CarrierId               *int64     `json:"carrier_id"`
-	DepartureCountryId      *int64     `json:"departure_country_id"`
-	DepartureCityId         *int64     `json:"departure_city_id"`
-	ArrivalCountryId        *int64     `json:"arrival_country_id"`
-	ArrivalCityId           *int64     `json:"arrival_city_id"`
-	DepartureDateFrom       *string    `json:"departure_date_from"`
-	DepartureDateTo         *string    `json:"departure_date_to"`
-	StartDate               *string    `json:"start_date"`
-	ParsedStartDate         *time.Time
-	FinishDate              *string    `json:"finish_date"`
-	ParsedFinishDate        *time.Time
-	ConnectionGroup         *string    `json:"connection_group"`
-	Lang                    *string    `json:"lang"`
-	Result                  []Warning  `json:"result"`
-	repo                    *frule_module.Repository
+	Id                 int     `json:"id"`
+	CarrierId          *int64  `json:"carrier_id"`
+	DepartureCountryId *int64  `json:"departure_country_id"`
+	DepartureCityId    *int64  `json:"departure_city_id"`
+	ArrivalCountryId   *int64  `json:"arrival_country_id"`
+	ArrivalCityId      *int64  `json:"arrival_city_id"`
+	DepartureDateFrom  *string `json:"departure_date_from"`
+	DepartureDateTo    *string `json:"departure_date_to"`
+	StartDate          *string `json:"start_date"`
+	ParsedStartDate    *time.Time
+	FinishDate         *string `json:"finish_date"`
+	ParsedFinishDate   *time.Time
+	ConnectionGroup    *string   `json:"connection_group"`
+	Lang               *string   `json:"lang"`
+	Result             []Warning `json:"result"`
+	repo               *frule_module.Repository
 }
 
 type RuleResult struct {
@@ -106,11 +106,17 @@ func (rule *WarningRule) GetComparisonOrder() frule_module.ComparisonOrder {
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"departure_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) < b.Elem().Interface().(string)
+	{
+		Field: "departure_date_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) < b.Elem().Interface().(string)
+		},
 	},
-	"departure_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	{
+		Field: "departure_date_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		},
 	},
 }
 

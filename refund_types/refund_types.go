@@ -63,17 +63,29 @@ func (rule *RefundTypesRule) GetComparisonOrder() frule_module.ComparisonOrder {
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"issue_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	{
+		Field: "issue_date_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		},
 	},
-	"issue_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	{
+		Field: "issue_date_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		},
 	},
-	"departure_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	{
+		Field: "departure_date_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		},
 	},
-	"departure_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	{
+		Field: "departure_date_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		},
 	},
 }
 

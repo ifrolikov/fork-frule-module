@@ -59,11 +59,17 @@ func (rule *PartnerPercentRule) GetComparisonOrder() frule_module.ComparisonOrde
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"date_of_purchase_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	{
+		Field: "date_of_purchase_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		},
 	},
-	"date_of_purchase_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	{
+		Field: "date_of_purchase_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		},
 	},
 }
 
