@@ -109,33 +109,57 @@ func (rule *ManualExchangeRefundRule) GetComparisonOrder() frule_module.Comparis
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"hours_before_departure": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+	{
+		Field: "hours_before_departure",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+		},
 	},
-	"days_after_tariff_start": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+	{
+		Field: "days_after_tariff_start",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+		},
 	},
-	"max_exchange_count": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
+	{
+		Field: "max_exchange_count",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
+		},
 	},
-	"fare": func(a, b reflect.Value) bool {
-		r, err := regexp.Compile(a.Elem().Interface().(string))
-		if err != nil {
-			return false
-		}
-		return r.Match([]byte(b.Elem().Interface().(string)))
+	{
+		Field: "issue_date_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		},
 	},
-	"issue_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	{
+		Field: "issue_date_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) >= b.Elem().Interface().(string)
+		},
 	},
-	"issue_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) >= b.Elem().Interface().(string)
+	{
+		Field: "departure_date_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		},
 	},
-	"departure_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	{
+		Field: "departure_date_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		},
 	},
-	"departure_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	{
+		Field: "fare",
+		Function: func(a, b reflect.Value) bool {
+			r, err := regexp.Compile(a.Elem().Interface().(string))
+			if err != nil {
+				return false
+			}
+			return r.Match([]byte(b.Elem().Interface().(string)))
+		},
 	},
 }
 

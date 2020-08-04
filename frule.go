@@ -15,7 +15,12 @@ type ComparisonOrder [][]string
 
 type ComparisonFunction func(a, b reflect.Value) bool
 
-type ComparisonOperators map[string]ComparisonFunction
+type ComparisonOperators []ComparisonOperator
+
+type ComparisonOperator struct {
+	Field string
+	Function ComparisonFunction
+}
 
 type FRuler interface {
 	GetResultValue(interface{}) interface{}
@@ -47,7 +52,14 @@ func NewFRule(ctx context.Context, ruleSpecificData FRuler) *FRule {
 
 	var indexedKeys []string
 	for _, field := range definition.ruleSpecificData.GetStrategyKeys() {
-		if _, ok := definition.ruleSpecificData.GetComparisonOperators()[field]; !ok {
+		fieldHasCustomComparisonOperator := false
+		for _, comparisonOperator := range definition.ruleSpecificData.GetComparisonOperators() {
+			if comparisonOperator.Field == field {
+				fieldHasCustomComparisonOperator = true
+				break
+			}
+		}
+		if !fieldHasCustomComparisonOperator {
 			indexedKeys = append(indexedKeys, field)
 		}
 	}
@@ -171,11 +183,11 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
 		RULESET:
 			for _, foundRule := range foundRuleSet {
-				for fieldName, comparisonFunc := range comparisonOperators {
-					a := getFieldValueByTag(foundRule, fieldName)
+				for _, comparisonOperator := range comparisonOperators {
+					a := getFieldValueByTag(foundRule, comparisonOperator.Field)
 					if !a.IsNil() {
-						b := getFieldValueByTag(testRule, fieldName)
-						if b.IsNil() || !comparisonFunc(a, b) {
+						b := getFieldValueByTag(testRule, comparisonOperator.Field)
+						if b.IsNil() || !comparisonOperator.Function(a, b) {
 							continue RULESET
 						}
 					}

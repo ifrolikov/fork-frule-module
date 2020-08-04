@@ -1202,17 +1202,29 @@ func (rule *AirlineRestrictionsRule) GetComparisonOrder() frule_module.Compariso
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"departure_date_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+	{
+		Field: "departure_date_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
+		},
 	},
-	"departure_date_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+	{
+		Field: "departure_date_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
+		},
 	},
-	"departure_period_from": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+	{
+		Field: "departure_period_from",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+		},
 	},
-	"departure_period_to": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+	{
+		Field: "departure_period_to",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+		},
 	},
 }
 

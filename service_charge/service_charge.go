@@ -197,22 +197,22 @@ var strategyKeys = []string{
 }
 
 type ServiceChargeRule struct {
-	Id                  int32       `json:"id"`
-	Version             int32       `json:"version"`
-	CarrierId           *int64      `json:"carrier_id"`
-	DaysToDepartureMin  *int64      `json:"days_to_departure_min"`
-	DaysToDepartureMax  *int64      `json:"days_to_departure_max"`
-	FareType            *string     `json:"tariff"`
-	ABVariant           interface{} `json:"ab_variant"`
-	DepartureCountryId  *uint64     `json:"departure_country_id"`
-	ArrivalCountryId    *uint64     `json:"arrival_country_id"`
-	DepartureCityId     *uint64     `json:"departure_city_id"`
-	ArrivalCityId       *uint64     `json:"arrival_city_id"`
-	Margin              *string     `json:"result_margin"`
-	MarginParsed        *Margin
-	TestOfferPrice      base.Money
-	CurrencyConverter   base.CurrencyConverter
-	repo                *frule_module.Repository
+	Id                 int32       `json:"id"`
+	Version            int32       `json:"version"`
+	CarrierId          *int64      `json:"carrier_id"`
+	DaysToDepartureMin *int64      `json:"days_to_departure_min"`
+	DaysToDepartureMax *int64      `json:"days_to_departure_max"`
+	FareType           *string     `json:"tariff"`
+	ABVariant          interface{} `json:"ab_variant"`
+	DepartureCountryId *uint64     `json:"departure_country_id"`
+	ArrivalCountryId   *uint64     `json:"arrival_country_id"`
+	DepartureCityId    *uint64     `json:"departure_city_id"`
+	ArrivalCityId      *uint64     `json:"arrival_city_id"`
+	Margin             *string     `json:"result_margin"`
+	MarginParsed       *Margin
+	TestOfferPrice     base.Money
+	CurrencyConverter  base.CurrencyConverter
+	repo               *frule_module.Repository
 }
 
 type Conditions struct {
@@ -444,18 +444,27 @@ func (rule *ServiceChargeRule) GetComparisonOrder() frule_module.ComparisonOrder
 }
 
 var comparisonOperators = frule_module.ComparisonOperators{
-	"ab_variant": func(a, b reflect.Value) bool {
-		offerABCampaigns, ok := b.Elem().Interface().([]string)
-		if !ok {
-			return false
-		}
-		return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
+	{
+		Field: "days_to_departure_min",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+		},
 	},
-	"days_to_departure_min": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
+	{
+		Field: "days_to_departure_max",
+		Function: func(a, b reflect.Value) bool {
+			return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+		},
 	},
-	"days_to_departure_max": func(a, b reflect.Value) bool {
-		return a.Elem().Interface().(int64) > b.Elem().Interface().(int64)
+	{
+		Field: "ab_variant",
+		Function: func(a, b reflect.Value) bool {
+			offerABCampaigns, ok := b.Elem().Interface().([]string)
+			if !ok {
+				return false
+			}
+			return frule_module.InSlice(a.Elem().Interface().(string), offerABCampaigns)
+		},
 	},
 }
 
