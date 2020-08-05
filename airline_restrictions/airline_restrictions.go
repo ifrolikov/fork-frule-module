@@ -3,8 +3,7 @@ package airline_restrictions
 import (
 	"context"
 	"reflect"
-	. "github.com/ifrolikov/fork-frule-module"
-	frule_module "stash.tutu.ru/avia-search-common/frule-module"
+	"github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 )
 
