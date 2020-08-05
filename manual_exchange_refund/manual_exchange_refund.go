@@ -115,7 +115,7 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 				!rule.compareFare(frule.Fare, tRule.Fare) {
 				continue RULESET
 			}
-			rule.GetResultValue(frule)
+			rule.GetResultValue(*frule)
 		}
 		return rule.GetDefaultValue()
 	}
