@@ -144,7 +144,8 @@ func (f *FRule) buildIndex() error {
 		for _, rowData := range rulesData {
 			var indexHash string
 			rankIndexedKeys := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
-			if customCreateRuleHashFunc := f.ruleSpecificData.GetCreateRuleHashForIndexedFieldsFunction(); customCreateRuleHashFunc != nil {
+			customCreateRuleHashFunc := f.ruleSpecificData.GetCreateRuleHashForIndexedFieldsFunction()
+			if customCreateRuleHashFunc != nil {
 				function := *customCreateRuleHashFunc
 				indexHash = function(rankIndexedKeys, rowData)
 			} else {
@@ -158,7 +159,13 @@ func (f *FRule) buildIndex() error {
 			}
 			index[rank][indexHash] = append(index[rank][indexHash], rowData)
 
-			registryHash := f.createRuleHash(f.primaryKeys, rowData)
+			var registryHash string
+			if customCreateRuleHashFunc != nil {
+				function := *customCreateRuleHashFunc
+				registryHash = function(f.primaryKeys, rowData)
+			} else {
+				registryHash = f.createRuleHash(f.primaryKeys, rowData)
+			}
 			// registryHash будет пустой строкой в случае пустого f.primaryKeys
 			// это происходит, когда нет полей, которые встречались бы на каждом уровне (rank) GetComparisonOrder
 			// все rank попадут в один элемент регистра registry[""]
@@ -177,7 +184,15 @@ func (f *FRule) buildIndex() error {
 
 func (f *FRule) findRanks(testRule interface{}) []int {
 	var result []int
-	registryHash := f.createRuleHash(f.primaryKeys, testRule)
+	var registryHash string
+	customCreateRuleHashFunc := f.ruleSpecificData.GetCreateRuleHashForIndexedFieldsFunction()
+	if customCreateRuleHashFunc != nil {
+		function := *customCreateRuleHashFunc
+		registryHash = function(f.primaryKeys, testRule)
+	} else {
+		registryHash = f.createRuleHash(f.primaryKeys, testRule)
+	}
+
 	if indexes, ok := f.registry[registryHash]; ok {
 		for _, rank := range indexes {
 			result = append(result, rank)
