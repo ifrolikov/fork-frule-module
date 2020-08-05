@@ -1,7 +1,7 @@
 package search_request
 
 import (
-	"stash.tutu.ru/avia-search-common/frule-module"
+	"github.com/ifrolikov/fork-frule-module"
 )
 
 type fruleStorageContainer struct {

@@ -8,7 +8,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/rs/zerolog"
 	"reflect"
-	frule_module "stash.tutu.ru/avia-search-common/frule-module"
+	frule_module "github.com/ifrolikov/fork-frule-module"
 )
 
 // MockComparisonOrderImporterInterface is a mock of ComparisonOrderImporterInterface interface

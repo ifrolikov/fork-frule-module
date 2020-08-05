@@ -3,7 +3,7 @@ package search_request
 import (
 	"context"
 	"encoding/json"
-	"stash.tutu.ru/avia-search-common/frule-module"
+	"github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/golang/log"
 	"strconv"

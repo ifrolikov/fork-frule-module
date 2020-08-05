@@ -2,7 +2,7 @@ package codeshare
 
 import (
 	"context"
-	"stash.tutu.ru/avia-search-common/frule-module"
+	"github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 )
 

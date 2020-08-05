@@ -2,7 +2,7 @@ package search_scheme
 
 import (
 	"context"
-	frule_module "stash.tutu.ru/avia-search-common/frule-module"
+	frule_module "github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 )
 

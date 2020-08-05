@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/stretchr/testify/assert"
 	"stash.tutu.ru/avia-search-common/contracts/v2/pricing"
-	"stash.tutu.ru/avia-search-common/frule-module"
+	"github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/avia-search-common/utils/system"
 	"testing"

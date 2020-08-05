@@ -1,7 +1,7 @@
 package fare
 
 import (
-	"stash.tutu.ru/avia-search-common/frule-module"
+	"https://github.com/ifrolikov/fork-frule-module"
 )
 
 type fruleStorageContainer struct {

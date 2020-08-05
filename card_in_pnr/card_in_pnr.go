@@ -2,7 +2,7 @@ package card_in_pnr
 
 import (
 	"context"
-	frule_module "stash.tutu.ru/avia-search-common/frule-module"
+	frule_module "github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 )
 
