@@ -194,7 +194,7 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 		var ruleHash = ""
 		if customCreateHashFunction := f.ruleSpecificData.GetCreateRuleHashForIndexedFieldsFunction(); customCreateHashFunction != nil {
 			function := *customCreateHashFunction
-			ruleHash = function(hashFields, testRule)
+			ruleHash = function(hashFields, &testRule)
 		} else {
 			ruleHash = f.createRuleHash(hashFields, testRule)
 		}

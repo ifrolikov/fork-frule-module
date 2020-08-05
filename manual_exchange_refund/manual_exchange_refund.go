@@ -137,7 +137,7 @@ func (rule *ManualExchangeRefundRule) GetCreateRuleHashForIndexedFieldsFunction(
 			return false
 		}
 		var result = ""
-		frule := rowSet.(ManualExchangeRefundRule)
+		frule := rowSet.(*ManualExchangeRefundRule)
 		if inFields("service_class", fields) && frule.ServiceClass != nil {
 			result = result + "service_class" + "=>" + *frule.ServiceClass + "|"
 		}
