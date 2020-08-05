@@ -75,7 +75,7 @@ func NewManualExchangeRefundFRule(
 func (rule *ManualExchangeRefundRule) GetResultValue(resultRule interface{}) interface{} {
 	frule := resultRule.(*ManualExchangeRefundRule)
 	var isAvailable = true
-	switch *rule.Context {
+	switch *frule.Context {
 	case ContextExchange:
 		isAvailable = *frule.IsChangeable
 		break
