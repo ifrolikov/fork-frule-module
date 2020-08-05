@@ -72,29 +72,30 @@ func NewManualExchangeRefundFRule(
 	}, nil
 }
 
-func (rule *ManualExchangeRefundRule) GetResultValue(interface{}) interface{} {
+func (rule *ManualExchangeRefundRule) GetResultValue(resultRule interface{}) interface{} {
+	frule := resultRule.(ManualExchangeRefundRule)
 	var isAvailable = true
 	switch *rule.Context {
 	case ContextExchange:
-		isAvailable = *rule.IsChangeable
+		isAvailable = *frule.IsChangeable
 		break
 	case ContextRefund:
-		isAvailable = *rule.IsRefundable
+		isAvailable = *frule.IsRefundable
 	}
 
 	return NewManualExchangeRefundResult(
-		rule.Id,
-		rule.Destination,
-		rule.ApplyStrategy,
-		rule.FarePercent,
-		rule.FarePercentDestination,
-		rule.Amount,
-		rule.Currency,
-		rule.CalculationUnit,
-		rule.Brand,
-		rule.TariffCalculateFor,
+		frule.Id,
+		frule.Destination,
+		frule.ApplyStrategy,
+		frule.FarePercent,
+		frule.FarePercentDestination,
+		frule.Amount,
+		frule.Currency,
+		frule.CalculationUnit,
+		frule.Brand,
+		frule.TariffCalculateFor,
 		isAvailable,
-		rule.HoursBeforeDeparture,
+		frule.HoursBeforeDeparture,
 	)
 }
 
@@ -114,7 +115,7 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 				!rule.compareFare(frule.Fare, tRule.Fare) {
 				continue RULESET
 			}
-			rule.GetResultValue(tRule)
+			rule.GetResultValue(frule)
 		}
 		return rule.GetDefaultValue()
 	}
