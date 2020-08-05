@@ -59,6 +59,11 @@ func (rule *SearchConnectionRule) GetResultValue(testRule interface{}) interface
 	return true
 }
 
+func (rule *SearchConnectionRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group"},
 }

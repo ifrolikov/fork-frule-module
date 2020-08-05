@@ -37,6 +37,10 @@ func (rule *SearchFilterSchemeRule) GetResultValue(testRule interface{}) interfa
 	return &RuleResult{Id: rule.Id, Result: rule.Result}
 }
 
+func (rule *SearchFilterSchemeRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"departure_city_id",    "arrival_city_id",    "journey_type"},
 	[]string{"departure_city_id",    "arrival_country_id", "journey_type"},

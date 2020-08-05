@@ -42,6 +42,10 @@ func (rule *AirlineRestrictionsRule) GetResultValue(testRule interface{}) interf
 	return rule.Result
 }
 
+func (rule *AirlineRestrictionsRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"departure_date_from", "departure_date_to", "partner", "gds", "connection_group", "plating_carrier_id", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "departure_period_from", "departure_period_to"},
 	[]string{"departure_date_from", "departure_date_to", "partner", "gds", "plating_carrier_id", "marketing_carrier_id", "operating_carrier_id", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "departure_period_from", "departure_period_to"},

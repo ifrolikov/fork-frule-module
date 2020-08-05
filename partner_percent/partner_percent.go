@@ -43,6 +43,10 @@ func (rule *PartnerPercentRule) GetResultValue(testRule interface{}) interface{}
 	}
 }
 
+func (rule *PartnerPercentRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_id", "fare_type", "connection_group"},
 	[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_id", "fare_type"},

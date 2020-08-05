@@ -61,6 +61,10 @@ func (rule *PaymentEngineRule) GetResultValue(interface{}) interface{} {
 	return result
 }
 
+func (rule *PaymentEngineRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "real_gds", "carrier_id", "payment_method"},
 	[]string{"partner", "connection_group", "real_gds", "payment_method"},

@@ -3,7 +3,6 @@ package manual_exchange_refund
 import (
 	"context"
 	"github.com/rs/zerolog"
-	"reflect"
 	"regexp"
 	"stash.tutu.ru/avia-search-common/frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
@@ -99,6 +98,29 @@ func (rule *ManualExchangeRefundRule) GetResultValue(interface{}) interface{} {
 	)
 }
 
+func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	var result frule_module.CompareDynamicFieldsFunction = func(testRule interface{}, foundRuleSet []frule_module.FRuler) interface{} {
+	RULESET:
+		for _, foundRule := range foundRuleSet {
+			frule := foundRule.(*ManualExchangeRefundRule)
+			tRule := testRule.(*ManualExchangeRefundRule)
+			if !rule.compareHoursBeforeDeparture(frule.HoursBeforeDeparture, tRule.HoursBeforeDeparture) ||
+				!rule.compareDaysAfterTariffStart(frule.DaysAfterTariffStart, tRule.DaysAfterTariffStart) ||
+				!rule.compareMaxExchangeCount(frule.MaxExchangeCount, tRule.MaxExchangeCount) ||
+				!rule.compareIssueDateFrom(frule.IssueDateFrom, tRule.IssueDateFrom) ||
+				!rule.compareIssueDateTo(frule.IssueDateTo, tRule.IssueDateTo) ||
+				!rule.compareDepartureDateFrom(frule.DepartureDateFrom, tRule.DepartureDateFrom) ||
+				!rule.compareDepartureDateTo(frule.DepartureDateTo, tRule.DepartureDateTo) ||
+				!rule.compareFare(frule.Fare, tRule.Fare) {
+				continue RULESET
+			}
+			rule.GetResultValue(tRule)
+		}
+		return rule.GetDefaultValue()
+	}
+	return &result
+}
+
 func (rule *ManualExchangeRefundRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	comparisonOrder, err := rule.comparisonOrderImporter.getComparisonOrder(rule.logger)
 	if err != nil {
@@ -111,55 +133,27 @@ func (rule *ManualExchangeRefundRule) GetComparisonOrder() frule_module.Comparis
 var comparisonOperators = frule_module.ComparisonOperators{
 	{
 		Field: "hours_before_departure",
-		Function: func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
-		},
 	},
 	{
 		Field: "days_after_tariff_start",
-		Function: func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(int64) <= b.Elem().Interface().(int64)
-		},
 	},
 	{
 		Field: "max_exchange_count",
-		Function: func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(int64) >= b.Elem().Interface().(int64)
-		},
 	},
 	{
 		Field: "issue_date_from",
-		Function: func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
-		},
 	},
 	{
 		Field: "issue_date_to",
-		Function: func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(string) >= b.Elem().Interface().(string)
-		},
 	},
 	{
 		Field: "departure_date_from",
-		Function: func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(string) <= b.Elem().Interface().(string)
-		},
 	},
 	{
 		Field: "departure_date_to",
-		Function: func(a, b reflect.Value) bool {
-			return a.Elem().Interface().(string) > b.Elem().Interface().(string)
-		},
 	},
 	{
 		Field: "fare",
-		Function: func(a, b reflect.Value) bool {
-			r, err := regexp.Compile(a.Elem().Interface().(string))
-			if err != nil {
-				return false
-			}
-			return r.Match([]byte(b.Elem().Interface().(string)))
-		},
 	},
 }
 
@@ -211,4 +205,83 @@ func (rule *ManualExchangeRefundRule) GetNotificationChannel() chan repository.N
 
 func (*ManualExchangeRefundRule) GetRuleName() string {
 	return "ManualExchangeRefundRule"
+}
+
+func (*ManualExchangeRefundRule) compareHoursBeforeDeparture(a *int64, b *int64) bool {
+	if a != nil {
+		if b == nil || !(*a <= *b) {
+			return false
+		}
+	}
+	return true
+}
+
+func (*ManualExchangeRefundRule) compareDaysAfterTariffStart(a *int64, b *int64) bool {
+	if a != nil {
+		if b == nil || !(*a <= *b) {
+			return false
+		}
+	}
+	return true
+}
+
+func (*ManualExchangeRefundRule) compareMaxExchangeCount(a *int64, b *int64) bool {
+	if a != nil {
+		if b == nil || !(*a >= *b) {
+			return false
+		}
+	}
+	return true
+}
+
+func (*ManualExchangeRefundRule) compareIssueDateFrom(a *string, b *string) bool {
+	if a != nil {
+		if b == nil || !(*a <= *b) {
+			return false
+		}
+	}
+	return true
+}
+
+func (*ManualExchangeRefundRule) compareIssueDateTo(a *string, b *string) bool {
+	if a != nil {
+		if b == nil || !(*a >= *b) {
+			return false
+		}
+	}
+	return true
+}
+
+func (*ManualExchangeRefundRule) compareDepartureDateFrom(a *string, b *string) bool {
+	if a != nil {
+		if b == nil || !(*a <= *b) {
+			return false
+		}
+	}
+	return true
+}
+
+func (*ManualExchangeRefundRule) compareDepartureDateTo(a *string, b *string) bool {
+	if a != nil {
+		if b == nil || !(*a > *b) {
+			return false
+		}
+	}
+	return true
+}
+
+func (*ManualExchangeRefundRule) compareFare(a *string, b *string) bool {
+	if a != nil {
+		if b == nil {
+			return false
+		}
+		r, err := regexp.Compile(*a)
+		if err != nil {
+			return false
+		}
+		if !r.Match([]byte(*b)) {
+			return false
+		}
+	}
+	return true
 }

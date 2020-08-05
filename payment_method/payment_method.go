@@ -54,6 +54,10 @@ func (rule *PaymentMethodRule) GetResultValue(interface{}) interface{} {
 	return rule.GetDefaultValue()
 }
 
+func (rule *PaymentMethodRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 func (rule *PaymentMethodRule) parseResult() []string {
 	var resultSlice []string
 	for _, result := range rule.ResultParsed {

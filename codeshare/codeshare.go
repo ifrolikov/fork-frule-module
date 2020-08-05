@@ -32,6 +32,10 @@ func (rule *CodeshareRule) GetResultValue(testRule interface{}) interface{} {
 	return rule.Result
 }
 
+func (rule *CodeshareRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing", "service_class"},
 	[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing"},

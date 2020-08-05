@@ -439,6 +439,10 @@ func (rule *ServiceChargeRule) GetResultValue(testRule interface{}) interface{} 
 	return result
 }
 
+func (rule *ServiceChargeRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 func (rule *ServiceChargeRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	return comparisonOrder
 }

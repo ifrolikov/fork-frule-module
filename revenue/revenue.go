@@ -1235,6 +1235,10 @@ func (rule *RevenueRule) GetResultValue(testRule interface{}) interface{} {
 	return result
 }
 
+func (rule *RevenueRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 func (rule *RevenueRule) CalculateRevenue(moneyParsed MoneyParsed, price base.Money) base.Money {
 	if moneyParsed.Percent != 0 && price.Validate() {
 		money := base.CloneMoney(&price)

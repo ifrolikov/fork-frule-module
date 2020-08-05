@@ -58,6 +58,10 @@ func (rule *WarningRule) GetResultValue(testRule interface{}) interface{} {
 	}
 }
 
+func (rule *WarningRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 func (rule *WarningRule) isActual(departureDate time.Time, startDate *time.Time, finishDate *time.Time) bool {
 	if startDate == nil && finishDate == nil {
 		return true

@@ -30,6 +30,10 @@ func (rule *CardInPnrRule) GetResultValue(interface{}) interface{} {
 	return rule.Result
 }
 
+func (rule *CardInPnrRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "carrier_id", "connection_group"},
 	[]string{"partner", "connection_group"},

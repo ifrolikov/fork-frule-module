@@ -53,6 +53,10 @@ func (rule *RefundTypesRule) GetResultValue(interface{}) interface{} {
 	return gateSearch.RefundType(gateSearch.RefundType_value[*rule.RefundType])
 }
 
+func (rule *RefundTypesRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 func (rule *RefundTypesRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	comparisonOrder, err := rule.comparisonOrderImporter.getComparisonOrder(rule.logger)
 	if err != nil {

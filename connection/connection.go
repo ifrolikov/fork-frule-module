@@ -33,6 +33,10 @@ func (rule *ConnectionRule) GetResultValue(interface{}) interface{} {
 	return rule.Result
 }
 
+func (rule *ConnectionRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date", "payment_engine"},
 	[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date"},

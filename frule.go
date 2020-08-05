@@ -18,7 +18,7 @@ type ComparisonFunction func(a, b reflect.Value) bool
 type ComparisonOperators []ComparisonOperator
 
 type ComparisonOperator struct {
-	Field string
+	Field    string
 	Function ComparisonFunction
 }
 
@@ -31,7 +31,10 @@ type FRuler interface {
 	GetDataStorage() *RankedFRuleStorage
 	GetNotificationChannel() chan repository.Notification
 	GetRuleName() string
+	GetCompareDynamicFieldsFunction() *CompareDynamicFieldsFunction
 }
+
+type CompareDynamicFieldsFunction func(testRule interface{}, foundRuleSet []FRuler) interface{}
 
 type FRule struct {
 	index            map[int]map[string][]FRuler
@@ -181,20 +184,35 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 	for _, rank := range f.findRanks(testRule) {
 		hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
 		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
-		RULESET:
-			for _, foundRule := range foundRuleSet {
-				for _, comparisonOperator := range comparisonOperators {
-					a := getFieldValueByTag(foundRule, comparisonOperator.Field)
-					if !a.IsNil() {
-						b := getFieldValueByTag(testRule, comparisonOperator.Field)
-						if b.IsNil() || !comparisonOperator.Function(a, b) {
-							continue RULESET
-						}
-					}
-				}
-				return foundRule.GetResultValue(testRule)
+			if comparisonFunction := f.ruleSpecificData.GetCompareDynamicFieldsFunction(); comparisonFunction != nil {
+				function := *comparisonFunction
+				return function(testRule, foundRuleSet)
+			} else {
+				return f.compareDynamicFields(
+					testRule,
+					foundRuleSet,
+					comparisonOperators,
+					f.ruleSpecificData.GetDefaultValue(),
+				)
 			}
 		}
 	}
 	return f.ruleSpecificData.GetDefaultValue()
+}
+
+func (f *FRule) compareDynamicFields(testRule interface{}, foundRuleSet []FRuler, comparisonOperators ComparisonOperators, defaultValue interface{}) interface{} {
+RULESET:
+	for _, foundRule := range foundRuleSet {
+		for _, comparisonOperator := range comparisonOperators {
+			a := getFieldValueByTag(foundRule, comparisonOperator.Field)
+			if !a.IsNil() {
+				b := getFieldValueByTag(testRule, comparisonOperator.Field)
+				if b.IsNil() || !comparisonOperator.Function(a, b) {
+					continue RULESET
+				}
+			}
+		}
+		return foundRule.GetResultValue(testRule)
+	}
+	return defaultValue
 }

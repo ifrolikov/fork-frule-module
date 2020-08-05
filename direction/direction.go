@@ -34,6 +34,10 @@ func (rule *DirectionRule) GetResultValue(testRule interface{}) interface{} {
 	return rule.Result
 }
 
+func (rule *DirectionRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id", "carrier_id"},
 	[]string{"partner", "connection_group", "departure_country_id", "departure_city_id", "arrival_country_id", "arrival_city_id"},
