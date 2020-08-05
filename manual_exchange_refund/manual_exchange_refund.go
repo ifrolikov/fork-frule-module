@@ -2,9 +2,9 @@ package manual_exchange_refund
 
 import (
 	"context"
+	"github.com/ifrolikov/fork-frule-module"
 	"github.com/rs/zerolog"
 	"regexp"
-	"github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/golang/log"
 )
@@ -104,6 +104,9 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 	RULESET:
 		for _, foundRule := range foundRuleSet {
 			frule := foundRule.(*ManualExchangeRefundRule)
+			if frule == nil {
+				continue RULESET
+			}
 			tRule := testRule.(ManualExchangeRefundRule)
 			if !rule.compareHoursBeforeDeparture(frule.HoursBeforeDeparture, tRule.HoursBeforeDeparture) ||
 				!rule.compareDaysAfterTariffStart(frule.DaysAfterTariffStart, tRule.DaysAfterTariffStart) ||
