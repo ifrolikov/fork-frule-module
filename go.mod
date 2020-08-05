@@ -1,4 +1,4 @@
-module stash.tutu.ru/avia-search-common/frule-module
+module github.com/ifrolikov/fork-frule-module
 
 go 1.12
 
