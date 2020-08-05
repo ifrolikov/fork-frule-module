@@ -36,6 +36,10 @@ func (rule *CodeshareRule) GetCompareDynamicFieldsFunction() *frule_module.Compa
 	return nil
 }
 
+func (rule *CodeshareRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing", "service_class"},
 	[]string{"partner", "connection_group", "carrier_operating", "carrier_marketing"},

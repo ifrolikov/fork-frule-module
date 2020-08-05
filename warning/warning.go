@@ -62,6 +62,10 @@ func (rule *WarningRule) GetCompareDynamicFieldsFunction() *frule_module.Compare
 	return nil
 }
 
+func (rule *WarningRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 func (rule *WarningRule) isActual(departureDate time.Time, startDate *time.Time, finishDate *time.Time) bool {
 	if startDate == nil && finishDate == nil {
 		return true

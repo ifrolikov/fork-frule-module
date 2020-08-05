@@ -37,6 +37,10 @@ func (rule *ConnectionRule) GetCompareDynamicFieldsFunction() *frule_module.Comp
 	return nil
 }
 
+func (rule *ConnectionRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date", "payment_engine"},
 	[]string{"partner", "connection_group", "operation", "carrier_id", "flight_date"},

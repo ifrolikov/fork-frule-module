@@ -443,6 +443,10 @@ func (rule *ServiceChargeRule) GetCompareDynamicFieldsFunction() *frule_module.C
 	return nil
 }
 
+func (rule *ServiceChargeRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 func (rule *ServiceChargeRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	return comparisonOrder
 }

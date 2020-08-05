@@ -4,7 +4,7 @@ import (
 	"context"
 	frule_module "github.com/ifrolikov/fork-frule-module"
 	"stash.tutu.ru/avia-search-common/repository"
-)
+);
 
 type CardInPnrRule struct {
 	Id              int     `json:"id"`
@@ -31,6 +31,10 @@ func (rule *CardInPnrRule) GetResultValue(interface{}) interface{} {
 }
 
 func (rule *CardInPnrRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
+func (rule *CardInPnrRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
 	return nil
 }
 

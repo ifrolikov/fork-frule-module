@@ -39,6 +39,10 @@ func (rule *SearchSchemeRule) GetCompareDynamicFieldsFunction() *frule_module.Co
 	return nil
 }
 
+func (rule *SearchSchemeRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"connection_group", "departure_city_id", "arrival_city_id"},
 	[]string{"connection_group", "departure_city_id", "arrival_country_id"},

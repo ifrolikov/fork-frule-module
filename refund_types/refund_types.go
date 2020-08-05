@@ -57,6 +57,10 @@ func (rule *RefundTypesRule) GetCompareDynamicFieldsFunction() *frule_module.Com
 	return nil
 }
 
+func (rule *RefundTypesRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 func (rule *RefundTypesRule) GetComparisonOrder() frule_module.ComparisonOrder {
 	comparisonOrder, err := rule.comparisonOrderImporter.getComparisonOrder(rule.logger)
 	if err != nil {

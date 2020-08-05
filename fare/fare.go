@@ -42,6 +42,14 @@ func (rule *FareRule) GetResultValue(interface{}) interface{} {
 	return rule.Result
 }
 
+func (rule *FareRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
+func (rule *FareRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"departure_city_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec", "fare_access_group"},
 	[]string{"departure_city_id", "arrival_city_id", "partner", "connection_group", "carrier_id", "fare_spec"},

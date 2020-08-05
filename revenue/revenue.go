@@ -1239,6 +1239,10 @@ func (rule *RevenueRule) GetCompareDynamicFieldsFunction() *frule_module.Compare
 	return nil
 }
 
+func (rule *RevenueRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 func (rule *RevenueRule) CalculateRevenue(moneyParsed MoneyParsed, price base.Money) base.Money {
 	if moneyParsed.Percent != 0 && price.Validate() {
 		money := base.CloneMoney(&price)

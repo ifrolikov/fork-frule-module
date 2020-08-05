@@ -63,6 +63,9 @@ func (rule *SearchConnectionRule) GetCompareDynamicFieldsFunction() *frule_modul
 	return nil
 }
 
+func (rule *SearchConnectionRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
 
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group"},

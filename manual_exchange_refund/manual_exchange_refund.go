@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"stash.tutu.ru/avia-search-common/repository"
 	"stash.tutu.ru/golang/log"
+	"strconv"
 )
 
 type ManualExchangeRefundRule struct {
@@ -122,6 +123,94 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 		}
 		return rule.GetDefaultValue()
 	}
+	return &result
+}
+
+func (rule *ManualExchangeRefundRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	var result frule_module.CreateRuleHashForIndexedFieldsFunction = func(fields []string, rowSet frule_module.FRuler) string {
+		var inFields = func(field string, fields []string) bool {
+			for _, fieldToCompare := range fields {
+				if fieldToCompare == field {
+					return true
+				}
+			}
+			return false
+		}
+		var result = ""
+		frule := rowSet.(*ManualExchangeRefundRule)
+		if inFields("service_class", fields) && frule.ServiceClass != nil {
+			result = result + "service_class" + "=>" + *frule.ServiceClass + "|"
+		}
+		if inFields("carrier_id", fields) && frule.CarrierId != nil {
+			result = result + "carrier_id" + "=>" + strconv.FormatInt(*frule.CarrierId, 10) + "|"
+		}
+		if inFields("fare", fields) && frule.Fare != nil {
+			result = result + "fare" + "=>" + *frule.Fare + "|"
+		}
+		if inFields("hours_before_departure", fields) && frule.HoursBeforeDeparture != nil {
+			result = result + "hours_before_departure" + "=>" + strconv.FormatInt(*frule.HoursBeforeDeparture, 10) + "|"
+		}
+		if inFields("penalty_strategy", fields) && frule.PenaltyStrategy != nil {
+			result = result + "penalty_strategy" + "=>" + *frule.PenaltyStrategy + "|"
+		}
+		if inFields("passenger_type", fields) && frule.PassengerType != nil {
+			result = result + "passenger_type" + "=>" + *frule.PassengerType + "|"
+		}
+		if inFields("is_transit", fields) && frule.IsTransit != nil {
+			result = result + "is_transit" + "=>" + strconv.FormatBool(*frule.IsTransit) + "|"
+		}
+		if inFields("used_type", fields) && frule.UsedType != nil {
+			result = result + "used_type" + "=>" + *frule.UsedType + "|"
+		}
+		if inFields("departure_city_id", fields) && frule.DepartureCityId != nil {
+			result = result + "departure_city_id" + "=>" + strconv.FormatUint(*frule.DepartureCityId, 10) + "|"
+		}
+		if inFields("arrival_city_id", fields) && frule.ArrivalCityId != nil {
+			result = result + "arrival_city_id" + "=>" + strconv.FormatUint(*frule.ArrivalCityId, 10) + "|"
+		}
+		if inFields("flight_type", fields) && frule.FlightType != nil {
+			result = result + "flight_type" + "=>" + *frule.FlightType + "|"
+		}
+		if inFields("departure_country_id", fields) && frule.DepartureCountryId != nil {
+			result = result + "departure_country_id" + "=>" + strconv.FormatUint(*frule.DepartureCountryId, 10) + "|"
+		}
+		if inFields("arrival_country_id", fields) && frule.ArrivalCountryId != nil {
+			result = result + "arrival_country_id" + "=>" + strconv.FormatUint(*frule.ArrivalCountryId, 10) + "|"
+		}
+		if inFields("max_exchange_count", fields) && frule.MaxExchangeCount != nil {
+			result = result + "max_exchange_count" + "=>" + strconv.FormatInt(*frule.MaxExchangeCount, 10) + "|"
+		}
+		if inFields("days_after_tariff_start", fields) && frule.DaysAfterTariffStart != nil {
+			result = result + "days_after_tariff_start" + "=>" + strconv.FormatInt(*frule.DaysAfterTariffStart, 10) + "|"
+		}
+		if inFields("tariff_start_type", fields) && frule.TariffStartType != nil {
+			result = result + "tariff_start_type" + "=>" + *frule.TariffStartType + "|"
+		}
+		if inFields("segment_number_in_route", fields) && frule.SegmentNumberInRoute != nil {
+			result = result + "segment_number_in_route" + "=>" + strconv.FormatInt(*frule.SegmentNumberInRoute, 10) + "|"
+		}
+		if inFields("segment_number_in_itinerary", fields) && frule.SegmentNumberInItinerary != nil {
+			result = result + "segment_number_in_itinerary" + "=>" + strconv.FormatInt(*frule.SegmentNumberInItinerary, 10) + "|"
+		}
+		if inFields("context", fields) && frule.Context != nil {
+			result = result + "context" + "=>" + string(*frule.Context) + "|"
+		}
+		if inFields("issue_date_from", fields) && frule.IssueDateFrom != nil {
+			result = result + "issue_date_from" + "=>" + *frule.IssueDateFrom + "|"
+		}
+		if inFields("issue_date_to", fields) && frule.IssueDateTo != nil {
+			result = result + "issue_date_to" + "=>" + *frule.IssueDateTo + "|"
+		}
+		if inFields("departure_date_from", fields) && frule.DepartureDateFrom != nil {
+			result = result + "departure_date_from" + "=>" + *frule.DepartureDateFrom + "|"
+		}
+		if inFields("departure_date_to", fields) && frule.DepartureDateTo != nil {
+			result = result + "departure_date_to" + "=>" + *frule.DepartureDateTo + "|"
+		}
+
+		return result
+	}
+
 	return &result
 }
 

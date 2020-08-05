@@ -58,6 +58,10 @@ func (rule *PaymentMethodRule) GetCompareDynamicFieldsFunction() *frule_module.C
 	return nil
 }
 
+func (rule *PaymentMethodRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 func (rule *PaymentMethodRule) parseResult() []string {
 	var resultSlice []string
 	for _, result := range rule.ResultParsed {

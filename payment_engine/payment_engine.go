@@ -65,6 +65,10 @@ func (rule *PaymentEngineRule) GetCompareDynamicFieldsFunction() *frule_module.C
 	return nil
 }
 
+func (rule *PaymentEngineRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "real_gds", "carrier_id", "payment_method"},
 	[]string{"partner", "connection_group", "real_gds", "payment_method"},

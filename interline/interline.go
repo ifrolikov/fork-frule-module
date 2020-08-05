@@ -60,6 +60,14 @@ func (rule *InterlineRule) GetResultValue(testRule interface{}) interface{} {
 	return rule.Result
 }
 
+func (rule *InterlineRule) GetCompareDynamicFieldsFunction() *frule_module.CompareDynamicFieldsFunction {
+	return nil
+}
+
+func (rule *InterlineRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "connection_group", "carrier_plating", "pure_interline"},
 	[]string{"partner", "connection_group", "carrier_plating"},

@@ -32,9 +32,11 @@ type FRuler interface {
 	GetNotificationChannel() chan repository.Notification
 	GetRuleName() string
 	GetCompareDynamicFieldsFunction() *CompareDynamicFieldsFunction
+	GetCreateRuleHashForIndexedFieldsFunction() *CreateRuleHashForIndexedFieldsFunction
 }
 
 type CompareDynamicFieldsFunction func(testRule interface{}, foundRuleSet []FRuler) interface{}
+type CreateRuleHashForIndexedFieldsFunction func(fields []string, rowSet FRuler) string
 
 type FRule struct {
 	index            map[int]map[string][]FRuler
@@ -140,8 +142,14 @@ func (f *FRule) buildIndex() error {
 
 	for rank, rulesData := range *rulesSets {
 		for _, rowData := range rulesData {
+			var indexHash string
 			rankIndexedKeys := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
-			indexHash := f.createRuleHash(rankIndexedKeys, rowData)
+			if customCreateRuleHashFunc := f.ruleSpecificData.GetCreateRuleHashForIndexedFieldsFunction(); customCreateRuleHashFunc != nil {
+				function := *customCreateRuleHashFunc
+				indexHash = function(rankIndexedKeys, rowData)
+			} else {
+				indexHash = f.createRuleHash(rankIndexedKeys, rowData)
+			}
 			// indexHash будет пустой строкой в случае пустого rankIndexedKeys
 			// это происходит, когда на некоторых уровнях (rank) GetComparisonOrder нет ни одного f.indexedKeys
 			// все записи с этого уровня попадут в index[rank][""]
@@ -183,7 +191,14 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 	comparisonOperators := f.ruleSpecificData.GetComparisonOperators()
 	for _, rank := range f.findRanks(testRule) {
 		hashFields := intersectSlices(f.indexedKeys, f.ruleSpecificData.GetComparisonOrder()[rank])
-		if foundRuleSet, ok := f.index[rank][f.createRuleHash(hashFields, testRule)]; ok {
+		var ruleHash = ""
+		if customCreateHashFunction := f.ruleSpecificData.GetCreateRuleHashForIndexedFieldsFunction(); customCreateHashFunction != nil {
+			function := *customCreateHashFunction
+			ruleHash = function(hashFields, testRule.(FRuler))
+		} else {
+			ruleHash = f.createRuleHash(hashFields, testRule)
+		}
+		if foundRuleSet, ok := f.index[rank][ruleHash]; ok {
 			if comparisonFunction := f.ruleSpecificData.GetCompareDynamicFieldsFunction(); comparisonFunction != nil {
 				function := *comparisonFunction
 				return function(testRule, foundRuleSet)

@@ -47,6 +47,10 @@ func (rule *PartnerPercentRule) GetCompareDynamicFieldsFunction() *frule_module.
 	return nil
 }
 
+func (rule *PartnerPercentRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
+	return nil
+}
+
 var comparisonOrder = frule_module.ComparisonOrder{
 	[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_id", "fare_type", "connection_group"},
 	[]string{"partner", "date_of_purchase_from", "date_of_purchase_to", "carrier_id", "fare_type"},
