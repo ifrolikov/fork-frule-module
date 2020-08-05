@@ -127,7 +127,7 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 }
 
 func (rule *ManualExchangeRefundRule) GetCreateRuleHashForIndexedFieldsFunction() *frule_module.CreateRuleHashForIndexedFieldsFunction {
-	var result frule_module.CreateRuleHashForIndexedFieldsFunction = func(fields []string, rowSet frule_module.FRuler) string {
+	var result frule_module.CreateRuleHashForIndexedFieldsFunction = func(fields []string, rowSet interface{}) string {
 		var inFields = func(field string, fields []string) bool {
 			for _, fieldToCompare := range fields {
 				if fieldToCompare == field {

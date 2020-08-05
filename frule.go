@@ -36,7 +36,7 @@ type FRuler interface {
 }
 
 type CompareDynamicFieldsFunction func(testRule interface{}, foundRuleSet []FRuler) interface{}
-type CreateRuleHashForIndexedFieldsFunction func(fields []string, rowSet FRuler) string
+type CreateRuleHashForIndexedFieldsFunction func(fields []string, rowSet interface{}) string
 
 type FRule struct {
 	index            map[int]map[string][]FRuler
@@ -194,7 +194,7 @@ func (f *FRule) GetResult(testRule interface{}) interface{} {
 		var ruleHash = ""
 		if customCreateHashFunction := f.ruleSpecificData.GetCreateRuleHashForIndexedFieldsFunction(); customCreateHashFunction != nil {
 			function := *customCreateHashFunction
-			ruleHash = function(hashFields, testRule.(FRuler))
+			ruleHash = function(hashFields, testRule)
 		} else {
 			ruleHash = f.createRuleHash(hashFields, testRule)
 		}
