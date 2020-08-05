@@ -73,7 +73,7 @@ func NewManualExchangeRefundFRule(
 }
 
 func (rule *ManualExchangeRefundRule) GetResultValue(resultRule interface{}) interface{} {
-	frule := resultRule.(ManualExchangeRefundRule)
+	frule := resultRule.(*ManualExchangeRefundRule)
 	var isAvailable = true
 	switch *rule.Context {
 	case ContextExchange:
@@ -118,7 +118,7 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 				!rule.compareFare(frule.Fare, tRule.Fare) {
 				continue RULESET
 			}
-			rule.GetResultValue(*frule)
+			rule.GetResultValue(frule)
 		}
 		return rule.GetDefaultValue()
 	}
