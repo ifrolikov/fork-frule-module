@@ -126,7 +126,7 @@ func TestManualExchangeRefundStorage(t *testing.T) {
 	dataStorage := manualExchangeRefundFRule.GetDataStorage()
 	assert.NotNil(t, dataStorage)
 
-	assert.Len(t, (*dataStorage)[0], 2)
+	assert.Len(t, (*dataStorage)[0], 3)
 
 	assert.Equal(t, 0, dataStorage.GetMaxRank())
 }
@@ -164,22 +164,24 @@ func TestManualExchangeRefundResultWithMockedImporter(t *testing.T) {
 	carrierId := int64(1062)
 	fruleContext := ContextExchange
 
-	assert.Equal(t, int64(1), frule.GetResult(ManualExchangeRefundRule{
+	result := frule.GetResult(&ManualExchangeRefundRule{
 		CarrierId:     &carrierId,
 		Context:       &fruleContext,
 		Fare:          &fare,
 		PassengerType: &passengerType,
-	}).(ManualExchangeRefundResult).Id)
+	}).(ManualExchangeRefundResult)
+	assert.Equal(t, int64(1), result.Id)
 
 	passengerType = "child"
-	assert.Equal(t, int64(2), frule.GetResult(ManualExchangeRefundRule{
+	result = frule.GetResult(&ManualExchangeRefundRule{
 		CarrierId:     &carrierId,
 		Context:       &fruleContext,
 		Fare:          &fare,
 		PassengerType: &passengerType,
-	}).(ManualExchangeRefundResult).Id)
+	}).(ManualExchangeRefundResult)
+	assert.Equal(t, int64(2), result.Id)
 
-	assert.EqualValues(t, manualExchangeRefundFRule.GetDefaultValue(), frule.GetResult(ManualExchangeRefundRule{
+	assert.EqualValues(t, manualExchangeRefundFRule.GetDefaultValue(), frule.GetResult(&ManualExchangeRefundRule{
 		CarrierId: &carrierId,
 		Context:   &fruleContext,
 		Fare:      &fare,

@@ -108,7 +108,7 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 			if frule == nil {
 				continue RULESET
 			}
-			tRule := testRule.(ManualExchangeRefundRule)
+			tRule := testRule.(*ManualExchangeRefundRule)
 			if !rule.compareHoursBeforeDeparture(frule.HoursBeforeDeparture, tRule.HoursBeforeDeparture) ||
 				!rule.compareDaysAfterTariffStart(frule.DaysAfterTariffStart, tRule.DaysAfterTariffStart) ||
 				!rule.compareMaxExchangeCount(frule.MaxExchangeCount, tRule.MaxExchangeCount) ||
@@ -119,7 +119,7 @@ func (rule *ManualExchangeRefundRule) GetCompareDynamicFieldsFunction() *frule_m
 				!rule.compareFare(frule.Fare, tRule.Fare) {
 				continue RULESET
 			}
-			rule.GetResultValue(frule)
+			return rule.GetResultValue(frule)
 		}
 		return rule.GetDefaultValue()
 	}
